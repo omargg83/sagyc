@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	$pd = $db->datosemp_lista();
+	$pd = $db->tienda_lista();
 	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
 
@@ -17,7 +17,7 @@
 				echo "<tr>";
 					echo "<td>";
 					echo "<div class='btn-group'>";
-					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_datosemp/editar' dix='trabajo' v_id='$key->idemp'><i class='fas fa-pencil-alt'></i></button>";
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_datosemp/editar' dix='trabajo' v_idtienda='$key->idtienda'><i class='fas fa-pencil-alt'></i></button>";
 					echo "</div>";
 					echo "</td>";
 					echo "<td>".$key->razon."</td>";

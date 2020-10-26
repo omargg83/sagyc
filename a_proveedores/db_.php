@@ -6,6 +6,8 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
 	echo "</div>";
 }
 
@@ -27,7 +29,7 @@ class Cliente extends Sagyc{
 	public function provedores_lista(){
 		try{
 
-			$sql="SELECT * FROM proveedores";
+			$sql="SELECT * FROM proveedores where idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -38,7 +40,7 @@ class Cliente extends Sagyc{
 	}
 	public function provedores_buscar($texto){
 		try{
-			$sql="SELECT * FROM proveedores where proveedores.nombre like '%$texto%'";
+			$sql="SELECT * FROM proveedores where proveedores.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -49,7 +51,7 @@ class Cliente extends Sagyc{
 	}
 	public function provedor($id){
 		try{
-		  $sql="select * from proveedores where id=:id";
+		  $sql="select * from proveedores where idproveedor=:id";
 		  $sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":id",$id);
 		  $sth->execute();
@@ -62,15 +64,16 @@ class Cliente extends Sagyc{
 	public function guardar_provedor(){
 		$x="";
 		$arreglo =array();
-		$id=$_REQUEST['id'];
+		$idproveedor=$_REQUEST['idproveedor'];
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
-		if($id==0){
+		if($idproveedor==0){
+			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$x=$this->insert('proveedores', $arreglo);
 		}
 		else{
-			$x=$this->update('proveedores',array('id'=>$id), $arreglo);
+			$x=$this->update('proveedores',array('idproveedor'=>$idproveedor), $arreglo);
 		}
 		return $x;
 	}

@@ -6,9 +6,10 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
 	echo "</div>";
 }
-
 class Usuario extends Sagyc{
 	public $nivel_personal;
 	public $nivel_captura;
@@ -32,19 +33,19 @@ class Usuario extends Sagyc{
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
 	public function usuario_buscar($texto){
-		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.user, usuarios.pass, usuarios.nivel, usuarios.activo, et_tienda.nombre as tienda  from usuarios left outer join et_tienda on et_tienda.id=usuarios.idtienda where usuarios.nombre like '%$texto%'";
+		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.user, usuarios.pass, usuarios.nivel, usuarios.activo, tienda.razon as tienda  from usuarios left outer join tienda on tienda.idtienda=usuarios.idtienda where usuarios.nombre like '%$texto%' and tienda.idtienda='".$_SESSION['idtienda']."'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
 	public function usuario_lista(){
-		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.user, usuarios.pass, usuarios.nivel, usuarios.activo, et_tienda.nombre as tienda  from usuarios left outer join et_tienda on et_tienda.id=usuarios.idtienda";
+		$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda FROM	usuarios LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda where tienda.idtienda='".$_SESSION['idtienda']."'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
-  public function tiendas_lista(){
-		$sql="SELECT * FROM et_tienda";
+  public function sucursal_lista(){
+		$sql="SELECT * FROM sucursal where idtienda='".$_SESSION['idtienda']."'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -54,22 +55,23 @@ class Usuario extends Sagyc{
 		$arreglo =array();
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
 		if (isset($_REQUEST['nombre'])){
-			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
-		}
-		if (isset($_REQUEST['idtienda'])){
-			$arreglo+=array('idtienda'=>$_REQUEST['idtienda']);
+			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
 		if (isset($_REQUEST['estado'])){
 			$arreglo+=array('activo'=>$_REQUEST['estado']);
 		}
 		if (isset($_REQUEST['user'])){
-			$arreglo+=array('user'=>$_REQUEST['user']);
+			$arreglo+=array('user'=>clean_var($_REQUEST['user']));
 		}
 		if (isset($_REQUEST['nivel'])){
 			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
 		}
+		if (isset($_REQUEST['idsucursal'])){
+			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
+		}
 
 		if($id==0){
+			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{

@@ -1,19 +1,19 @@
 <?php
 	require_once("db_.php");
-	if (isset($_POST['id'])){$id=$_POST['id'];} else{ $id=0;}
+	if (isset($_REQUEST['idproveedor'])){$idproveedor=$_REQUEST['idproveedor'];} else{ $idproveedor=0;}
 
 	$nombre="";
 
-	if($id>0){
-		$pd = $db->provedor($id);
+	if($idproveedor>0){
+		$pd = $db->provedor($idproveedor);
 		$nombre=$pd->nombre;
 	}
 
 ?>
 
 <div class="container">
-		<form is="f-submit" id="form_editar" db="a_proveedores/db_" fun="guardar_provedor" lug="a_cliente/editar" desid='id'>
-		<input type="hidden" name="id" id="id" value="<?php echo $id;?>">
+		<form is="f-submit" id="form_editar" db="a_proveedores/db_" fun="guardar_provedor" lug="a_cliente/editar" desid='idproveedor'>
+		<input type="hidden" name="idproveedor" id="idproveedor" value="<?php echo $idproveedor;?>">
 		<div class='card'>
 			<div class='card-header'>
 				Editar cliente
@@ -22,7 +22,7 @@
 				<div class='row'>
 					<div class="col-3">
 						<label>Nombre:</label>
-							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required>
+							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required maxlength="100">
 					</div>
 				</div>
 			</div>

@@ -366,6 +366,7 @@
 							xhr.open('POST',datos.db);
 							xhr.addEventListener('load',(data)=>{
 								if (!isJSON(data.target.response)){
+									console.log(data.target.response);
 									Swal.fire({
 										type: 'error',
 										title: "Error favor de verificar",
@@ -396,6 +397,7 @@
 									});
 								}
 								else{
+
 									Swal.fire({
 										type: 'info',
 										title: respon.terror,

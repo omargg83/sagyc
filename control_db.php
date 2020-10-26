@@ -21,7 +21,7 @@
 				$this->dbh = new PDO("mysql:host=".SERVIDOR.";port=".PORT.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
 				$this->dbh->query("SET NAMES 'utf8'");
 
-				$sql="select * from datosemp";
+				$sql="select * from tienda";
 				$sth=$this->dbh->query($sql);
 				$resp=$sth->fetch(PDO::FETCH_OBJ);
 				$_SESSION['nombre_sis']=$resp->nombre_sis;

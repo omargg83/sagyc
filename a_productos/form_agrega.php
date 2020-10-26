@@ -4,18 +4,18 @@
 	$idproducto=$_REQUEST['idproducto'];
 
 	$cantidad="";
-	$fecha=date("d-m-Y");
+	$fecha=date("Y-m-d");
 	$nota="";
 ?>
 
-<form is="f-submit" id="form_inventario" db="a_productos/db_" fun="existencia_agrega" des="a_productos/editar" desid='id'>
+<form is="f-submit" id="form_inventario" db="a_productos/db_" fun="existencia_agrega" des="a_productos/editar" desid='idproducto'>
 <div class='modal-header'>
 	<h5 class='modal-title'>Agregar existencia</h5>
 </div>
   <div class='modal-body' >
 	<?php
-		echo "<input type='text' id='id' NAME='id' value='$id'>";
-		echo "<input type='text' id='idproducto' NAME='idproducto' value='$idproducto'>";
+		echo "<input type='hidden' id='id' NAME='id' value='$id'>";
+		echo "<input type='hidden' id='idproducto' NAME='idproducto' value='$idproducto'>";
 	?>
 		<div class='row'>
 			<div class="col-4">
@@ -24,7 +24,7 @@
 			</div>
 			<div class="col-4">
 			 <label>Fecha</label>
-			 <input type="text" class="form-control form-control-sm fechaclass" id="fecha" name='fecha' placeholder="Fecha" value="<?php echo $fecha; ?>">
+			 <input type="date" class="form-control form-control-sm fechaclass" id="fecha" name='fecha' placeholder="Fecha" value="<?php echo $fecha; ?>">
 			</div>
 			<div class="col-4">
 			 <label>Nota de compra</label>

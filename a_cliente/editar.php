@@ -17,6 +17,7 @@
 	$cp="";
 	$pais="";
 	$estado="";
+	$observaciones="";
 
 	if($id>0){
 		$pd = $db->cliente($id);
@@ -34,6 +35,7 @@
 		$cp=$pd->cp;
 		$pais=$pd->pais;
 		$estado=$pd->estado;
+		$observaciones=$pd->observaciones;
 	}
 
 ?>
@@ -101,19 +103,14 @@
 						<label>Estado</label>
 						<input type="text" class="form-control" id="estado" name='estado' placeholder="Estado" value="<?php echo $estado;?>" maxlength='100'>
 					</div>
-					<div class="col-4">
-						<label>Teléfono</label>
-						<input type="number" class="form-control input-number" id="telefono" name='telefono' placeholder="" value="" >
-					</div>
-				</div>
-				<div class='row'>
-					<div class="col-3">
-						<label>Teléfono:</label>
-							<input type="text" class="form-control" name="telefono" id="telefono" value="<?php echo $telefono;?>" placeholder="Teléfono" >
-					</div>
+
 					<div class="col-3">
 						<label>Correo:</label>
 							<input type="text" class="form-control" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" >
+					</div>
+					<div class="col-12">
+						<label>Observaciones:</label>
+							<textarea type="text" class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones" rows='5'><?php echo $observaciones;?></textarea>
 					</div>
 				</div>
 			</div>

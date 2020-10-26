@@ -1,13 +1,13 @@
 <?php
 require_once("../control_db.php");
-if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
-
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
 	echo "</div>";
 }
 

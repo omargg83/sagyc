@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];} else{ $id=0;}
+	if (isset($_REQUEST['idtienda'])){$idtienda=$_REQUEST['idtienda'];} else{ $idtienda=0;}
 
 	$razon="";
 	$calle="";
@@ -9,8 +9,8 @@
 	$ciudad="";
 	$estado="";
 
-	if($id>0){
-		$pd = $db->datosemp($id);
+	if($idtienda>0){
+		$pd = $db->tienda($idtienda);
 		$razon=$pd->razon;
 		$calle=$pd->calle;
 		$no=$pd->no;
@@ -22,8 +22,8 @@
 ?>
 
 <div class="container">
-	<form is="f-submit" id="form_cliente" db="a_datosemp/db_" fun="guardar_datosemp" des="a_datosemp/editar" desid='id'>
-		<input type="hidden" name="id" id="id" value="<?php echo $id;?>">
+	<form is="f-submit" id="form_cliente" db="a_datosemp/db_" fun="guardar_tienda" des="a_datosemp/editar" desid='idtienda'>
+		<input type="hidden" name="idtienda" id="idtienda" value="<?php echo $idtienda;?>">
 		<div class='card'>
 			<div class='card-header'>
 				Editar datos empresa

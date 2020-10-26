@@ -1,13 +1,21 @@
 <?php
 require_once("../control_db.php");
 
-class Datosemp extends Sagyc{
+if($_SESSION['des']==1 and strlen($function)==0)
+{
+	echo "<div class='alert alert-primary' role='alert'>";
+	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
+	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
+	echo "</div>";
+}
+
+class Datos_tienda extends Sagyc{
 	public $nivel_personal;
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-
-
 		if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
 
 		}
@@ -16,10 +24,9 @@ class Datosemp extends Sagyc{
 			die();
 		}
 	}
-	public function datosemp_lista(){
+	public function tienda_lista(){
 		try{
-
-			$sql="SELECT * FROM datosemp";
+			$sql="SELECT * FROM tienda where idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -28,10 +35,10 @@ class Datosemp extends Sagyc{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function datosemp($id){
+	public function tienda($id){
 		try{
 
-		  $sql="select * from datosemp where idemp=:id";
+		  $sql="select * from tienda where idtienda=:id";
 		  $sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":id",$id);
 		  $sth->execute();
@@ -41,11 +48,11 @@ class Datosemp extends Sagyc{
 		  return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function guardar_datosemp(){
+	public function guardar_tienda(){
 		$x="";
 		$arreglo =array();
 
-		$id=$_REQUEST['id'];
+		$idtienda=$_REQUEST['idtienda'];
 		if (isset($_REQUEST['razon'])){
 			$arreglo+=array('razon'=>$_REQUEST['razon']);
 		}
@@ -65,17 +72,17 @@ class Datosemp extends Sagyc{
 			$arreglo+=array('estado'=>$_REQUEST['estado']);
 		}
 
-		if($id==0){
-			$x=$this->insert('datosemp', $arreglo);
+		if($idtienda==0){
+			$x=$this->insert('tienda', $arreglo);
 		}
 		else{
-			$x=$this->update('datosemp',array('idemp'=>$id), $arreglo);
+			$x=$this->update('tienda',array('idtienda'=>$_SESSION['idtienda']), $arreglo);
 		}
 		return $x;
 	}
 }
 
-$db = new Datosemp();
+$db = new Datos_tienda();
 if(strlen($function)>0){
 	echo $db->$function();
 }

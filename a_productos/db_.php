@@ -6,8 +6,11 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
 	echo "</div>";
 }
+
 class Productos extends Sagyc{
 	public $nivel_personal;
 	public $nivel_captura;
@@ -26,15 +29,14 @@ class Productos extends Sagyc{
 
 	}
 	public function producto_buscar($texto){
-		$sql="select * from productos where productos.nombre like '%$texto%'";
+		$sql="select * from productos where productos.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
-
 	public function productos_lista(){
 		try{
-			$sql="SELECT * from productos where activo=1  and idventa is null order by tipo asc,id asc limit 100";
+			$sql="SELECT * from productos where activo=1  and idventa is null order by tipo asc, idproducto asc limit 100";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -43,7 +45,6 @@ class Productos extends Sagyc{
 			return "Database access FAILED! ".$e->getMessage();
 		}
 	}
-
 	public function borrar_producto(){
 		if (isset($_REQUEST['id'])){ $id=$_REQUEST['id']; }
 		return $this->borrar('productos',"id",$id);
@@ -51,8 +52,7 @@ class Productos extends Sagyc{
 
 	public function producto_editar($id){
 		try{
-
-			$sql="select * from productos where id=:id";
+			$sql="select * from productos where idproducto=:id and idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(':id', "$id");
 			$sth->execute();
@@ -64,7 +64,7 @@ class Productos extends Sagyc{
 	}
 	public function guardar_producto(){
 		try{
-			if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+			if (isset($_REQUEST['idproducto'])){$idproducto=$_REQUEST['idproducto'];}
 			$arreglo =array();
 			$tipo="";
 			$imei="";
@@ -152,25 +152,35 @@ class Productos extends Sagyc{
 				$arreglo += array('cantidad'=>1);
 			}
 
-
-			if($id==0){
-
+			if($idproducto==0){
 				$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 				$x=$this->insert('productos', $arreglo);
 				$ped=json_decode($x);
+
 				if($ped->error==0){
 					$id=$ped->id;
+
+					if($tipo==3){
+						$sql="select sum(cantidad) as total from bodega where idproducto=$idproducto";
+						$sth = $db->dbh->prepare($sql);
+						$sth->execute();
+						$total=$sth->fetch(PDO::FETCH_OBJ);
+						$arreglo =array();
+						$arreglo = array('cantidad'=>$total->total);
+						$db->update('productos',array('idproducto'=>$idproducto), $arreglo);
+					}
+
 					$codigo="9".str_pad($id, 8, "0", STR_PAD_LEFT);
 					$arreglo =array();
 					$arreglo = array('codigo'=>$codigo);
-					$this->update('productos',array('id'=>$id), $arreglo);
+					$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
 				}
 				return $x;
 			}
 			else{
 				$arreglo+=array('fechamod'=>date("Y-m-d H:i:s"));
-				$x=$this->update('productos',array('id'=>$id), $arreglo);
+				$x=$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
 			}
 			return $x;
 		}
@@ -206,11 +216,11 @@ class Productos extends Sagyc{
 				return json_encode($arreglo);
 			}
 
-
 			$id=$_REQUEST['id'];
 			$idproducto=$_REQUEST['idproducto'];
 			$arreglo =array();
 			$arreglo = array('idproducto'=>$idproducto);
+
 			if (isset($_REQUEST['cantidad'])){
 				$arreglo += array('cantidad'=>$_REQUEST['cantidad']);
 			}
@@ -219,7 +229,8 @@ class Productos extends Sagyc{
 			}
 			if (isset($_REQUEST['fecha'])){
 				$fx=explode("-",$_REQUEST['fecha']);
-				$arreglo+=array('fecha'=>$fx['2']."-".$fx['1']."-".$fx['0']);
+				//$arreglo+=array('fecha'=>$fx['2']."-".$fx['1']."-".$fx['0']);
+				$arreglo+=array('fecha'=>$_REQUEST['fecha']);
 			}
 			$x="";
 			if($id==0){

@@ -14,7 +14,6 @@
 	<thead>
 	<th>Numero</th>
 	<th>Nombre</th>
-	<th>Usuario</th>
 	<th>Nivel</th>
 	<th>Tienda</th>
 	<th>Activo</th>
@@ -28,7 +27,6 @@
 					echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_usuarios/db_' des='a_usuarios/lista' fun='borrar_usuario' dix='trabajo' v_id='$key->idusuario' id='eliminar' tp='¿Desea eliminar el usuario seleccionado?'><i class='far fa-trash-alt'></i></button>";
 					echo "</td>";
 				echo '<td>'.$key->nombre.'</td>';
-				echo '<td>'.$key->user.'</td>';
 				echo '<td>'.$key->nivel.'</td>';
 				echo '<td>'.$key->tienda.'</td>';
 				echo '<td>';

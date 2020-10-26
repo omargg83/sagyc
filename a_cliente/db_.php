@@ -6,7 +6,10 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
 	echo "</div>";
+}o "</div>";
 }
 
 class Cliente extends Sagyc{
@@ -27,7 +30,7 @@ class Cliente extends Sagyc{
 	public function clientes_lista(){
 		try{
 
-			$sql="SELECT * FROM clientes";
+			$sql="SELECT * FROM clientes where idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -38,7 +41,7 @@ class Cliente extends Sagyc{
 	}
 	public function clientes_buscar($texto){
 		try{
-			$sql="SELECT * FROM clientes where clientes.nombre like '%$texto%'";
+			$sql="SELECT * FROM clientes where clientes.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -100,8 +103,9 @@ class Cliente extends Sagyc{
 		if (isset($_REQUEST['estado'])){
 			$arreglo+=array('estado'=>clean_var($_REQUEST['estado']));
 		}
-
-
+		if (isset($_REQUEST['observaciones'])){
+			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
+		}
 		if (isset($_REQUEST['telefono'])){
 			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
 		}
@@ -109,6 +113,7 @@ class Cliente extends Sagyc{
 			$arreglo+=array('correo'=>clean_var($_REQUEST['correo']));
 		}
 		if($idcliente==0){
+			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$x=$this->insert('clientes', $arreglo);
 		}
 		else{

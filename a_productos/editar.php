@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];} else{ $id=0;}
+	if (isset($_REQUEST['idproducto'])){$idproducto=$_REQUEST['idproducto'];} else{ $idproducto=0;}
 
 	$codigo="";
 	$nombre="";
@@ -17,10 +17,10 @@
 	$cantidad="";
 	$imei="";
 	$preciocompra="";
-	$idventa="";
+	$idproductoventa="";
 
-	if($id>0){
-		$per = $db->producto_editar($id);
+	if($idproducto>0){
+		$per = $db->producto_editar($idproducto);
 		$codigo=$per->codigo;
 		$nombre=$per->nombre;
 		$unidad=$per->unidad;
@@ -36,27 +36,26 @@
 		$imei=$per->imei;
 		$precio=$per->precio;
 		$preciocompra=$per->preciocompra;
-		$idventa=$per->idventa;
+		$idproductoventa=$per->idventa;
 	}
-	if($id>0){
+	if($idproducto>0){
 		if($tipo==3){
-			$sql="select sum(cantidad) as total from bodega where idproducto=$id";
+			$sql="select sum(cantidad) as total from bodega where idproducto=$idproducto";
 			$sth = $db->dbh->prepare($sql);
 			$sth->execute();
 			$total=$sth->fetch(PDO::FETCH_OBJ);
 			$existencia=$total->total;
 			$arreglo =array();
 			$arreglo = array('cantidad'=>$existencia);
-			$db->update('productos',array('id'=>$id), $arreglo);
+			$db->update('productos',array('idproducto'=>$idproducto), $arreglo);
 			$cantidad=$existencia;
 		}
 	}
-
 ?>
 
 <div class='container'>
-	<form is="f-submit" id="form_editar" db="a_productos/db_" fun="guardar_producto" lug="a_productos/editar" desid='id'>
-		<input type="hidden" name="id" id="id" value="<?php echo $id;?>">
+	<form is="f-submit" id="form_editar" db="a_productos/db_" fun="guardar_producto" lug="a_productos/editar" desid='idproducto'>
+		<input type="hidden" name="idproducto" id="idproducto" value="<?php echo $idproducto;?>">
 		<div class='card'>
 			<div class='card-header'>
 				<?php echo $nombre;?>
@@ -65,11 +64,11 @@
 				<div class='tab-content' id='myTabContent'>
 					<div class='tab-pane fade show active' id='ssh' role='tabpanel' aria-labelledby='ssh-tab'>
 						<form id='form_producto' action='' data-lugar='a_productos/db_' data-destino='a_productos/editar' data-funcion='guardar_producto'>
-							<input type="hidden" class="form-control form-control-sm" id="id" name='id' value="<?php echo $id; ?>">
+							<input type="hidden" class="form-control form-control-sm" id="id" name='id' value="<?php echo $idproducto; ?>">
 							<div class='row'>
 								<div class="col-12">
 								 <label>Tipo de producto</label>
-									<select class="form-control form-control-sm" name="tipo" id="tipo" <?php if ($id>0){ echo "disabled";}  ?> onchange='tipo_cambio()' required>
+									<select class="form-control form-control-sm" name="tipo" id="tipo" <?php if ($idproducto>0){ echo "disabled";}  ?> onchange='tipo_cambio()' required>
 										<option value='' disabled selected>Seleccione una opción</option>
 										<option value="3"<?php if($tipo=="3") echo "selected"; ?> > Producto (Se controla el inventario por volúmen)</option>
 										<!--<option value="4"<?php if($tipo=="4") echo "selected"; ?> > Unico (se controla inventario por pieza única)</option> -->
@@ -133,17 +132,13 @@
 							<div class='row'>
 								<div class="col-12">
 										<?php
-											if(strlen($idventa)==0){
+											if(strlen($idproductoventa)==0){
 												echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
 											}
 
-											if($id>0){
-												//echo "<button type='button' class='btn btn-outline-primary btn-sm' onclick='clonar_nuevo()'><i class='far fa-clone'></i>Nuevo</button>";
-												//echo "<button type='button' class='btn btn-outline-primary btn-sm' id='imprime_comision' title='Imprimir' data-lugar='a_productos/imprimir' data-tipo='1' type='button'><i class='fas fa-barcode'></i>Imprimir</button>";
-
+											if($idproducto>0){
 												if($tipo==3){
-													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idproducto='$id' ><i class='fas fa-key'></i>+ existencias</button>";
-
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-key'></i>+ existencias</button>";
 												}
 											}
 										?>
@@ -155,9 +150,9 @@
 
 
 						<?php
-						//if($id>0){
+						//if($idproducto>0){
 
-								$row=$db->productos_inventario($id);
+								$row=$db->productos_inventario($idproducto);
 								echo "<table class='table table-sm' style='font-size:12px'>";
 								echo "<tr><th>-</th><th>Fecha</th><th>Cantidad</th><th>Nota de compra</th>
 								<th># Venta</th>
@@ -173,7 +168,7 @@
 											echo "<div class='btn-group'>";
 											if(!$key->idventa){
 
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/editar' desid='id' dix='trabajo' db='a_productos/db_'  fun='borrar_ingreso' v_id='$key->id' v_idproducto='$id' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/editar' desid='id' dix='trabajo' db='a_productos/db_'  fun='borrar_ingreso' v_id='$key->id' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 
 											}
