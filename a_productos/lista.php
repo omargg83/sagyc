@@ -51,6 +51,7 @@
 						echo "<td>".$key->nombre."</td>";
 
 						echo "<td>";
+							$sql="select * from ";
 							echo "sucursal";
 
 						echo "</td>";
