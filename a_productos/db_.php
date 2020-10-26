@@ -36,7 +36,7 @@ class Productos extends Sagyc{
   }
 	public function productos_lista(){
 		try{
-			$sql="SELECT * from productos where activo=1  and idventa is null order by tipo asc, idproducto asc limit 100";
+			$sql="SELECT * from productos where activo=1 and idventa is null order by tipo asc, idproducto asc limit 100";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -46,8 +46,8 @@ class Productos extends Sagyc{
 		}
 	}
 	public function borrar_producto(){
-		if (isset($_REQUEST['id'])){ $id=$_REQUEST['id']; }
-		return $this->borrar('productos',"id",$id);
+		if (isset($_REQUEST['idproducto'])){ $idproducto=$_REQUEST['idproducto']; }
+		return $this->borrar('productos',"idproducto",$idproducto);
 	}
 
 	public function producto_editar($id){
@@ -140,18 +140,6 @@ class Productos extends Sagyc{
 				}
 			}
 
-			if($tipo==0 or $tipo==1  or $tipo==2){
-					$arreglo += array('cantidad'=>1);
-			}
-			if($tipo==3){
-				if($id>0){
-					$this->cantidad_update($id);
-				}
-			}
-			if($tipo==4){
-				$arreglo += array('cantidad'=>1);
-			}
-
 			if($idproducto==0){
 				$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
@@ -159,28 +147,21 @@ class Productos extends Sagyc{
 				$ped=json_decode($x);
 
 				if($ped->error==0){
-					$id=$ped->id;
+					$idproducto=$ped->id;
 
-					if($tipo==3){
-						$sql="select sum(cantidad) as total from bodega where idproducto=$idproducto";
-						$sth = $db->dbh->prepare($sql);
-						$sth->execute();
-						$total=$sth->fetch(PDO::FETCH_OBJ);
-						$arreglo =array();
-						$arreglo = array('cantidad'=>$total->total);
-						$db->update('productos',array('idproducto'=>$idproducto), $arreglo);
-					}
+					$this->cantidad_update($idproducto,$tipo);
 
-					$codigo="9".str_pad($id, 8, "0", STR_PAD_LEFT);
+					$codigo="9".str_pad($idproducto, 8, "0", STR_PAD_LEFT);
 					$arreglo =array();
 					$arreglo = array('codigo'=>$codigo);
 					$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
 				}
-				return $x;
 			}
 			else{
 				$arreglo+=array('fechamod'=>date("Y-m-d H:i:s"));
 				$x=$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
+
+				$this->cantidad_update($idproducto,$tipo);
 			}
 			return $x;
 		}
@@ -237,6 +218,7 @@ class Productos extends Sagyc{
 				$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
+				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$x=$this->insert('bodega', $arreglo);
 			}
 			else{
@@ -262,7 +244,7 @@ class Productos extends Sagyc{
 	}
 	public function productos_inventario($id){
 		try{
-			$sql="select * from bodega where idproducto=:id order by id desc";
+			$sql="select * from bodega where idproducto=:id and idsucursal='".$_SESSION['idsucursal']."' order by id desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(':id', "$id");
 			$sth->execute();

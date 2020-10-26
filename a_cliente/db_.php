@@ -9,7 +9,6 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "<hr>";
 	echo print_r($_REQUEST);
 	echo "</div>";
-}o "</div>";
 }
 
 class Cliente extends Sagyc{

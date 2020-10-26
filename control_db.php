@@ -606,18 +606,27 @@
 			return $_SESSION['idfondo'];
 		}
 
-		public function cantidad_update($id){
+		public function cantidad_update($idproducto, $tipo){
 			try{
-
-				$sql="select sum(cantidad) as total from bodega where idproducto='$id'";
-				$sth = $this->dbh->prepare($sql);
-				$sth->execute();
-				$total=$sth->fetch(PDO::FETCH_OBJ);
-				$existencia=$total->total;
-
 				$arreglo =array();
+				if($tipo==0){
+					$existencia=1;
+				}
+				if($tipo==3){
+					$sql="select sum(cantidad) as total from bodega where idproducto='$idproducto'";
+					$sth = $this->dbh->prepare($sql);
+					$sth->execute();
+					$total=$sth->fetch(PDO::FETCH_OBJ);
+					if($total->total!=0){
+						$existencia=$total->total;
+					}
+					else{
+						$existencia=0;
+					}
+				}
+
 				$arreglo+=array('cantidad'=>$existencia);
-				return $this->update('productos',array('id'=>$id), $arreglo);
+				return $this->update('productos',array('idproducto'=>$idproducto), $arreglo);
 			}
 			catch(PDOException $e){
 				return "Database access FAILED!".$e->getMessage();

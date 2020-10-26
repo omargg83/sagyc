@@ -38,23 +38,11 @@
 		$preciocompra=$per->preciocompra;
 		$idproductoventa=$per->idventa;
 	}
-	if($idproducto>0){
-		if($tipo==3){
-			$sql="select sum(cantidad) as total from bodega where idproducto=$idproducto";
-			$sth = $db->dbh->prepare($sql);
-			$sth->execute();
-			$total=$sth->fetch(PDO::FETCH_OBJ);
-			$existencia=$total->total;
-			$arreglo =array();
-			$arreglo = array('cantidad'=>$existencia);
-			$db->update('productos',array('idproducto'=>$idproducto), $arreglo);
-			$cantidad=$existencia;
-		}
-	}
+
 ?>
 
 <div class='container'>
-	<form is="f-submit" id="form_editar" db="a_productos/db_" fun="guardar_producto" lug="a_productos/editar" desid='idproducto'>
+	<form is="f-submit" id="form_editar" db="a_productos/db_" fun="guardar_producto" des="a_productos/editar" desid='idproducto'>
 		<input type="hidden" name="idproducto" id="idproducto" value="<?php echo $idproducto;?>">
 		<div class='card'>
 			<div class='card-header'>
@@ -68,12 +56,9 @@
 							<div class='row'>
 								<div class="col-12">
 								 <label>Tipo de producto</label>
-									<select class="form-control form-control-sm" name="tipo" id="tipo" <?php if ($idproducto>0){ echo "disabled";}  ?> onchange='tipo_cambio()' required>
+									<select class="form-control form-control-sm" name="tipo" id="tipo" <?php if ($idproducto>0){ echo "readonly";}  ?> required>
 										<option value='' disabled selected>Seleccione una opción</option>
 										<option value="3"<?php if($tipo=="3") echo "selected"; ?> > Producto (Se controla el inventario por volúmen)</option>
-										<!--<option value="4"<?php if($tipo=="4") echo "selected"; ?> > Unico (se controla inventario por pieza única)</option> -->
-										<!-- <option value="1"<?php if($tipo=="1") echo "selected"; ?> > Pago de linea</option> -->
-										<!-- <option value="2"<?php if($tipo=="2") echo "selected"; ?> > Reparación</option> -->
 										<option value="0"<?php if($tipo=="0") echo "selected"; ?> > Servicio (solo registra ventas, no es necesario registrar entrada)</option>
 									</select>
 								</div>
@@ -209,9 +194,3 @@
 		</div>
 		</form>
 </div>
-
-<script>
-	$(function() {
-		tipo_cambio();
-	});
-</script>

@@ -49,7 +49,11 @@
 
 						echo "<td>".$key->rapido."</td>";
 						echo "<td>".$key->nombre."</td>";
-						echo "<td>".$key->cantidad."</td>";
+
+						echo "<td>";
+							echo "sucursal";
+
+						echo "</td>";
 						echo "<td >".moneda($key->preciocompra)."</td>";
 						echo "<td >".moneda($key->precio)."</td>";
 						echo '</tr>';

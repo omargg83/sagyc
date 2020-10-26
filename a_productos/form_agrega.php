@@ -42,9 +42,3 @@
 
   </div>
 </form>
-
-	<script>
-		$(function() {
-			fechas();
-		});
-	</script>
