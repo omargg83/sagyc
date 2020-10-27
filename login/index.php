@@ -6,7 +6,7 @@
  <!DOCTYPE HTML>
  <html lang="es">
  <head>
- 	<title>Salud Pública</title>
+ 	<title>SAGYC POS</title>
   <link rel="icon" type="image/png" href="../img/favicon.ico">
  	<meta charset="utf-8">
  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
