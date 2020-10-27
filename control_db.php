@@ -600,6 +600,7 @@
 		public function fondo(){
 			if (isset($_REQUEST['imagen'])){$imagen=$_REQUEST['imagen'];}
 			$arreglo=array('idfondo'=>$imagen);
+			$_SESSION['idfondo']=$imagen;
 			$x=$this->update('usuarios',array('idusuario'=>$_SESSION['idpersona']), $arreglo);
 		}
 		public function leerfondo(){

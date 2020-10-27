@@ -112,6 +112,15 @@
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {cargando(true);
+
+				if(document.querySelector('.activeside')){
+					document.querySelector('.activeside').classList.remove('activeside');
+					this.classList.add('activeside');
+				}
+				else{
+					this.classList.add('activeside');
+				}
+
 				let formData = new FormData();
 
 				let hash=e.currentTarget.hash.slice(1);

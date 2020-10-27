@@ -22,11 +22,17 @@
 	<link rel="stylesheet" type="text/css" href="lib/modulos.css"/>
 </head>
 
-<body>
+<?php
+	$valor=$_SESSION['idfondo'];
+	echo "<body style='background-image: url(\"$valor\")'>";
+?>
 
 
 <header class="d-block p-2" id='header'>
 	<nav class='barraprincipal navbar navbar-expand-sm fixed-top navbar-light bg-light text-'  style='background-color: #2e4053 !important; color: white !important;'>
+
+		<button class="btn btn-warning btn-sm mr-2" type="button" onclick='fijar()'><i class='fas fa-bars'></i></button>
+
 	  <img src='img/sagyc.png' width='60' height='30' alt=''>
 	  <a class='navbar-brand text-white text-center ml-3' href='#'> <?php echo $_SESSION['nombre_sis']; ?>  </a>
 	  <button class='navbar-toggler collapsed' type='button' data-toggle='collapse' data-target='#navbarsExample06' aria-controls='navbarsExample06' aria-expanded='false' aria-label='Toggle navigation'>
@@ -35,7 +41,11 @@
 	  <div class='navbar-collapse collapse' id='navbarsExample06' style=''>
 
 	    <ul class='navbar-nav mr-auto'>
+
 	    </ul>
+      <ul class='nav navbar-nav navbar-right text-white' id='precios'>
+				<button class="btn btn-warning" type="button" is="b-link" des="a_precios/index" omodal='1'>Precio</button>
+			</ul>
       <ul class='nav navbar-nav navbar-right text-white' id='fondo'></ul>
       <ul class='nav navbar-nav navbar-right'>
         <li class='nav-item'>
@@ -55,8 +65,8 @@
 	      <div class='sidebar sidenav' id='navx'>
 	        <a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
 
-					<a href='#a_ventas/editar' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>+ Venta</span></a>
-					<a href='#a_ventas/index' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>
+					<a href='#a_ventas/editar' id='venta' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>+ Venta</span></a>
+					<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>
 					<hr>
 
 					<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>
@@ -68,9 +78,11 @@
 					<hr>
 	        <a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>
 	        <hr>
-					<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>
-					<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>
 	        <a href='#a_datosemp/index' is='menu-link' title='Datosemp'><i class="fas fa-wrench"></i><span>Datos Emp.</span></a>
+	        <a href='#a_sucursal/index' is='menu-link' title='Sucursal'><i class='fas fa-store-alt'></i><span>Sucursal</span></a>
+					<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>
+					<hr>
+					<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>
 	      </div>
 	    </div>
 	    <div class='fijaproceso main' id='contenido'>

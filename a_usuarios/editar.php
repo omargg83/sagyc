@@ -44,7 +44,7 @@
 				 </div>
 
 				<div class="form-group row">
-				  <label class="control-label col-sm-2" for="">De:</label>
+				  <label class="control-label col-sm-2" for="">Sucursal:</label>
 				  <div class="col-sm-10">
 					<?php
 
@@ -84,8 +84,8 @@
 				 <label class="control-label col-sm-2" for="">Nivel:</label>
 				  <div class="col-sm-10">
 					<select class="form-control form-control-sm" name="nivel" id="nivel">
-					  <option value="1"<?php if($nivel=="1") echo "selected"; ?> >1</option>
-					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2</option>
+					  <option value="1"<?php if($nivel=="1") echo "selected"; ?> >1 Administrador</option>
+					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2 Normal</option>
 					</select>
 				  </div>
 				</div>

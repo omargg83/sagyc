@@ -16,6 +16,7 @@
 	<th>Nombre</th>
 	<th>Nivel</th>
 	<th>Tienda</th>
+	<th>Sucursal</th>
 	<th>Activo</th>
 	</thead>
 	<tbody>
@@ -29,6 +30,7 @@
 				echo '<td>'.$key->nombre.'</td>';
 				echo '<td>'.$key->nivel.'</td>';
 				echo '<td>'.$key->tienda.'</td>';
+				echo '<td>'.$key->sucursal.'</td>';
 				echo '<td>';
 				if ($key->activo==0) { echo "Inactivo"; }
 				if ($key->activo==1) { echo "Activo"; }

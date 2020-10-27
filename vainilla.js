@@ -156,17 +156,26 @@ function fondos(){
   xhr.send(formData);
 }
 function fondo(archivo){
-  alert(archivo);
   var formData = new FormData();
   formData.append("function", "fondo");
-  formData.append("ctrl", "control");
   formData.append("imagen", archivo);
+  formData.append("ctrl", "control");
   let xhr = new XMLHttpRequest();
   xhr.open('POST',"control_db.php");
   xhr.addEventListener('load',(data)=>{
-    console.log(data.target.response);
+    document.body.style.backgroundImage = "url('"+ archivo +"')";
   });
   xhr.onerror = (e)=>{
   };
   xhr.send(formData);
+}
+function fijar(){
+  alert("fijar");
+
+  if(document.querySelector('.sidebar')){
+    document.querySelector('.sidebar').classList.remove('sidebar');
+  }
+  else{
+    /*this.classList.add('activeside');*/
+  }
 }

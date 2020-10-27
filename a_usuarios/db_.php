@@ -39,7 +39,10 @@ class Usuario extends Sagyc{
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
 	public function usuario_lista(){
-		$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda FROM	usuarios LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda where tienda.idtienda='".$_SESSION['idtienda']."'";
+		$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda, sucursal.idsucursal, sucursal.nombre as sucursal FROM	usuarios
+		LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
+		left outer join sucursal on sucursal.idsucursal=usuarios.idsucursal
+		where tienda.idtienda='".$_SESSION['idtienda']."'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);

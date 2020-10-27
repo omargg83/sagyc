@@ -17,7 +17,7 @@
 					<th>Tipo</th>
 					<th>Busqueda rápida</th>
 					<th>Nombre</th>
-					<th>Cantidad</th>
+					<th>Global</th>
 					<th>Precio compra</th>
 					<th>Precio venta</th>
 			</thead>
@@ -51,10 +51,9 @@
 						echo "<td>".$key->nombre."</td>";
 
 						echo "<td>";
-							$sql="select * from ";
-							echo "sucursal";
-
+							echo $key->cantidad;
 						echo "</td>";
+						
 						echo "<td >".moneda($key->preciocompra)."</td>";
 						echo "<td >".moneda($key->precio)."</td>";
 						echo '</tr>';

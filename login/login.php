@@ -34,7 +34,6 @@
 					if($userPOST == $CLAVE['user'] and strtoupper($passPOST)==strtoupper($CLAVE['pass'])){
 						$_SESSION['autoriza']=1;
 						$_SESSION['nombre']=$CLAVE['nombre'];
-
 						$_SESSION['idfondo']=$CLAVE['idfondo'];
 						$_SESSION['nick']=$CLAVE['user'];
 						$_SESSION['idpersona']=$CLAVE['idusuario'];
