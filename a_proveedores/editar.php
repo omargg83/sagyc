@@ -3,10 +3,16 @@
 	if (isset($_REQUEST['idproveedor'])){$idproveedor=$_REQUEST['idproveedor'];} else{ $idproveedor=0;}
 
 	$nombre="";
+	$emailp="";
+	$telp="";
+	$dirp="";
 
 	if($idproveedor>0){
 		$pd = $db->provedor($idproveedor);
 		$nombre=$pd->nombre;
+		$emailp=$pd->emailp;
+		$telp=$pd->telp;
+		$dirp=$pd->dirp;
 	}
 
 ?>
@@ -16,13 +22,27 @@
 		<input type="hidden" name="idproveedor" id="idproveedor" value="<?php echo $idproveedor;?>">
 		<div class='card'>
 			<div class='card-header'>
-				Editar cliente
+				Editar Proveedor
 			</div>
 			<div class='card-body'>
 				<div class='row'>
 					<div class="col-3">
-						<label>Nombre:</label>
+						<label>Nombre Proveedor:</label>
 							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required maxlength="100">
+					</div>
+					<div class="col-3">
+						<label>Email:</label>
+							<input type="text" class="form-control form-control-sm" name="emailp" id="emailp" value="<?php echo $emailp;?>" placeholder="Email" maxlength="100">
+					</div>
+
+					<div class="col-3">
+						<label>Telefonos:</label>
+							<input type="text" class="form-control form-control-sm" name="telp" id="telp" value="<?php echo $telp;?>" placeholder="Telefonos" maxlength="45">
+					</div>
+
+					<div class="col-3">
+						<label>Dirección:</label>
+							<input type="text" class="form-control form-control-sm" name="dirp" id="dirp" value="<?php echo $dirp;?>" placeholder="Telefonos" maxlength="150">
 					</div>
 				</div>
 			</div>

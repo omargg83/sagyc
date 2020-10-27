@@ -14,6 +14,8 @@
 	<thead>
 	<th>#</th>
 	<th>Nombre</th>
+	<th>Email</th>
+	<th>Telefonos</th>
 	</thead>
 	<tbody>
 		<?php
@@ -24,12 +26,14 @@
 
 					echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_proveedores/editar' dix='trabajo' v_idproveedor='$key->idproveedor'><i class='fas fa-pencil-alt'></i></button>";
 
-					echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_proveedores/db_' des='a_proveedores/lista' fun='borrar_cliente' dix='trabajo' v_idproveedor='$key->idproveedor' id='eliminar' tp='¿Desea eliminar el cliente seleccionado?'><i class='far fa-trash-alt'></i></button>";
+					echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_proveedores/db_' des='a_proveedores/lista' fun='borrar_cliente' dix='trabajo' v_idproveedor='$key->idproveedor' id='eliminar' tp='¿Desea eliminar el proveedor seleccionado?'><i class='far fa-trash-alt'></i></button>";
 
 					echo "</div>";
 					echo "</td>";
 
 					echo "<td>".$key->nombre."</td>";
+					echo "<td>".$key->emailp."</td>";
+					echo "<td>".$key->telp."</td>";
 				echo "</tr>";
 			}
 		?>

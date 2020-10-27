@@ -68,6 +68,16 @@ class Cliente extends Sagyc{
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
+		if (isset($_REQUEST['emailp'])){
+			$arreglo+=array('emailp'=>$_REQUEST['emailp']);
+		}
+		if (isset($_REQUEST['telp'])){
+			$arreglo+=array('telp'=>$_REQUEST['telp']);
+		}
+		if (isset($_REQUEST['dirp'])){
+			$arreglo+=array('dirp'=>$_REQUEST['dirp']);
+		}
+
 		if($idproveedor==0){
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$x=$this->insert('proveedores', $arreglo);

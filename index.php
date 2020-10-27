@@ -7,7 +7,7 @@
 <!DOCTYPE HTML>
 <html lang="es">
 <head>
-	<title>Un mundo para tus pies</title>
+	<title>SAGYC POS</title>
 	<link rel="icon" type="image/png" href="img/favicon.ico">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,12 +29,12 @@
 
 
 <header class="d-block p-2" id='header'>
-	<nav class='barraprincipal navbar navbar-expand-sm fixed-top navbar-light bg-light text-'  style='background-color: #2e4053 !important; color: white !important;'>
+	<nav class='barraprincipal navbar navbar-expand-sm fixed-top navbar-light bg-light text-'  style='background-color: #e4e9ee !important; color: white !important;'>
 
 		<button class="btn btn-warning btn-sm mr-2" type="button" onclick='fijar()'><i class='fas fa-bars'></i></button>
 
 	  <img src='img/sagyc.png' width='60' height='30' alt=''>
-	  <a class='navbar-brand text-white text-center ml-3' href='#'> <?php echo $_SESSION['nombre_sis']; ?>  </a>
+	  <a class='navbar-brand text-black text-center ml-3' href='#'> <?php echo $_SESSION['nombre_sis']; ?>  </a>
 	  <button class='navbar-toggler collapsed' type='button' data-toggle='collapse' data-target='#navbarsExample06' aria-controls='navbarsExample06' aria-expanded='false' aria-label='Toggle navigation'>
 	    <span class='navbar-toggler-icon'></span>
 	  </button>
@@ -49,8 +49,8 @@
       <ul class='nav navbar-nav navbar-right text-white' id='fondo'></ul>
       <ul class='nav navbar-nav navbar-right'>
         <li class='nav-item'>
-          <a class='nav-link pull-left text-white' onclick='salir()'>
-            <i class='fas fa-sign-out-alt'></i> Salir
+          <a class='nav-link pull-left text-black' onclick='salir()'>
+            <i class='fas fa-sign-out-alt text-dark'></i> Salir
           </a>
         </li>
       </ul>
