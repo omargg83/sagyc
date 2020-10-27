@@ -42,7 +42,7 @@
 
 					<div class="col-3">
 						<label>Dirección:</label>
-							<input type="text" class="form-control form-control-sm" name="dirp" id="dirp" value="<?php echo $dirp;?>" placeholder="Telefonos" maxlength="150">
+							<input type="text" class="form-control form-control-sm" name="dirp" id="dirp" value="<?php echo $dirp;?>" placeholder="Dirección" maxlength="150">
 					</div>
 				</div>
 			</div>
