@@ -47,27 +47,6 @@ class Compras extends Sagyc{
 		  return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function guardar_compra(){
-		$x="";
-		$arreglo =array();
-
-		$idcompra=$_REQUEST['idcompra'];
-		if (isset($_REQUEST['nombre'])){
-			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
-		}
-		if (isset($_REQUEST['ubicacion'])){
-			$arreglo+=array('ubicacion'=>$_REQUEST['ubicacion']);
-		}
-
-		if($idcompra==0){
-			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
-			$x=$this->insert('compras', $arreglo);
-		}
-		else{
-			$x=$this->update('compras',array('idcompra'=>$idcompra), $arreglo);
-		}
-		return $x;
-	}
 	public function borrar_compra(){
 		$idcompra=$_REQUEST['idcompra'];
 		$x=$this->borrar('compras',"idcompra",$idcompra);
@@ -81,7 +60,7 @@ class Compras extends Sagyc{
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function entrada($id){
-		$sql="select * from bodega where idcompra='$id'";
+		$sql="select bodega.idbodega, bodega.cantidad, bodega.c_precio, productos.codigo, productos.nombre from bodega left outer join productos on productos.idproducto=bodega.idproducto where bodega.idcompra='$id'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -89,8 +68,8 @@ class Compras extends Sagyc{
 	public function guardar_entrada(){
 		$arreglo =array();
 		$idcompra=$_REQUEST['idcompra'];
-		if (isset($_REQUEST['numero'])){
-			$arreglo+=array('numero'=>$_REQUEST['numero']);
+		if (isset($_REQUEST['nombre'])){
+			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
 		if (isset($_REQUEST['idproveedor'])){
 			$arreglo+=array('idproveedor'=>$_REQUEST['idproveedor']);
@@ -105,6 +84,11 @@ class Compras extends Sagyc{
 			$arreglo+=array('unico'=>$_REQUEST['unico']);
 		}
 		if($idcompra==0){
+			$sql = "SELECT MAX(numero) + 1 FROM compras where idtienda='".$_SESSION['idtienda']."'";
+			$statement = $this->dbh->prepare($sql);
+			$statement->execute();
+			$arreglo+=array('numero'=>$statement->fetchColumn());
+
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$arreglo+=array('estado'=>"Activa");
 			$x=$this->insert('compras', $arreglo);
@@ -129,12 +113,18 @@ class Compras extends Sagyc{
 		$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 		$arreglo+=array('observaciones'=>$observaciones);
 		$arreglo+=array('cantidad'=>$cantidad);
-
+		$arreglo+=array('c_precio'=>$precio);
 		$x=$this->insert('bodega', $arreglo);
 
 		$arr=array();
-		$arr=array('id'=>$idcompra);
+		$arr+=array('id'=>$idcompra);
+		$arr+=array('error'=>0);
 		return json_encode($arr);
+	}
+	public function borrar_registro(){
+		$idbodega=$_REQUEST['idbodega'];
+		$x=$this->borrar('bodega',"idbodega",$idbodega);
+		return $x;
 	}
 }
 

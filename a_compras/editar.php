@@ -5,6 +5,7 @@ $proveedores = $db->proveedores_lista();
 if($idcompra>0){
 	$pd = $db->compra($idcompra);
 	$numero=$pd->numero;
+	$nombre=$pd->nombre;
 	$idproveedor=$pd->idproveedor;
 	$estado=$pd->estado;
 }
@@ -12,6 +13,7 @@ else{
 	$idproveedor=1;
 	$numero="";
 	$estado="Activa";
+	$nombre="";
 }
 ?>
 <div class="container">
@@ -24,9 +26,14 @@ else{
 						<label>Entrada:</label>
 						<input type="text" name="idcompra" id="idcompra" value="<?php echo $idcompra; ?>" class="form-control" readonly>
 					</div>
+					<div class="col-2">
+						<label >Número:</label>
+						<input type="text" class="form-control" name="numero" id="numero" value="<?php echo $numero ;?>" placeholder="Número" readonly>
+						<small>Número interno</small>
+					</div>
 					<div class="col-5">
-						<label >Folio de compra:</label>
-						<input type="text" class="form-control" name="numero" id="numero" value="<?php echo $numero ;?>" placeholder="Número de compra">
+						<label >Nombre:</label>
+						<input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $nombre ;?>" placeholder="Nombre">
 					</div>
 					<div class="col-3">
 						<label >Proveedor:</label>

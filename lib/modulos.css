@@ -25,16 +25,18 @@
   font-family: 'Roboto', sans-serif;
 }
 .tabla_css > .header-row{
-  background-color:silver;
+  background-color:white;
   font-weight: bold;
   text-align: center;
-  padding: 5px;
+}
+.tabla_css > .header-row > div{
+  border-left: 1px solid black;
 }
 .tabla_css > .titulo-row{
   background-color:silver;
   font-weight: bold;
   text-align: center;
-  padding: 5px;
+  padding: 10px;
 }
 .tabla_css > .body-row{
   border-bottom: .5px solid #e3e5e4;
