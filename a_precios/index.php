@@ -4,19 +4,17 @@
 </div>
 
 <div class='modal-body' >
-  <form is="b-submit" id="form_busca" des="a_ventas/busca_producto" dix='resultadosx' >
-    <input  type='hidden' id='idventa' NAME='idventa' value='<?php echo $idventa; ?>'>
-
+  <form is="b-submit" id="form_busca" des="a_precios/busca_precio" dix='resultado_precio' >
     <div clas='row'>
         <div class="input-group mb-3">
-        <input type="text" class="form-control" name="prod_venta" id='prod_venta' placeholder='buscar producto' aria-label="buscar producto" aria-describedby="basic-addon2" onkeyup='Javascript: if (event.keyCode==13) buscar_producto(<?php echo $id2;  ?>)'>
+        <input type="text" class="form-control" name="prod_venta" id='prod_venta' placeholder='buscar producto' aria-label="buscar producto" aria-describedby="basic-addon2">
         <div class="input-group-append">
           <button class="btn btn-warning btn-sm" type="submit" ><i class='fas fa-search'></i>Buscar</button>
         </div>
       </div>
     </div>
   </form>
-  <div clas='row' id='resultadosx'>
+  <div clas='row' id='resultado_precio'>
 
   </div>
 </div>

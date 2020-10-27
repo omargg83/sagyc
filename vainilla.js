@@ -170,12 +170,19 @@ function fondo(archivo){
   xhr.send(formData);
 }
 function fijar(){
-  alert("fijar");
-
   if(document.querySelector('.sidebar')){
-    document.querySelector('.sidebar').classList.remove('sidebar');
+    document.getElementById("navx").classList.remove('sidebar');
+    document.getElementById("navx").classList.add('sidebar_fija');
+
+    document.getElementById("contenido").classList.remove('main');
+    document.getElementById("contenido").classList.add('main_fija');
+
   }
   else{
-    /*this.classList.add('activeside');*/
+    document.getElementById("navx").classList.remove('sidebar_fija');
+    document.getElementById("navx").classList.add('sidebar');
+
+    document.getElementById("contenido").classList.remove('main_fija');
+    document.getElementById("contenido").classList.add('main');
   }
 }
