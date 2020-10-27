@@ -323,10 +323,6 @@ class Venta extends Sagyc{
 						/////////////para
 					 $this->cantidad_update($idproducto);
 					}
-
-
-
-
 					$arreglo =array();
 					$arreglo+=array('id'=>$idventa);
 					$arreglo+=array('error'=>0);

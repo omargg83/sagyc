@@ -51,21 +51,21 @@
 				<div class='row'>
 					<div class="col-12">
 						<label>Razon social:</label>
-							<input type="text" class="form-control" name="razon_social" id="razon_social" value="<?php echo $razon_social;?>" maxlength='100' placeholder="Razon social" >
+							<input type="text" class="form-control form-control-sm" name="razon_social" id="razon_social" value="<?php echo $razon_social;?>" maxlength='100' placeholder="Razon social" >
 					</div>
 					<div class="col-12">
 						<label>Uso cfdi</label>
-						<input type="text" class="form-control" id="cfdi" name='cfdi' placeholder="Uso cfdi" value="<?php echo $cfdi; ?>" maxlength='200'>
+						<input type="text" class="form-control form-control-sm" id="cfdi" name='cfdi' placeholder="Uso cfdi" value="<?php echo $cfdi; ?>" maxlength='200'>
 					</div>
 
 					<div class="col-4">
 						<label>RFC:</label>
-							<input type="text" class="form-control" name="rfc" id="rfc" value="<?php echo $rfc;?>" placeholder="RFC" maxlength='13'>
+							<input type="text" class="form-control form-control-sm" name="rfc" id="rfc" value="<?php echo $rfc;?>" placeholder="RFC" maxlength='13'>
 					</div>
 
 					<div class="col-8">
 						<label>Nombre:</label>
-							<input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required maxlength='200'>
+							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required maxlength='200'>
 					</div>
 				</div>
 				<hr>
@@ -73,44 +73,47 @@
 				<div class='row'>
 					<div class="col-12">
 						<label>Dirección</label>
-						<input type="text" class="form-control" id="direccion" name='direccion' placeholder="Dirección" value="<?php echo $direccion;?>" maxlength='200'>
+						<input type="text" class="form-control form-control-sm" id="direccion" name='direccion' placeholder="Dirección" value="<?php echo $direccion;?>" maxlength='200'>
 					</div>
 					<div class="col-4">
 						<label>Entre calles</label>
-						<input type="text" class="form-control" id="entrecalles" name='entrecalles' placeholder="Entre calles" value="<?php echo $entrecalles;?>" maxlength='200'>
+						<input type="text" class="form-control form-control-sm" id="entrecalles" name='entrecalles' placeholder="Entre calles" value="<?php echo $entrecalles;?>" maxlength='200'>
 					</div>
 					<div class="col-4">
 						<label>No. exterior</label>
-						<input type="text" class="form-control" id="numero" name='numero' placeholder="No. exterior" value="<?php echo $numero;?>" maxlength='20'>
+						<input type="text" class="form-control form-control-sm" id="numero" name='numero' placeholder="No. exterior" value="<?php echo $numero;?>" maxlength='20'>
 					</div>
 					<div class="col-4">
 						<label>Colonia</label>
-						<input type="text" class="form-control" id="colonia" name='colonia' placeholder="Colonia" value="<?php echo $colonia;?>" maxlength='150'>
+						<input type="text" class="form-control form-control-sm" id="colonia" name='colonia' placeholder="Colonia" value="<?php echo $colonia;?>" maxlength='150'>
 					</div>
 					<div class="col-4">
 						<label>Ciudad</label>
-						<input type="text" class="form-control" id="ciudad" name='ciudad' placeholder="Ciudad" value="<?php echo $ciudad;?>" maxlength='150' >
+						<input type="text" class="form-control form-control-sm" id="ciudad" name='ciudad' placeholder="Ciudad" value="<?php echo $ciudad;?>" maxlength='150' >
 					</div>
 					<div class="col-4">
 						<label>Código postal</label>
-						<input type="text" class="form-control" id="cp" name='cp' placeholder="Código postal" value="<?php echo $cp;?>" maxlength='5' >
+						<input type="text" class="form-control form-control-sm" id="cp" name='cp' placeholder="Código postal" value="<?php echo $cp;?>" maxlength='5' >
 					</div>
 					<div class="col-4">
 						<label>País</label>
-						<input type="text" class="form-control" id="pais" name='pais' placeholder="País" value="<?php echo $pais;?>" maxlength='100'>
+						<input type="text" class="form-control form-control-sm" id="pais" name='pais' placeholder="País" value="<?php echo $pais;?>" maxlength='100'>
 					</div>
 					<div class="col-4">
 						<label>Estado</label>
-						<input type="text" class="form-control" id="estado" name='estado' placeholder="Estado" value="<?php echo $estado;?>" maxlength='100'>
+						<input type="text" class="form-control form-control-sm" id="estado" name='estado' placeholder="Estado" value="<?php echo $estado;?>" maxlength='100'>
 					</div>
-
 					<div class="col-3">
 						<label>Correo:</label>
-							<input type="text" class="form-control" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" >
+							<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" maxlength='45'>
+					</div>
+					<div class="col-3">
+						<label>Telefono:</label>
+							<input type="text" class="form-control form-control-sm" name="telefono" id="telefono" value="<?php echo $telefono;?>" placeholder="Telefono" maxlength='45'>
 					</div>
 					<div class="col-12">
 						<label>Observaciones:</label>
-							<textarea type="text" class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones" rows='5'><?php echo $observaciones;?></textarea>
+							<textarea type="text" class="form-control form-control-sm" name="observaciones" id="observaciones" placeholder="Observaciones" rows='5'><?php echo $observaciones;?></textarea>
 					</div>
 				</div>
 			</div>

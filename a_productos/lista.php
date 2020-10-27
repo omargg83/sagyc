@@ -53,7 +53,7 @@
 						echo "<td>";
 							echo $key->cantidad;
 						echo "</td>";
-						
+
 						echo "<td >".moneda($key->preciocompra)."</td>";
 						echo "<td >".moneda($key->precio)."</td>";
 						echo '</tr>';

@@ -1,6 +1,8 @@
-<?php @session_start();
+<?php
+	session_name("admin");
+	@session_start();
 
-	require_once("../init.php");
+	require_once("../../init.php");
 	class ipsi{
 		public $nivel_personal;
 		public $nivel_captura;
@@ -23,7 +25,7 @@
 				$userPOST = htmlspecialchars($_REQUEST["userAcceso"]);
 				$passPOST = md5($_REQUEST["passAcceso"]);
 
-				$sql="SELECT * FROM usuarios where user=:user and pass=:pass and activo=1";
+				$sql="SELECT * FROM administracion where usuario=:user and password=:pass and activo=1";
 				$sth = $this->dbh->prepare($sql);
 				$sth->bindValue(":user",$userPOST);
 				$sth->bindValue(":pass",$passPOST);
@@ -31,32 +33,16 @@
 				$CLAVE=$sth->fetch();
 
 				if(is_array($CLAVE)){
-					if($userPOST == $CLAVE['user'] and strtoupper($passPOST)==strtoupper($CLAVE['pass'])){
+					if($userPOST == $CLAVE['usuario'] and strtoupper($passPOST)==strtoupper($CLAVE['password'])){
 						$_SESSION['autoriza']=1;
-						$_SESSION['nombre']=$CLAVE['nombre'];
-						$_SESSION['idfondo']=$CLAVE['idfondo'];
-						$_SESSION['nick']=$CLAVE['user'];
-						$_SESSION['idpersona']=$CLAVE['idusuario'];
-						$_SESSION['foto']=$CLAVE['file_foto'];
-						$_SESSION['idtienda']=$CLAVE['idtienda'];
-						$_SESSION['idsucursal']=$CLAVE['idsucursal'];
-						$_SESSION['nivel']=$CLAVE['nivel'];
-
-						$fecha=date("Y-m-d");
-						list($anyo,$mes,$dia) = explode("-",$fecha);
-						$_SESSION['n_sistema']="J&D";
-
+						$_SESSION['idfondo']="";
+						$_SESSION['idadmin']=$CLAVE['idadmin'];
 						$_SESSION['cfondo']="white";
-						$_SESSION['hasta']=2019;
-						$_SESSION['foco']=mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"));
-						$_SESSION['cfondo']="white";
-
 						$arr=array();
 						$arr=array('acceso'=>1);
 						return json_encode($arr);
 					}
 				}
-
 				$arr=array();
 				$arr=array('acceso'=>0);
 				return json_encode($arr);

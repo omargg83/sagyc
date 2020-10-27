@@ -8,7 +8,7 @@
 	else{
 		$pd = $db->provedores_lista();
 	}
-	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
+	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
 	<table class='table table-sm' style='font-size:10pt;'>
 	<thead>
