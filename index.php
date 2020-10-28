@@ -78,6 +78,7 @@
 					<hr>
 	        <a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>
 	        <a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>
+	        <a href='#a_traspasos/index' is='menu-link' title='Traspasos'><i class='fas fa-arrows-alt-h'></i><span>Traspasos</span></a>
 	        <hr>
 	        <a href='#a_datosemp/index' is='menu-link' title='Datosemp'><i class="fas fa-wrench"></i><span>Datos Emp.</span></a>
 	        <a href='#a_sucursal/index' is='menu-link' title='Sucursal'><i class='fas fa-store-alt'></i><span>Sucursal</span></a>
