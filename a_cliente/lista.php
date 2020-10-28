@@ -49,6 +49,4 @@
 			}
 		?>
 	</div>
-	</tbody>
-	</table>
 </div>

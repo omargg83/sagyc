@@ -26,7 +26,18 @@ class Compras extends Sagyc{
 	}
 	public function compras_lista(){
 		try{
-			$sql="SELECT * FROM compras where idtienda='".$_SESSION['idtienda']."'";
+			$sql="SELECT * FROM compras where idtienda='".$_SESSION['idtienda']."' order by numero desc";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function compras_buscar($texto){
+		try{
+			$sql="SELECT * FROM compras where compras.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -125,6 +136,12 @@ class Compras extends Sagyc{
 		$idbodega=$_REQUEST['idbodega'];
 		$x=$this->borrar('bodega',"idbodega",$idbodega);
 		return $x;
+	}
+	public function finalizar_compra(){
+		$idcompra=$_REQUEST['idcompra'];
+		$arreglo =array();
+		$arreglo+=array('estado'=>"Cerrada");
+		return $this->update('compras',array('idcompra'=>$idcompra), $arreglo);
 	}
 }
 

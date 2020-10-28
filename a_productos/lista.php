@@ -1,6 +1,13 @@
 <?php
 	require_once("db_.php");
 
+	if(isset($_REQUEST['idsucursal'])){
+		$idsucursal=$_REQUEST['idsucursal'];
+	}
+	else{
+		$idsucursal=$_SESSION['idsucursal'];
+	}
+
 	if(isset($_REQUEST['buscar'])){
 		$texto=$_REQUEST['buscar'];
 		$pd = $db->producto_buscar($texto);
@@ -8,25 +15,51 @@
 	else{
 		$pd = $db->productos_lista();
 	}
+	$sucursal=$db->sucursal();
+	echo "<hr>";
+	
+	echo "<div class='card'>";
+		echo "<form is='f-submit' id='form_editar' des='a_productos/lista' dix='trabajo'>";
+		echo "<div class='row'>";
+			echo "<div class='col-2'>";
+				echo "<label><b>Sucursal</b></label>";
+			echo "</div>";
+			echo "<div class='col-2'>";
+				echo "<select class='form-control form-control-sm' id='idsucursal' name='idsucursal'>";
+				foreach($sucursal as $row){
+					echo "<option value='$row->idsucursal'" ; if($idsucursal==$row->idsucursal){ echo " selected"; }echo ">$row->nombre</option>";
+				}
+				echo "</select>";
+			echo "</div>";
+			echo "<div class='col-2'>";
+			echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
+			echo "</div>";
+		echo "</div>";
+		echo "</form>";
+	echo "</div>";
+	echo "<hr>";
 
 	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
-			<table class='table table-sm' style='font-size:10pt;'>
-				<thead>
-					<th>Editar</th>
-					<th>Tipo</th>
-					<th>Busqueda rápida</th>
-					<th>Nombre</th>
-					<th>Global</th>
-					<th>Precio compra</th>
-					<th>Precio venta</th>
-			</thead>
-			<tbody>
-			<?php
 
-					foreach($pd as $key){
-						echo "<tr>";
-						echo "<td>";
+<div class='tabla_css' id='tabla_css'>
+	<div class='row titulo-row'>
+		<div class='col-12'>
+			LISTA DE CLIENTES
+		</div>
+	</div>
+	<div class='row header-row'>
+		<div class='col-2'>#</div>
+		<div class='col-2'>Tipo</div>
+		<div class='col-5'>Nombre</div>
+		<div class='col-1'>Global</div>
+		<div class='col-2'>Precio compra</div>
+	</div>
+
+		<?php
+			foreach($pd as $key){
+				echo "<div class='row body-row' draggable='true'>";
+					echo "<div class='col-2'>";
 						echo "<div class='btn-group'>";
 
 						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_productos/editar' dix='trabajo' v_idproducto='$key->idproducto'><i class='fas fa-pencil-alt'></i></button>";
@@ -36,30 +69,26 @@
 						echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_productos/db_' des='a_productos/lista' fun='borrar_producto' dix='trabajo' v_idproducto='$key->idproducto' id='eliminar' tp='¿Desea eliminar el Producto seleccionado?'><i class='far fa-trash-alt'></i></button>";
 
 						echo "</div>";
-						echo "</td>";
+					echo "</div>";
 
-						echo "<td>";
-							if($key->tipo==0) echo "Registro";
-							if($key->tipo==1) echo "Pago de linea";
-							if($key->tipo==2) echo "Reparación";
-							if($key->tipo==3) echo "Volúmen";
-							if($key->tipo==4) echo "Unico";
-						echo "</td>";
+					echo "<div class='col-2'>";
+						if($key->tipo==0) echo "Registro";
+						if($key->tipo==3) echo "Volúmen";
+					echo "</div>";
 
+					echo "<div class='col-5'>".$key->nombre."</div>";
 
-						echo "<td>".$key->rapido."</td>";
-						echo "<td>".$key->nombre."</td>";
+					echo "<div class='col-1 text-center'>";
+						$sql="select sum(cantidad) as total from bodega where idsucursal='$idsucursal' and idproducto='$key->idproducto'";
+						$sth = $db->dbh->prepare($sql);
+						$sth->execute();
+						$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+						echo $cantidad->total;
+					echo "</div>";
 
-						echo "<td>";
-							echo $key->cantidad;
-						echo "</td>";
+					echo "<div class='col-2 text-right' >".moneda($key->precio)."</div>";
+				echo '</div>';
+			}
+		?>
 
-						echo "<td >".moneda($key->preciocompra)."</td>";
-						echo "<td >".moneda($key->precio)."</td>";
-						echo '</tr>';
-					}
-
-			?>
-			</tbody>
-			</table>
 	</div>

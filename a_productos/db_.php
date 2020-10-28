@@ -29,14 +29,14 @@ class Productos extends Sagyc{
 
 	}
 	public function producto_buscar($texto){
-		$sql="select * from productos where productos.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."'";
+		$sql="select * from productos where productos.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."' limit 50";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
 	public function productos_lista(){
 		try{
-			$sql="SELECT * from productos where activo=1 and idventa is null order by tipo asc, idproducto asc limit 100";
+			$sql="SELECT * from productos where activo=1 and idventa is null order by tipo asc, idproducto asc limit 50";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -244,9 +244,8 @@ class Productos extends Sagyc{
 	}
 	public function productos_inventario($id){
 		try{
-			$sql="select * from bodega where idproducto=:id and idsucursal='".$_SESSION['idsucursal']."' order by id desc";
+			$sql="select * from bodega where idproducto=$id and idsucursal='".$_SESSION['idsucursal']."' order by idbodega desc";
 			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(':id', "$id");
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -272,7 +271,17 @@ class Productos extends Sagyc{
 		$arreglo+=array('terror'=>0);
 		return json_encode($arreglo);
 	}
-
+	public function sucursal(){
+		try{
+			$sql="SELECT * FROM sucursal where idtienda='".$_SESSION['idtienda']."'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
 
 }
 $db = new Productos();

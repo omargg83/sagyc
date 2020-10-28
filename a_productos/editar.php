@@ -15,7 +15,6 @@
 	$color="";
 	$material="";
 	$cantidad="";
-	$imei="";
 	$preciocompra="";
 	$idproductoventa="";
 
@@ -33,7 +32,6 @@
 		$color=$per->color;
 		$material=$per->material;
 		$cantidad=$per->cantidad;
-		$imei=$per->imei;
 		$precio=$per->precio;
 		$preciocompra=$per->preciocompra;
 		$idproductoventa=$per->idventa;
@@ -65,20 +63,10 @@
 							</div>
 							<hr>
 							<div class='row'>
-							<!-- 	<div class="col-3">
-								 <label>Codigo Barras</label>
-								 <input type="text" class="form-control form-control-sm" id="codigo" name='codigo' placeholder="Codigo" value="<?php echo $codigo; ?>" readonly>
-								</div>-->
 								<div class="col-2">
 								 <label>Busqueda rapida</label>
 								 <input type="text" class="form-control form-control-sm" id="rapido" name='rapido' placeholder="rapido" value="<?php echo $rapido; ?>" maxlength=4>
 								</div>
-							<!-- 	<div class="col-2">
-								 <label>Unidad</label>
-								 <select class='form-control form-control-sm' name='unidad' id='unidad'>
-								 	<option value='pieza'  <?php if($unidad=="pieza"){ echo "selected ";} ?> >Pieza</option>
-								 </select>
-								</div> -->
 								<div class="col-5">
 								 <label>Nombre</label>
 								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" required>
@@ -90,17 +78,22 @@
 							</div>
 							<div class='row'>
 								<div class="col-3">
+									<?php
+									$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
+									$sth = $db->dbh->prepare($sql);
+									$sth->execute();
+									$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+									?>
+								 <label>Existencias</label>
+								 <input type="text" class="form-control form-control-sm" id="tmp_ex" name='tmp_ex' placeholder="Existencias" value="<?php echo $cantidad->total; ?>" readonly>
+								</div>
+								<div class="col-3">
 								 <label>Precio compra</label>
 								 <input type="text" class="form-control form-control-sm" id="preciocompra" name='preciocompra' placeholder="Precio" value="<?php echo $preciocompra; ?>">
 								</div>
 								<div class="col-3">
 								 <label>Precio Venta</label>
 								 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>" required>
-								</div>
-
-								<div class="col-3">
-								 <label>Existencia</label>
-								 <input type="text" readonly class="form-control form-control-sm" id="cantidad" name='cantidad' placeholder="Cantidad" value="<?php echo $cantidad; ?>">
 								</div>
 
 								<div class="col-3">
@@ -135,60 +128,47 @@
 
 
 						<?php
-						//if($idproducto>0){
+							$row=$db->productos_inventario($idproducto);
+							echo "<table class='table table-sm' style='font-size:12px'>";
+							echo "<tr>
+							<th>-</th>
+							<th>Fecha</th>
+							<th>Nota de compra</th>
+							<th># Venta</th>
+							<th>Cantidad</th>
+							<th>Precio</th>
+							</tr>";
+							$total=0;
+							foreach($row as $key){
+								echo "<tr id='".$key->idbodega."' class='edit-t'>";
+									echo "<td>";
+										echo "<div class='btn-group'>";
+										if(!$key->idventa){
 
-								$row=$db->productos_inventario($idproducto);
-								echo "<table class='table table-sm' style='font-size:12px'>";
-								echo "<tr><th>-</th><th>Fecha</th><th>Cantidad</th><th>Nota de compra</th>
-								<th># Venta</th>
-								<th>Observaciones</th>
-								<th>Cantidad</th>
-								<th>Precio</th>
-								<th>Total</th>
-								</tr>";
-								$total=0;
-								foreach($row as $key){
-									echo "<tr id='".$key->id."' class='edit-t'>";
-										echo "<td>";
-											echo "<div class='btn-group'>";
-											if(!$key->idventa){
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/editar' desid='idbodega' dix='trabajo' db='a_productos/db_'  fun='borrar_ingreso' v_id='$key->idbodega' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+										}
+										echo "</div>";
+									echo "</td>";
+									echo "<td>";
+										echo fecha($key->fecha);
+									echo "</td>";
+									echo "<td>";
+										echo $key->idcompra;
+									echo "</td>";
+									echo "<td>";
+										echo $key->idventa;
+									echo "</td>";
+									echo "<td>";
+										echo $key->cantidad;
+									echo "</td>";
+									echo "<td>";
+										echo moneda($key->c_precio);
+									echo "</td>";
 
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/editar' desid='id' dix='trabajo' db='a_productos/db_'  fun='borrar_ingreso' v_id='$key->id' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-
-
-											}
-											echo "</div>";
-										echo "</td>";
-										echo "<td>";
-											echo fecha($key->fecha);
-										echo "</td>";
-										echo "<td>";
-											echo $key->cantidad;
-										echo "</td>";
-										echo "<td>";
-											echo $key->nota;
-										echo "</td>";
-										echo "<td>";
-											echo $key->idventa;
-										echo "</td>";
-										echo "<td>";
-											echo $key->observaciones;
-										echo "</td>";
-										echo "<td>";
-											echo $key->v_cantidad;
-										echo "</td>";
-										echo "<td>";
-											echo moneda($key->v_precio);
-										echo "</td>";
-										echo "<td>";
-											echo moneda($key->v_total);
-										echo "</td>";
-									echo "</tr>";
-								}
-								echo "</table>";
-							//}
-						 ?>
-
+								echo "</tr>";
+							}
+							echo "</table>";
+						?>
 				</div>
 			</div>
 		</div>

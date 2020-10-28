@@ -10,42 +10,39 @@
 	}
 
 	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
-	echo "<hr>";
 ?>
+<div class='tabla_css' id='tabla_css'>
+	<div class='row titulo-row'>
+		<div class='col-12'>
+			LISTA DE VENTAS
+		</div>
+	</div>
+	<div class='row header-row'>
+		<div class='col-2'>#</div>
+		<div class='col-2'>Numero</div>
+		<div class='col-2'>Fecha</div>
+		<div class='col-2'>Cliente</div>
+		<div class='col-2'>Total</div>
+		<div class='col-2'>Estado</div>
+	</div>
 
-<div class="content table-responsive table-full-width">
-		<table id='x_venta' class='table table-sm' style='font-size:10pt;'>
-		<thead>
-		<tr>
-		<th>-</th>
-		<th>Numero</th>
-		<th>Fecha</th>
-		<th>Cliente</th>
-
-		<th>Tienda</th>
-		<th>Total</th>
-		<th>Estado</th>
-		</tr>
-		</thead>
-		<tbody>
 		<?php
 			foreach($pd as $key){
 		?>
-					<tr>
-						<td>
+					<div class='row body-row' draggable='true'>
+						<div class='col-2'>
 							<div class="btn-group">
 								<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_ventas/editar' dix='trabajo'  v_idventa='<?php echo $key->idventa; ?> ' ><i class="fas fa-pencil-alt"></i></button>
 							</div>
-						</td>
-						<td  ><?php echo $key->idventa; ?></td>
-						<td><?php echo fecha($key->fecha); ?></td>
-						<td><?php echo $key->nombre; ?></td>
+						</div>
+						<div class='col-2'><?php echo $key->idventa; ?></div>
+						<div class='col-2'><?php echo fecha($key->fecha); ?></div>
+						<div class='col-2'><?php echo $key->nombre; ?></div>
 
-						<td><?php echo $key->tienda; ?></td>
-						<td align="center">$ <?php echo number_format($key->gtotal,2); ?></td>
-						<td><?php echo $key->estado; ?></td>
+						<div class='col-2' align="center">$ <?php echo number_format($key->gtotal,2); ?></div>
+						<div class='col-2'><?php echo $key->estado; ?></div>
 
-					</tr>
+					</div>
 		<?php
 			}
 		?>
