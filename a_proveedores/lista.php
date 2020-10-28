@@ -10,34 +10,39 @@
 	}
 	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
-	<table class='table table-sm' style='font-size:10pt;'>
-	<thead>
-	<th>#</th>
-	<th>Nombre</th>
-	<th>Email</th>
-	<th>Telefonos</th>
-	</thead>
-	<tbody>
+
+
+<div class='tabla_css' id='tabla_css'>
+	<div class='row titulo-row'>
+		<div class='col-12'>
+			LISTA DE PROVEEDORES
+		</div>
+	</div>
+	<div class='row header-row'>
+		<div class='col-2'>#</div>
+		<div class='col-2'>NOMBRE</div>
+		<div class='col-2'>EMAIL</div>
+		<div class='col-2'>TELEFONO</div>
+	</div>
+
 		<?php
 			foreach($pd as $key){
-				echo "<tr>";
-					echo "<td>";
-					echo "<div class='btn-group'>";
+				echo "<div class='row body-row' draggable='true'>";
+					echo "<div class='col-2'>";
+						echo "<div class='btn-group'>";
 
-					echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_proveedores/editar' dix='trabajo' v_idproveedor='$key->idproveedor'><i class='fas fa-pencil-alt'></i></button>";
+						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_proveedores/editar' dix='trabajo' v_idproveedor='$key->idproveedor'><i class='fas fa-pencil-alt'></i></button>";
 
-					echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_proveedores/db_' des='a_proveedores/lista' fun='borrar_cliente' dix='trabajo' v_idproveedor='$key->idproveedor' id='eliminar' tp='¿Desea eliminar el proveedor seleccionado?'><i class='far fa-trash-alt'></i></button>";
+						echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_proveedores/db_' des='a_proveedores/lista' fun='borrar_cliente' dix='trabajo' v_idproveedor='$key->idproveedor' id='eliminar' tp='¿Desea eliminar el proveedor seleccionado?'><i class='far fa-trash-alt'></i></button>";
 
+						echo "</div>";
 					echo "</div>";
-					echo "</td>";
 
-					echo "<td>".$key->nombre."</td>";
-					echo "<td>".$key->emailp."</td>";
-					echo "<td>".$key->telp."</td>";
-				echo "</tr>";
+					echo "<div class='col-2'>".$key->nombre."</div>";
+					echo "<div class='col-2'>".$key->emailp."</div>";
+					echo "<div class='col-2'>".$key->telp."</div>";
+				echo "</div>";
 			}
 		?>
 	</div>
-	</tbody>
-	</table>
 </div>

@@ -8,8 +8,6 @@ else{
 }
 
 $clientes = $db->clientes_lista();
-//$tiendas = $db->tiendas_lista();
-//$descuento = $db->descuento_lista();
 $llave=date("YmdHis").rand(1,1983);
 
 if($idventa==0){
@@ -37,6 +35,7 @@ else{
 	$dentrega=$pd['dentrega'];
 	$estado=$pd['estado'];
 	$fecha=$pd['fecha'];
+	$numero=$pd['numero'];
 
 	$cliente=$db->cliente($idcliente);
 	$nombre_cli=$cliente->profesion." ".$cliente->nombre." ".$cliente->apellidop." ".$cliente->apellidom;
@@ -54,7 +53,7 @@ else{
 				<div class='row'>
 					<div class='col-2'>
 						<label >Numero:</label>
-						<input type="text" class="form-control form-control-sm" name="$idventa" id="$idventa" value="<?php echo $idventa ;?>" placeholder="Numero de compra" required readonly>
+						<input type="text" class="form-control form-control-sm" name="numero" id="numero" value="<?php echo $numero ;?>" placeholder="Numero de compra" required readonly>
 					</div>
 					<div class='col-3'>
 						<label>Fecha:</label>

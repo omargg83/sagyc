@@ -31,19 +31,19 @@ class Venta extends Sagyc{
 
 	public function ventas_lista(){
 
-			$sql="select et_venta.idventa, et_venta.idtienda, et_venta.iddescuento, et_venta.factura, clientes.nombre, et_tienda.nombre as tienda, et_venta.total, et_venta.fecha, et_venta.gtotal, et_venta.estado, et_descuento.nombre as descuento from et_venta
-			left outer join clientes on clientes.idcliente=et_venta.idcliente
-			left outer join et_descuento on et_descuento.iddescuento=et_venta.iddescuento
-			left outer join et_tienda on et_tienda.id=et_venta.idtienda where et_venta.idtienda='".$_SESSION['idtienda']."' and et_venta.estado='Activa' order by et_venta.fecha desc";
+			$sql="select venta.idventa, venta.idtienda, venta.iddescuento, venta.factura, clientes.nombre, et_tienda.nombre as tienda, venta.total, venta.fecha, venta.gtotal, venta.estado, et_descuento.nombre as descuento from venta
+			left outer join clientes on clientes.idcliente=venta.idcliente
+			left outer join et_descuento on et_descuento.iddescuento=venta.iddescuento
+			left outer join et_tienda on et_tienda.id=venta.idtienda where venta.idtienda='".$_SESSION['idtienda']."' and venta.estado='Activa' order by venta.fecha desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 	public function ventas_buscar($texto){
-			$sql="select et_venta.idventa, et_venta.idtienda, et_venta.iddescuento, et_venta.factura, clientes.nombre, et_tienda.nombre as tienda, et_venta.total, et_venta.fecha, et_venta.gtotal, et_venta.estado, et_descuento.nombre as descuento from et_venta
-			left outer join clientes on clientes.idcliente=et_venta.idcliente
-			left outer join et_descuento on et_descuento.iddescuento=et_venta.iddescuento
-			left outer join et_tienda on et_tienda.id=et_venta.idtienda where et_venta.idtienda='".$_SESSION['idtienda']."' and (et_venta.idventa like '%$texto%' or clientes.nombre like '%$texto%') order by et_venta.fecha desc limit 100";
+			$sql="select venta.idventa, venta.idtienda, venta.iddescuento, venta.factura, clientes.nombre, et_tienda.nombre as tienda, venta.total, venta.fecha, venta.gtotal, venta.estado, et_descuento.nombre as descuento from venta
+			left outer join clientes on clientes.idcliente=venta.idcliente
+			left outer join et_descuento on et_descuento.iddescuento=venta.iddescuento
+			left outer join et_tienda on et_tienda.id=venta.idtienda where venta.idtienda='".$_SESSION['idtienda']."' and (venta.idventa like '%$texto%' or clientes.nombre like '%$texto%') order by venta.fecha desc limit 100";
 
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
@@ -73,12 +73,12 @@ class Venta extends Sagyc{
 				$arreglo+=array('fecha'=>$date);
 				$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
-				$x=$this->insert('et_venta', $arreglo);
+				$x=$this->insert('venta', $arreglo);
 			}
 			else{
 				$arreglo=array();
 				$arreglo+=array('idcliente'=>$idcliente);
-				$x=$this->update('et_venta',array('idventa'=>$idventa), $arreglo);
+				$x=$this->update('venta',array('idventa'=>$idventa), $arreglo);
 			}
 			return $x;
 		}
@@ -91,7 +91,7 @@ class Venta extends Sagyc{
 
 		$this->total_venta($id);
 
-		$sql="select * from et_venta where idventa='$id'";
+		$sql="select * from venta where idventa='$id'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetch();
@@ -253,7 +253,7 @@ class Venta extends Sagyc{
 				$arreglo+=array('fecha'=>$date);
 				$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
-				$x=$this->insert('et_venta', $arreglo);
+				$x=$this->insert('venta', $arreglo);
 				$ped=json_decode($x);
 				if($ped->error==0){
 					$idventa=$ped->id;
@@ -421,10 +421,10 @@ class Venta extends Sagyc{
 
 		$texto=trim($texto);
 		if(strlen($texto)>0){
-			$sql="select et_venta.idventa, et_venta.idtienda, et_venta.iddescuento, et_venta.factura, clientes.nombre, et_tienda.nombre, et_venta.total, et_venta.fecha, et_venta.gtotal, et_venta.estado, et_descuento.nombre as descuento from et_venta
-			left outer join clientes on clientes.idcliente=et_venta.idcliente
-			left outer join et_descuento on et_descuento.iddescuento=et_venta.iddescuento
-			left outer join et_tienda on et_tienda.id=et_venta.idtienda where et_venta.idtienda='".$_SESSION['idtienda']."' and (et_venta.idventa like '%$texto%' or clientes.nombre like '%$texto%' or et_venta.estado like '%$texto%' or et_venta.total like '%$texto%') order by et_venta.fecha desc";
+			$sql="select venta.idventa, venta.idtienda, venta.iddescuento, venta.factura, clientes.nombre, et_tienda.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado, et_descuento.nombre as descuento from venta
+			left outer join clientes on clientes.idcliente=venta.idcliente
+			left outer join et_descuento on et_descuento.iddescuento=venta.iddescuento
+			left outer join et_tienda on et_tienda.id=venta.idtienda where venta.idtienda='".$_SESSION['idtienda']."' and (venta.idventa like '%$texto%' or clientes.nombre like '%$texto%' or venta.estado like '%$texto%' or venta.total like '%$texto%') order by venta.fecha desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll();
@@ -484,16 +484,16 @@ class Venta extends Sagyc{
 			$arreglo+=array('fecha'=>$date);
 			$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
-			$this->insert('et_venta', $arreglo);
+			$this->insert('venta', $arreglo);
 
-			$sql="select * from et_venta where llave='$llave' and idusuario='".$_SESSION['idpersona']."'";
+			$sql="select * from venta where llave='$llave' and idusuario='".$_SESSION['idpersona']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			$res=$sth->fetch();
 			return $res['idventa'];
 		}
 		else{
-			$x.=$this->update('et_venta',array('idventa'=>$id), $arreglo);
+			$x.=$this->update('venta',array('idventa'=>$id), $arreglo);
 			{
 				$sql="select sum(gtotalv) as gtotal from et_bodega where idventa=:texto";
 				$sth = $this->dbh->prepare($sql);
@@ -506,7 +506,7 @@ class Venta extends Sagyc{
 				$iva=$gtotal-$subtotal;
 
 				$values = array('subtotal'=>$subtotal, 'iva'=>$iva, 'total'=>$gtotal, 'gtotal'=>$gtotal );
-				$this->update('et_venta',array('idventa'=>$id), $values);
+				$this->update('venta',array('idventa'=>$id), $values);
 			}
 		}
 		return $x;
@@ -517,7 +517,7 @@ class Venta extends Sagyc{
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
 		$arreglo =array();
 		$arreglo+=array('imprimir'=>1);
-		return $this->update('et_venta',array('idventa'=>$id), $arreglo);
+		return $this->update('venta',array('idventa'=>$id), $arreglo);
 	}
 	public function finalizar_venta(){
 
@@ -532,7 +532,7 @@ class Venta extends Sagyc{
 				$arreglo =array();
 				$arreglo+=array('tipo_pago'=>$tipo_pago);
 				$arreglo+=array('estado'=>"Pagada");
-				return $this->update('et_venta',array('idventa'=>$idventa), $arreglo);
+				return $this->update('venta',array('idventa'=>$idventa), $arreglo);
 			}
 			else{
 				return "favor de verificar";
@@ -555,15 +555,15 @@ class Venta extends Sagyc{
 			$desde = date("Y-m-d", strtotime($desde))." 00:00:00";
 			$hasta = date("Y-m-d", strtotime($hasta))." 23:59:59";
 
-			$sql="SELECT et_venta.idventa, et_venta.idtienda,	et_venta.iddescuento,	et_venta.factura, clientes.nombre, et_tienda.nombre, et_venta.total, et_venta.fecha, et_venta.gtotal, et_venta.estado,			bodega.v_cantidad, bodega.v_precio,	bodega.v_total,	bodega.nombre, bodega.observaciones, bodega.cliente, usuarios.nombre as vendedor FROM	bodega
-				LEFT OUTER JOIN et_venta ON et_venta.idventa = bodega.idventa
-				LEFT OUTER JOIN usuarios ON usuarios.idusuario = et_venta.idusuario
+			$sql="SELECT venta.idventa, venta.idtienda,	venta.iddescuento,	venta.factura, clientes.nombre, et_tienda.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado,			bodega.v_cantidad, bodega.v_precio,	bodega.v_total,	bodega.nombre, bodega.observaciones, bodega.cliente, usuarios.nombre as vendedor FROM	bodega
+				LEFT OUTER JOIN venta ON venta.idventa = bodega.idventa
+				LEFT OUTER JOIN usuarios ON usuarios.idusuario = venta.idusuario
 				left outer join productos on productos.id=bodega.idproducto
-				LEFT OUTER JOIN clientes ON clientes.idcliente = et_venta.idcliente
-				LEFT OUTER JOIN et_tienda ON et_tienda.id = et_venta.idtienda
-				where bodega.idventa and (et_venta.fecha BETWEEN :fecha1 AND :fecha2)";
+				LEFT OUTER JOIN clientes ON clientes.idcliente = venta.idcliente
+				LEFT OUTER JOIN et_tienda ON et_tienda.id = venta.idtienda
+				where bodega.idventa and (venta.fecha BETWEEN :fecha1 AND :fecha2)";
 				if(strlen($idusuario)>0){
-					$sql.=" and et_venta.idusuario=:idusuario";
+					$sql.=" and venta.idusuario=:idusuario";
 				}
 				$sql.=" order by idventa desc";
 			$sth = $this->dbh->prepare($sql);
