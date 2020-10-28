@@ -186,3 +186,28 @@ function fijar(){
     document.getElementById("contenido").classList.add('main');
   }
 }
+
+
+class Formselecciona extends HTMLFormElement {
+  connectedCallback() {
+   this.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let id=e.currentTarget.attributes.id.nodeValue;
+      let elemento = document.getElementById(id);
+
+      var formData = new FormData(elemento);
+      formData.append("function", "agregaventa");
+
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST',"a_venta/db_.php");
+      xhr.addEventListener('load',(data)=>{
+        console.log(data.target.response);
+      });
+      xhr.onerror =  ()=>{
+        console.log("error");
+      };
+      xhr.send(formData);
+   })
+  }
+}
+customElements.define("is-selecciona", Formselecciona, { extends: "form" });

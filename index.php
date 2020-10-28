@@ -65,7 +65,7 @@
 	      <div class='sidebar sidenav' id='navx'>
 	        <a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
 
-					<a href='#a_ventas/editar' id='venta' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>
+					<a href='#a_venta/venta' id='venta' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>
 					<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>
 					<hr>
 

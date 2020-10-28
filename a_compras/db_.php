@@ -98,8 +98,13 @@ class Compras extends Sagyc{
 			$sql = "SELECT MAX(numero) + 1 FROM compras where idtienda='".$_SESSION['idtienda']."'";
 			$statement = $this->dbh->prepare($sql);
 			$statement->execute();
-			$arreglo+=array('numero'=>$statement->fetchColumn());
-
+			if($statement->fetchColumn()>0){
+				$numero=$statement->fetchColumn();
+			}
+			else{
+				$numero=1;
+			}
+			$arreglo+=array('numero'=>$numero);
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$arreglo+=array('estado'=>"Activa");
 			$x=$this->insert('compras', $arreglo);
