@@ -44,7 +44,7 @@
 
 	    </ul>
       <ul class='nav navbar-nav navbar-right text-white' id='precios'>
-				<button class="btn btn-warning" type="button" is="b-link" des="a_precios/index" omodal='1'>Precio</button>
+				<button class="btn btn-warning" type="button" is="b-link" des="a_precios/index" omodal='1'><i class="fas fa-check-circle"></i>Checador de Precios</button>
 			</ul>
       <ul class='nav navbar-nav navbar-right text-white' id='fondo'></ul>
       <ul class='nav navbar-nav navbar-right'>
@@ -70,7 +70,7 @@
 					<hr>
 
 					<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>
-					<a href='#a_categorias/index' is='menu-link' title='Categorias'><i class="fab fa-cuttlefish"></i></i><span>Categorias</span></a> 
+					<a href='#a_categorias/index' is='menu-link' title='Categorias'><i class="fab fa-cuttlefish"></i></i><span>Categorias</span></a>
 					<hr>
 
 					<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>
