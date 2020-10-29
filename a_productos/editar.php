@@ -5,12 +5,12 @@
 	$codigo="";
 	$nombre="";
 	$unidad="";
-	$precio="";
+	$precio=0;
 
-	$preciom="";
-	$stockmin="";
-	$stockmax="";
-	$categoria="";
+	$preciom=0;
+	$stockmin=0;
+	$stockmax=0;
+	$categoria=0;
 
 	$marca="";
 	$modelo="";
@@ -24,7 +24,7 @@
 	$preciocompra="";
 	$idproductoventa="";
 
-	$categorias=$db->categorias();
+	$cate=$db->categoria();
 	if($idproducto>0){
 		$per = $db->producto_editar($idproducto);
 		$codigo=$per->codigo;
@@ -88,10 +88,11 @@
 
 							<div class='col-3'>
 									<label>categoría</label>
-									<select class='form-control form-control-sm' name='categorias' id='categorias'>
+									<select class='form-control form-control-sm' name='categoria' id='categoria'>
 										<?php
-										foreach($categorias as $row){
-											echo "<option value='$row->idcat'" ; if($categoria==$row->idcat){ echo " selected"; }echo ">$row->nombre</option>";
+										foreach($cate as $key){
+											//echo "<option value='$key->idcat'" ; if($categoria==$key->idcat){ echo " selected"; }echo ">$key->nombre</option>";
+											echo  "<option value='".$key->idcat."' "; if($categoria==$key->idcat){ echo " selected";} echo ">".$key->nombre."</option>";
 										}?>
 									</select>
 								</div>
@@ -116,7 +117,7 @@
 								</div>
 								<div class="col-3">
 								 <label>Precio mayoreo</label>
-								 <input type="text" class="form-control form-control-sm" id="preciom" name='preciom' placeholder="Precio Mayoreo" value="<?php echo $preciom; ?>" required>
+								 <input type="text" class="form-control form-control-sm" id="preciom" name='preciom' placeholder="Precio Mayoreo" value="<?php echo $preciom; ?>" >
 								</div>
 
 								<div class="col-3">

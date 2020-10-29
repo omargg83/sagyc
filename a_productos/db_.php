@@ -117,6 +117,9 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['stockmax'])){
 				$arreglo += array('stockmax'=>$_REQUEST['stockmax']);
 			}
+			if (isset($_REQUEST['categoria'])){
+				$arreglo += array('categoria'=>$_REQUEST['categoria']);
+			}
 			if (isset($_REQUEST['preciocompra']) and strlen($_REQUEST['preciocompra'])>0  ){
 				$arreglo += array('preciocompra'=>$_REQUEST['preciocompra']);
 			}
@@ -292,7 +295,7 @@ class Productos extends Sagyc{
 		}
 	}
 
-	public function categorias(){
+	public function categoria(){
 		try{
 			$sql="SELECT * FROM categorias where idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
