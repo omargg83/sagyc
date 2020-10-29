@@ -117,11 +117,11 @@
 							<div class='row'>
 								<div class="col-2">
 								 <label>Stock Minimo</label>
-								 <input type="text" class="form-control form-control-sm" id="stockmin" name='stockmin' placeholder="Stock Minimo" value="<?php echo $stockmin; ?>" maxlength=8>
+								 <input type="text" class="form-control form-control-sm" id="stockmin" name='stockmin' placeholder="Stock Minimo" value="<?php echo $stockmin; ?>">
 								</div>
 								<div class="col-2">
 								 <label>Stock Maximo</label>
-								 <input type="text" class="form-control form-control-sm" id="stockmax" name='stockmax' placeholder="Stock Maximo" value="<?php echo $stockmax; ?>" required>
+								 <input type="text" class="form-control form-control-sm" id="stockmax" name='stockmax' placeholder="Stock Maximo" value="<?php echo $stockmax; ?>" >
 								</div>
 
 								<div class="col-3">
