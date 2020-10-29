@@ -10,6 +10,7 @@
 	$preciom="";
 	$stockmin="";
 	$stockmax="";
+	$categoria="";
 
 	$marca="";
 	$modelo="";
@@ -23,6 +24,7 @@
 	$preciocompra="";
 	$idproductoventa="";
 
+	$categorias=$db->categorias();
 	if($idproducto>0){
 		$per = $db->producto_editar($idproducto);
 		$codigo=$per->codigo;
@@ -42,6 +44,7 @@
 		$preciom=$per->preciom;
 		$stockmin=$per->stockmin;
 		$stockmax=$per->stockmax;
+		$categoria=$per->categoria;
 
 		$preciocompra=$per->preciocompra;
 		$idproductoventa=$per->idventa;
@@ -81,6 +84,21 @@
 								 <label>Nombre</label>
 								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" required>
 								</div>
+
+
+							<div class='col-3'>
+									<label>categoría</label>
+									<select class='form-control form-control-sm' name='categorias' id='categorias'>
+										<?php
+										foreach($categorias as $row){
+											echo "<option value='$row->idcat'" ; if($categoria==$row->idcat){ echo " selected"; }echo ">$row->nombre</option>";
+										}?>
+									</select>
+								</div>
+
+
+
+
 								<div class="col-12">
 								 <label>Descripción</label>
 								 <input type="text" class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" value="<?php echo $descripcion; ?>">

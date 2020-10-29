@@ -292,6 +292,18 @@ class Productos extends Sagyc{
 		}
 	}
 
+	public function categorias(){
+		try{
+			$sql="SELECT * FROM categorias where idtienda='".$_SESSION['idtienda']."'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 }
 $db = new Productos();
 if(strlen($function)>0){
