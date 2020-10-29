@@ -30,7 +30,7 @@
 	      echo  "<div class='col-2'>";
 		      echo  "<div class='btn-group'>";
 					if($cantidad->total>0 or $key->tipo==0){
-			      echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia' omodal='1'><i class='far fa-thumbs-up'></i></button>";
+			      echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia o se trata de un servicio' omodal='1'><i class='far fa-thumbs-up'></i></button>";
 					}
 					else {
 						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-danger btn-sm' title='Producto sin stock' omodal='1'><i class='far fa-thumbs-down'></i></button>";

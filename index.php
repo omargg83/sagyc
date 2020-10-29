@@ -44,7 +44,7 @@
 
 	    </ul>
       <ul class='nav navbar-nav navbar-right text-white' id='precios'>
-				<button class="btn btn-warning" type="button" is="b-link" des="a_precios/index" omodal='1'><i class="fas fa-check-circle"></i>Checador de Precios</button>
+				<button class="btn btn-warning" type="button" is="b-link" des="a_precios/index" omodal='1'><i class="fas fa-check-circle"></i>Checador de Productos</button>
 			</ul>
       <ul class='nav navbar-nav navbar-right text-white' id='fondo'></ul>
       <ul class='nav navbar-nav navbar-right'>

@@ -67,7 +67,18 @@
 						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-print' title='Editar' des='a_productos/imprimir' dix='trabajo' v_idproducto='$key->idproducto' v_variable='demo' v_tipo='1'><i class='fas fa-barcode'></i></button>";
 
 						echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_productos/db_' des='a_productos/lista' fun='borrar_producto' dix='trabajo' v_idproducto='$key->idproducto' id='eliminar' tp='¿Desea eliminar el Producto seleccionado?'><i class='far fa-trash-alt'></i></button>";
-
+							////
+							$sql="select sum(cantidad) as total from bodega where idsucursal='$idsucursal' and idproducto='$key->idproducto'";
+							$sth = $db->dbh->prepare($sql);
+							$sth->execute();
+							$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+						if($cantidad->total>0 or $key->tipo==0){
+				      echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia o se trata de un servicio' omodal='1'><i class='far fa-thumbs-up'></i></button>";
+						}
+						else {
+							echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-danger btn-sm' title='Producto sin stock' omodal='1'><i class='far fa-thumbs-down'></i></button>";
+						}
+						//////
 						echo "</div>";
 					echo "</div>";
 
@@ -79,10 +90,10 @@
 					echo "<div class='col-5'>".$key->nombre."</div>";
 
 					echo "<div class='col-1 text-center'>";
-						$sql="select sum(cantidad) as total from bodega where idsucursal='$idsucursal' and idproducto='$key->idproducto'";
-						$sth = $db->dbh->prepare($sql);
-						$sth->execute();
-						$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+					//	$sql="select sum(cantidad) as total from bodega where idsucursal='$idsucursal' and idproducto='$key->idproducto'";
+					//	$sth = $db->dbh->prepare($sql);
+					//	$sth->execute();
+					//	$cantidad=$sth->fetch(PDO::FETCH_OBJ);
 						echo $cantidad->total;
 					echo "</div>";
 
