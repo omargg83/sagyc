@@ -18,7 +18,7 @@
 ?>
 
 <div class="container">
-		<form is="f-submit" id="form_editar" db="a_proveedores/db_" fun="guardar_provedor" lug="a_cliente/editar" desid='idproveedor'>
+		<form is="f-submit" id="form_editar" db="a_proveedores/db_" fun="guardar_provedor" lug="a_proveedores/editar" desid='idproveedor'>
 		<input type="hidden" name="idproveedor" id="idproveedor" value="<?php echo $idproveedor;?>">
 		<div class='card'>
 			<div class='card-header'>

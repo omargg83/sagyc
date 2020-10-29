@@ -6,6 +6,11 @@
 	$nombre="";
 	$unidad="";
 	$precio="";
+
+	$preciom="";
+	$stockmin="";
+	$stockmax="";
+
 	$marca="";
 	$modelo="";
 	$descripcion="";
@@ -33,6 +38,11 @@
 		$material=$per->material;
 		$cantidad=$per->cantidad;
 		$precio=$per->precio;
+
+		$preciom=$per->preciom;
+		$stockmin=$per->stockmin;
+		$stockmax=$per->stockmax;
+
 		$preciocompra=$per->preciocompra;
 		$idproductoventa=$per->idventa;
 	}
@@ -65,7 +75,7 @@
 							<div class='row'>
 								<div class="col-2">
 								 <label>Busqueda rapida</label>
-								 <input type="text" class="form-control form-control-sm" id="rapido" name='rapido' placeholder="rapido" value="<?php echo $rapido; ?>" maxlength=4>
+								 <input type="text" class="form-control form-control-sm" id="rapido" name='rapido' placeholder="rapido" value="<?php echo $rapido; ?>" maxlength=8>
 								</div>
 								<div class="col-5">
 								 <label>Nombre</label>
@@ -77,6 +87,20 @@
 								</div>
 							</div>
 							<div class='row'>
+
+								<div class="col-3">
+								 <label>Precio compra</label>
+								 <input type="text" class="form-control form-control-sm" id="preciocompra" name='preciocompra' placeholder="Precio" value="<?php echo $preciocompra; ?>">
+								</div>
+								<div class="col-3">
+								 <label>Precio Venta</label>
+								 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>" required>
+								</div>
+								<div class="col-3">
+								 <label>Precio mayoreo</label>
+								 <input type="text" class="form-control form-control-sm" id="preciom" name='preciom' placeholder="Precio Mayoreo" value="<?php echo $preciom; ?>" required>
+								</div>
+
 								<div class="col-3">
 									<?php
 									$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
@@ -87,13 +111,17 @@
 								 <label>Existencias</label>
 								 <input type="text" class="form-control form-control-sm" id="tmp_ex" name='tmp_ex' placeholder="Existencias" value="<?php echo $cantidad->total; ?>" readonly>
 								</div>
-								<div class="col-3">
-								 <label>Precio compra</label>
-								 <input type="text" class="form-control form-control-sm" id="preciocompra" name='preciocompra' placeholder="Precio" value="<?php echo $preciocompra; ?>">
+
+							</div>
+
+							<div class='row'>
+								<div class="col-2">
+								 <label>Stock Minimo</label>
+								 <input type="text" class="form-control form-control-sm" id="stockmin" name='stockmin' placeholder="Stock Minimo" value="<?php echo $stockmin; ?>" maxlength=8>
 								</div>
-								<div class="col-3">
-								 <label>Precio Venta</label>
-								 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>" required>
+								<div class="col-2">
+								 <label>Stock Maximo</label>
+								 <input type="text" class="form-control form-control-sm" id="stockmax" name='stockmax' placeholder="Stock Maximo" value="<?php echo $stockmax; ?>" required>
 								</div>
 
 								<div class="col-3">

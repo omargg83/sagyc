@@ -70,6 +70,7 @@
 					<hr>
 
 					<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>
+					<a href='#a_categorias/index' is='menu-link' title='Categorias'><i class="fab fa-cuttlefish"></i></i><span>Categorias</span></a> 
 					<hr>
 
 					<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>

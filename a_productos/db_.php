@@ -108,6 +108,15 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['precio'])){
 				$arreglo += array('precio'=>$_REQUEST['precio']);
 			}
+			if (isset($_REQUEST['preciom'])){
+				$arreglo += array('preciom'=>$_REQUEST['preciom']);
+			}
+			if (isset($_REQUEST['stockmin'])){
+				$arreglo += array('stockmin'=>$_REQUEST['stockmin']);
+			}
+			if (isset($_REQUEST['stockmax'])){
+				$arreglo += array('stockmax'=>$_REQUEST['stockmax']);
+			}
 			if (isset($_REQUEST['preciocompra']) and strlen($_REQUEST['preciocompra'])>0  ){
 				$arreglo += array('preciocompra'=>$_REQUEST['preciocompra']);
 			}
