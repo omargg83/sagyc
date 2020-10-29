@@ -4,7 +4,7 @@
  ?>
 
  <nav class='navbar navbar-expand-sm navbar-light bg-light'>
- 		  <a class='navbar-brand' ><i class="fab fa-product-hunt"></i>Catalogo de Productos</a>
+ 		  <a class='navbar-brand' ><i class="fab fa-product-hunt"></i>Productos</a>
  		  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
  			<span class='navbar-toggler-icon'></span>
  		  </button>
