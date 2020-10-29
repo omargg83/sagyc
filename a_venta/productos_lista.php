@@ -2,7 +2,7 @@
 	require_once("db_.php");
   $texto=$_REQUEST['prod_venta'];
   $idventa=$_REQUEST['idventa'];
-  
+
 	echo "idventa:".$idventa;
   $sql="SELECT * from productos where idtienda=".$_SESSION['idtienda']." and
   	(nombre like '%$texto%' or
@@ -28,7 +28,7 @@
 				$sth->execute();
 				$cantidad=$sth->fetch(PDO::FETCH_OBJ);
 
-	      echo "<div class='row body-row' draggable='true'>";
+	      echo "<div class='row body-row' is='b-card' draggable='true'>";
 	      echo  "<div class='col-2'>";
 		      echo  "<div class='btn-group'>";
 					if($cantidad->total>0 or $key->tipo==0){
