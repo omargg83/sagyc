@@ -3,7 +3,10 @@
   $texto=$_REQUEST['prod_venta'];
   $idventa=$_REQUEST['idventa'];
 
-  $sql="SELECT * from productos where idtienda=".$_SESSION['idtienda']." and activo=1 and (nombre like '%$texto%' or  codigo like '%$texto%' or rapido like '%$texto%') order by nombre limit 20";
+  $sql="SELECT * from productos
+	left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
+	where idsucursal=".$_SESSION['idsucursal']." and (nombre like '%$texto%' or  codigo like '%$texto%') order by nombre limit 20";
+	echo $sql;
   $sth = $db->dbh->prepare($sql);
   $sth->execute();
   $res=$sth->fetchAll(PDO::FETCH_OBJ);

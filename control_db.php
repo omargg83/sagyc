@@ -614,7 +614,7 @@
 					$existencia=1;
 				}
 				if($tipo==3){
-					$sql="select sum(cantidad) as total from bodega where idproducto='$idproducto'";
+					$sql="select sum(cantidad) as total from bodega where idproducto='$idproducto' and idsucursal='".$_SESSION['idsucursal']."'";
 					$sth = $this->dbh->prepare($sql);
 					$sth->execute();
 					$total=$sth->fetch(PDO::FETCH_OBJ);
@@ -655,7 +655,6 @@
 
 		}
 	}
-
 
 	if(strlen($ctrl)>0){
 		$db = new Sagyc();

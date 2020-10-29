@@ -165,9 +165,15 @@ class Compras extends Sagyc{
 		$arreglo+=array('c_precio'=>$precio);
 		$x=$this->insert('bodega', $arreglo);
 
+
 		$arr=array();
 		$arr+=array('id'=>$idcompra);
 		$arr+=array('error'=>0);
+
+
+		$this->cantidad_update($idproducto,3);
+
+		
 		return json_encode($arr);
 	}
 	public function borrar_registro(){
