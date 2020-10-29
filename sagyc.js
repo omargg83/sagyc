@@ -500,7 +500,6 @@
 				};
 				xhr.send(formData);
 				cargando(false);
-
 		 })
 		}
 	}

@@ -7,21 +7,15 @@
   else{
     $idventa=0;
   }
-	echo "idventa:".$idventa;
-	$pedido = $db->ventas_pedido($idventa);
-	echo "<div class='tabla_css' id='tabla_css'>";
-		echo "<div class='row titulo-row'>";
-			echo "<div class='col-12'>";
-				echo "PRODUCTOS";
+		$pedido = $db->ventas_pedido($idventa);
+		echo "<div class='tabla_css col-12' id='tabla_css'>";
+			echo "<div class='row header-row'>";
+				echo "<div class='col-6'>DESCRIPCION</div>";
+				echo "<div class='col-2'>#</div>";
+				echo "<div class='col-2'>$</div>";
+				echo "<div class='col-2'>TOTAL</div>";
 			echo "</div>";
-		echo "</div>";
-		echo "<div class='row header-row'>";
-			echo "<div class='col-2'>-</div>";
-			echo "<div class='col-4'>NOMBRE</div>";
-			echo "<div class='col-2'>#</div>";
-			echo "<div class='col-2'>$</div>";
-			echo "<div class='col-2'>TOTAL</div>";
-		echo "</div>";
+
 
 		if($idventa>0){
 			foreach($pedido as $key){
@@ -33,11 +27,11 @@
 
 				echo "<div class='row body-row' draggable='true'>";
 
-					echo "<div class='col-2'>";
+					echo "<div class='col-6'>";
+						echo "<div class='btn-group mr-3'>";
 							echo "<button class='btn btn-warning btn-sm' id='del_$key->idbodega' type='button' is='is-borraprod' v_idbodega='$key->idbodega' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-					echo "</div>";
+						echo "</div>";
 
-					echo "<div class='col-4'>";
 						echo $key->nombre;
 					echo "</div>";
 

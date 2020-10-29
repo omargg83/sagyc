@@ -187,7 +187,7 @@ function fijar(){
   }
 }
 
-
+///////////////////////////////////////////////ESPECIAL
 
 class Pbusca extends HTMLFormElement {
   connectedCallback() {
@@ -292,8 +292,19 @@ class Borraprod extends HTMLButtonElement {
 }
 customElements.define("is-borraprod", Borraprod, { extends: "button" });
 
+class Cliente_flo extends HTMLButtonElement {
+  connectedCallback() {
+   this.addEventListener('click', (e) => {
+      e.preventDefault();
+      let idventa=document.getElementById("idventa").value;
+      alert(idventa);
+
+   })
+  }
+}
+customElements.define("is-cliente", Cliente_flo, { extends: "button" });
+
 function lista(idventa){
-  console.log(idventa);
   var formData = new FormData();
   formData.append("idventa", idventa);
   let xhr = new XMLHttpRequest();
@@ -302,12 +313,36 @@ function lista(idventa){
     document.getElementById("lista").innerHTML=data.target.response;
   });
   xhr.onerror =  ()=>{
+  };
+  xhr.send(formData);
+}
+function datos_compra(idventa){
+  var formData = new FormData();
+  formData.append("idventa", idventa);
 
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/dato_compra.php");
+  xhr.addEventListener('load',(data)=>{
+    document.getElementById("dato_compra").innerHTML =data.target.response;
+  });
+  xhr.onerror =  ()=>{
+  };
+  xhr.send(formData);
+}
+function cliente_datos(idventa){
+  var formData = new FormData();
+  formData.append("idventa", idventa);
+
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/cliente_datos.php");
+  xhr.addEventListener('load',(data)=>{
+    document.getElementById("cliente_datos").innerHTML =data.target.response;
+  });
+  xhr.onerror =  ()=>{
   };
   xhr.send(formData);
 
 }
-
 
 var dragSrcEl = null;
 var dragdestino = null;

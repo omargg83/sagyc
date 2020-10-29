@@ -20,6 +20,7 @@
 
 	<link rel="stylesheet" href="lib/load/css-loader.css">
 	<link rel="stylesheet" type="text/css" href="lib/modulos.css"/>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 
 <?php
@@ -148,7 +149,7 @@
 	<script src="sagyc.js"></script>
 	<script src="vainilla.js"></script>
 
-	<link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+
 	<link rel="stylesheet" type="text/css" href="lib/modulos.css"/>
 
 	<!--- calendario -->
