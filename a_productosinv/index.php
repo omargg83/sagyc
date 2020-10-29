@@ -11,7 +11,7 @@
  		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
  			<ul class='navbar-nav mr-auto'>
 
-        <form class='form-inline my-2 my-lg-0' is="b-submit" id="form_busca" des="a_productos/lista" dix='trabajo' >
+        <form class='form-inline my-2 my-lg-0' is="b-submit" id="form_busca" des="a_productosinv/lista" dix='trabajo' >
           <div class="input-group  mr-sm-2">
             <input type="text" class="form-control form-control-sm" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2"  name='buscar' id='buscar'>
             <div class="input-group-append">
@@ -21,8 +21,8 @@
         </form>
 
 
-        <li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_prod' des='a_productos/lista' dix='trabajo'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>
-  			<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_poliza' des='a_productos/editar' v_id='0' dix='trabajo'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>
+        <li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_prod' des='a_productosinv/lista' dix='trabajo'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>
+  			<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_poliza' des='a_productosinv/editar' v_id='0' dix='trabajo'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>
 
 
       </li>
