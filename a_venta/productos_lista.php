@@ -2,28 +2,23 @@
 	require_once("db_.php");
   $texto=$_REQUEST['prod_venta'];
   $idventa=$_REQUEST['idventa'];
-
-  $sql="SELECT * from productos where idtienda=:tienda and
-  	(nombre like :texto or
-    descripcion like :texto or
-    codigo like :texto  or
-    rapido like :texto
+  
+	echo "idventa:".$idventa;
+  $sql="SELECT * from productos where idtienda=".$_SESSION['idtienda']." and
+  	(nombre like '%$texto%' or
+    descripcion like '%$texto%' or
+    codigo like '%$texto%'  or
+    rapido like '%$texto%'
   ) order by nombre limit 20";
-
   $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":texto","%$texto%");
-  $sth->bindValue(":tienda",$_SESSION['idtienda']);
   $sth->execute();
   $res=$sth->fetchAll(PDO::FETCH_OBJ);
 	echo "<div class='container'>";
-
-
 	echo "<div class='tabla_css' id='tabla_css'>";
 		echo "<div class='row header-row'>";
 			echo "<div class='col-2'>-</div>";
 			echo "<div class='col-2'>#</div>";
-			echo "<div class='col-6'>Nombre</div>";
-			echo "<div class='col-2'>$</div>";
+			echo "<div class='col-8'>Nombre</div>";
 		echo "</div>";
 
 	  if(count($res)>0){
@@ -47,13 +42,11 @@
 					echo $cantidad->total;
 	      echo  "</div>";
 
-	      echo  "<div class='col-6'>";
+	      echo  "<div class='col-8'>";
 				echo  $key->codigo;
 				echo "<br>";
 	      echo  $key->nombre;
-	      echo  "</div>";
-
-	      echo  "<div class='col-2' align='right'>";
+	      echo "<br>";
 	        echo 	moneda($key->precio);
 	      echo  "</div>";
 

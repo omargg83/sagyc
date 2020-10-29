@@ -28,6 +28,13 @@ class Venta extends Sagyc{
 			die();
 		}
 	}
+
+	public function venta($id){
+		$sql="select * from venta where idventa='$id'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
 	public function agregaventa(){
 
 		$x="";
@@ -37,6 +44,7 @@ class Venta extends Sagyc{
 		$precio="0";
 		$tipo="0";
 		$idventa=$_REQUEST['idventa'];
+		$idcliente=$_REQUEST['idcliente'];
 
 		try{
 			if(isset($_REQUEST['idproducto'])){
@@ -58,15 +66,15 @@ class Venta extends Sagyc{
 
 				if($idventa==0){
 					$date=date("Y-m-d H:i:s");
-
+					$estado="Activa";
 					$sql = "SELECT MAX(numero) FROM venta where idtienda='".$_SESSION['idtienda']."'";
 					$statement = $this->dbh->prepare($sql);
 					$statement->execute();
 					$numero=$statement->fetchColumn()+1;
 
 					$arreglo=array();
-					$arreglo+=array('idcliente'=>1);
-					$arreglo+=array('estado'=>"Activa");
+					$arreglo+=array('idcliente'=>$idcliente);
+					$arreglo+=array('estado'=>$estado);
 					$arreglo+=array('numero'=>$numero);
 					$arreglo+=array('fecha'=>$date);
 					$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
@@ -77,7 +85,15 @@ class Venta extends Sagyc{
 						$idventa=$ped->id;
 					}
 				}
-
+				else{
+					$sql="select * from venta where idventa='$idventa'";
+					$sth = $this->dbh->prepare($sql);
+					$sth->execute();
+					$venta=$sth->fetch(PDO::FETCH_OBJ);
+					$numero=$venta->numero;
+					$date=$venta->fecha;
+					$estado=$venta->estado;
+				}
 				$arreglo=array();
 				$arreglo+=array('idventa'=>$idventa);
 				$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
@@ -93,16 +109,14 @@ class Venta extends Sagyc{
 				$arreglo+=array('nombre'=>$producto->nombre);
 				$x=$this->insert('bodega', $arreglo);
 
-				return $idventa;
-
-
 				$arreglo =array();
-				$arreglo+=array('id'=>$idventa);
+				$arreglo+=array('idventa'=>$idventa);
 				$arreglo+=array('error'=>0);
-				$arreglo+=array('terror'=>0);
-				$arreglo+=array('param1'=>"");
-				$arreglo+=array('param2'=>"");
-				$arreglo+=array('param3'=>"");
+				$arreglo+=array('numero'=>$numero);
+				$arreglo+=array('estado'=>$estado);
+				$fecha1 = date ( "Y-m-d" , strtotime($date) );
+				$arreglo+=array('fecha'=>$fecha1);
+				$arreglo+=array('error'=>0);
 				return json_encode($arreglo);
 			}
 		}
@@ -115,6 +129,11 @@ class Venta extends Sagyc{
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
+	}
+	public function borrar_venta(){
+		$idbodega=$_REQUEST['idbodega'];
+		$x=$this->borrar('bodega',"idbodega",$idbodega);
+		return $x;
 	}
 }
 

@@ -87,15 +87,7 @@ class Venta extends Sagyc{
 		}
 	}
 
-	public function venta($id){
 
-		$this->total_venta($id);
-
-		$sql="select * from venta where idventa='$id'";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetch();
-	}
 
 	public function selecciona_cita(){
 		try{
@@ -202,32 +194,7 @@ class Venta extends Sagyc{
 		}
 	}
 
-	public function borrar_venta(){
 
-		$id=$_REQUEST['id'];
-
-		$sql="SELECT * from bodega where id=:id";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":id",$id);
-		$sth->execute();
-		$res=$sth->fetch(PDO::FETCH_OBJ);
-
-		$x=$this->borrar('bodega',"id",$id);
-
-		if($res->tipo==4){
-			$sql="update productos set idventa=NULL where id=:id";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$res->idproducto);
-			$sth->execute();
-		}
-
-		if($res->tipo==3){
-			$this->cantidad_update($res->idproducto);
-		}
-
-		$this->total_venta($res->idventa);
-		return $x;
-	}
 
 
 	public function buscar($texto){

@@ -187,6 +187,8 @@ function fijar(){
   }
 }
 
+
+
 class Pbusca extends HTMLFormElement {
   connectedCallback() {
    this.addEventListener('submit', (e) => {
@@ -215,8 +217,6 @@ class Pbusca extends HTMLFormElement {
 }
 customElements.define("p-busca", Pbusca, { extends: "form" });
 
-
-
 class Formselecciona extends HTMLFormElement {
   connectedCallback() {
    this.addEventListener('submit', (e) => {
@@ -224,9 +224,13 @@ class Formselecciona extends HTMLFormElement {
       let id=e.currentTarget.attributes.id.nodeValue;
       let elemento = document.getElementById(id);
 
+      let idventa=document.getElementById("idventa").value;
+      let idcliente=document.getElementById("idcliente").value;
+
       var formData = new FormData(elemento);
       formData.append("function", "agregaventa");
-
+      formData.append("idventa", idventa);
+      formData.append("idcliente", idcliente);
 
       for(let contar=0;contar<elemento.attributes.length; contar++){
         let arrayDeCadenas = elemento.attributes[contar].name.split("_");
@@ -239,9 +243,17 @@ class Formselecciona extends HTMLFormElement {
       xhr.open('POST',"a_venta/db_.php");
       xhr.addEventListener('load',(data)=>{
         $('#myModal').modal('hide');
-        let idventa=data.target.response;
-        document.getElementById("idventa").value=idventa;
-        lista(idventa);
+        console.log(data.target.response);
+        var datos = JSON.parse(data.target.response);
+
+          document.getElementById("idventa").value=datos.idventa;
+          document.getElementById("numero").value=datos.numero;
+          document.getElementById("fecha").value=datos.fecha;
+          document.getElementById("estado").value=datos.estado;
+
+
+        lista(datos.idventa);
+        document.getElementById("resultadosx").innerHTML ="";
       });
       xhr.onerror =  ()=>{
 
@@ -251,6 +263,34 @@ class Formselecciona extends HTMLFormElement {
   }
 }
 customElements.define("is-selecciona", Formselecciona, { extends: "form" });
+
+class Borraprod extends HTMLButtonElement {
+  connectedCallback() {
+   this.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      let idventa=document.getElementById("idventa").value;
+      var idbodega=e.currentTarget.attributes.v_idbodega.value;
+
+      var formData = new FormData();
+      formData.append("idventa", idventa);
+      formData.append("idbodega", idbodega);
+      formData.append("function", "borrar_venta");
+
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST',"a_venta/db_.php");
+      xhr.addEventListener('load',(data)=>{
+        lista(idventa);
+      });
+      xhr.onerror =  ()=>{
+
+      };
+      xhr.send(formData);
+
+   })
+  }
+}
+customElements.define("is-borraprod", Borraprod, { extends: "button" });
 
 function lista(idventa){
   console.log(idventa);

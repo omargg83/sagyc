@@ -2,7 +2,8 @@
 	require_once("db_.php");
 	$idproducto=$_REQUEST['idproducto'];
 	$idventa=$_REQUEST['idventa'];
-
+	echo "idventa:".$idventa;
+	
 	$sql="SELECT * from productos where idproducto=:id";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idproducto);
@@ -20,7 +21,7 @@
 
 	echo "<div class='modal-body' style='max-height:580px;overflow: auto;'>";
 
-	echo "<form id='form_prod' is='is-selecciona' v_idventa='$idventa' v_idproducto='$idproducto'>";
+	echo "<form id='form_prod' is='is-selecciona' v_idproducto='$idproducto'>";
 
 	echo "<div class='row'>";
 
@@ -29,19 +30,19 @@
 			echo "<input type='text' class='form-control' name='nombre' id='nombre' value='".$producto->nombre."' readonly>";
 		echo "</div>";
 
-		echo "<div class='col-3'>";
+		echo "<div class='col-4'>";
 			echo "<label>Existencia:</label>";
 			echo "<input type='text' class='form-control' name='existencia' id='existencia' value='".$cantidad->total."' readonly>";
 		echo "</div>";
 
-		echo "<div class='col-3'>";
+		echo "<div class='col-4'>";
 			echo "<label>Cantidad</label>";
 			echo "<input type='text' class='form-control' name='cantidad' id='cantidad' value='1'";
 
 			echo ">";
 		echo "</div>";
 
-		echo "<div class='col-3'>";
+		echo "<div class='col-4'>";
 			echo "<label>Precio</label>";
 			echo "<input type='text' class='form-control' name='precio' id='precio' value='".$producto->precio."' ";
 				echo ">";
