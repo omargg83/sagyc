@@ -3,10 +3,7 @@
   $texto=$_REQUEST['prod_venta'];
   $idcompra=$_REQUEST['idcompra'];
 
-  $sql="SELECT * from productos
-	LEFT OUTER JOIN productos_catalogo
-	on productos_catalogo.idcatalogo=productos.idcatalogo
-	where idtienda=".$_SESSION['idtienda']." and tipo=3 and (nombre like '%$texto%' or  codigo like '%$texto%') order by tipo limit 20";
+  $sql="SELECT * from productos_catalogo where idtienda=".$_SESSION['idtienda']." and tipo=3 and (nombre like '%$texto%' or  codigo like '%$texto%') order by tipo limit 20";
   $sth = $db->dbh->prepare($sql);
   $sth->bindValue(":texto","%$texto%");
   $sth->execute();
@@ -20,7 +17,6 @@
   echo  "<th>Nombre</th>";
   echo  "<th>Marca</th>";
   echo  "<th>Modelo</th>";
-  echo  "<th>Precio</th>";
   echo "</tr>";
   if(count($res)>0){
     foreach ($res as $key) {
@@ -28,7 +24,7 @@
       echo  "<td>";
       echo  "<div class='btn-group'>";
       if($key->tipo==3){
-        echo "<button type='button' is='b-link' id='sel_producto_$key->idproducto' des='a_compras/selecciona_producto' dix='productos' v_idproducto='$key->idproducto' v_idcompra='$idcompra' class='btn btn-warning btn-sm' title='Seleccionar cliente'><i class='fas fa-plus'></i></button>";
+        echo "<button type='button' is='b-link' id='sel_producto_$key->idcatalogo' des='a_compras/selecciona_producto' dix='productos' v_idcatalogo='$key->idcatalogo' v_idcompra='$idcompra' class='btn btn-warning btn-sm' title='Seleccionar cliente'><i class='fas fa-plus'></i></button>";
       }
       echo  "</div>";
       echo  "</td>";
@@ -49,10 +45,6 @@
 
       echo  "<td>";
       echo  $key->modelo;
-      echo  "</td>";
-
-      echo  "<td align='right'>";
-        echo 	moneda($key->precio);
       echo  "</td>";
 
       echo  "</tr>";

@@ -71,7 +71,18 @@ class Compras extends Sagyc{
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function entrada($id){
-		$sql="select bodega.idbodega, bodega.cantidad, bodega.c_precio, productos.codigo, productos.nombre from bodega left outer join productos on productos.idproducto=bodega.idproducto where bodega.idcompra='$id'";
+		$sql="SELECT
+			bodega.idbodega,
+			bodega.cantidad,
+			bodega.c_precio,
+			productos_catalogo.nombre,
+			productos_catalogo.codigo
+		FROM
+			bodega
+		LEFT OUTER JOIN productos ON productos.idproducto = bodega.idproducto
+		LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
+		WHERE
+		bodega.idcompra='$id'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -115,17 +126,39 @@ class Compras extends Sagyc{
 		return $x;
 	}
 	public function agregacompra(){
+
+		$idcatalogo=$_REQUEST['idcatalogo'];
+		$precio=$_REQUEST['precio'];
 		$idcompra=$_REQUEST['idcompra'];
-		$idproducto=$_REQUEST['idproducto'];
 		$observaciones=$_REQUEST['observaciones'];
 		$cantidad=$_REQUEST['cantidad'];
-		$precio=$_REQUEST['precio'];
+
+		////////////////////se da de alta el producto en la sucursal
+		$sql="select * from productos where idsucursal='".$_SESSION['idsucursal']."' and idcatalogo='$idcatalogo'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		if($sth->rowCount()>0){
+			$producto=$sth->fetch(PDO::FETCH_OBJ);
+			$idproducto=$producto->idproducto;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('idcatalogo'=>$idcatalogo);
+			$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
+			$arreglo+=array('preciocompra'=>$precio);
+			$arreglo+=array('activo_producto'=>1);
+			$x=$this->insert('productos', $arreglo);
+
+			$ped=json_decode($x);
+			if($ped->error==0){
+				$idproducto=$ped->id;
+			}
+		}
 
 		$arreglo=array();
 		$arreglo+=array('idcompra'=>$idcompra);
 		$arreglo+=array('idproducto'=>$idproducto);
 		$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
-		$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 		$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 		$arreglo+=array('observaciones'=>$observaciones);
 		$arreglo+=array('cantidad'=>$cantidad);
