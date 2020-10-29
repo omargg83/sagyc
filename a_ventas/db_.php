@@ -228,13 +228,7 @@ class Venta extends Sagyc{
 		$this->total_venta($res->idventa);
 		return $x;
 	}
-	public function ventas_pedido($id){
 
-		$sql="select * from bodega where idventa='$id' order by id desc";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetchAll();
-	}
 
 	public function buscar($texto){
 

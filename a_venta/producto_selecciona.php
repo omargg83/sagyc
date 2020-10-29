@@ -20,10 +20,7 @@
 
 	echo "<div class='modal-body' style='max-height:580px;overflow: auto;'>";
 
-	echo "<form id='form_prod' is='is-selecciona'>";
-	echo "<input type='text' name='idventa' id='idventa' value='$idventa' readonly>";
-	echo "<input type='text' name='idproducto' id='idproducto' value='$idproducto' readonly>";
-	echo "<input type='text' name='tipo' id='tipo' value='$producto->tipo' readonly>";
+	echo "<form id='form_prod' is='is-selecciona' v_idventa='$idventa' v_idproducto='$idproducto'>";
 
 	echo "<div class='row'>";
 
@@ -32,7 +29,7 @@
 			echo "<input type='text' class='form-control' name='nombre' id='nombre' value='".$producto->nombre."' readonly>";
 		echo "</div>";
 
-		echo "<div class='col-2'>";
+		echo "<div class='col-3'>";
 			echo "<label>Existencia:</label>";
 			echo "<input type='text' class='form-control' name='existencia' id='existencia' value='".$cantidad->total."' readonly>";
 		echo "</div>";

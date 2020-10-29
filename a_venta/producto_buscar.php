@@ -2,8 +2,7 @@
   <div class='col-12'>
     <div class="form-group row">
       <div class="col-sm-12">
-        <form is="b-submit" id="form_busca" des="a_venta/productos_lista" dix='resultadosx' >
-    			<input  type='hidden' id='idventa' NAME='idventa' value='<?php echo $idventa; ?>'>
+        <form is="p-busca" id="form_busca" >
     			<div clas='row'>
     					<div class="input-group mb-3">
     					<input type="text" class="form-control" name="prod_venta" id='prod_venta' placeholder='buscar producto' aria-label="buscar producto" aria-describedby="basic-addon2">

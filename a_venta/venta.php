@@ -2,7 +2,7 @@
   require_once("db_.php");
   $idventa=0;
 ?>
-
+<input type="text" name="idventa" id="idventa" value="<?php echo $idventa; ?>" readonly>
 
 <div class="container-fluid">
 	<div class='card'>

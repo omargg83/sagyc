@@ -20,9 +20,9 @@
 
 	echo "<div class='tabla_css' id='tabla_css'>";
 		echo "<div class='row header-row'>";
-			echo "<div class='col-1'>-</div>";
+			echo "<div class='col-2'>-</div>";
 			echo "<div class='col-2'>#</div>";
-			echo "<div class='col-7'>Nombre</div>";
+			echo "<div class='col-6'>Nombre</div>";
 			echo "<div class='col-2'>$</div>";
 		echo "</div>";
 
@@ -34,7 +34,7 @@
 				$cantidad=$sth->fetch(PDO::FETCH_OBJ);
 
 	      echo "<div class='row body-row' draggable='true'>";
-	      echo  "<div class='col-1'>";
+	      echo  "<div class='col-2'>";
 		      echo  "<div class='btn-group'>";
 					if($cantidad->total>0 or $key->tipo==0){
 			      echo "<button type='button' is='b-link' id='sel_producto_$key->idproducto' des='a_venta/producto_selecciona' dix='resultadosx' v_idproducto='$key->idproducto' v_idventa='$idventa' class='btn btn-warning btn-sm' title='Seleccionar cliente' omodal='1'><i class='fas fa-plus'></i></button>";
@@ -47,7 +47,7 @@
 					echo $cantidad->total;
 	      echo  "</div>";
 
-	      echo  "<div class='col-7'>";
+	      echo  "<div class='col-6'>";
 				echo  $key->codigo;
 				echo "<br>";
 	      echo  $key->nombre;

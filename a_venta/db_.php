@@ -42,6 +42,7 @@ class Venta extends Sagyc{
 			if(isset($_REQUEST['idproducto'])){
 				$idproducto=$_REQUEST['idproducto'];
 				$cantidad=$_REQUEST['cantidad'];
+				$precio=$_REQUEST['precio'];
 
 				$sql="select * from productos where idproducto='$idproducto'";
 				$sth = $this->dbh->prepare($sql);
@@ -83,10 +84,17 @@ class Venta extends Sagyc{
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$arreglo+=array('idproducto'=>$producto->idproducto);
+				$arreglo+=array('v_cantidad'=>$cantidad);
+				$arreglo+=array('v_precio'=>$precio);
+				$total=$cantidad*$precio;
+				$arreglo+=array('v_total'=>$total);
 				$cantidad=$cantidad*-1;
 				$arreglo+=array('cantidad'=>$cantidad);
 				$arreglo+=array('nombre'=>$producto->nombre);
 				$x=$this->insert('bodega', $arreglo);
+
+				return $idventa;
+
 
 				$arreglo =array();
 				$arreglo+=array('id'=>$idventa);
@@ -101,6 +109,12 @@ class Venta extends Sagyc{
 		catch(PDOException $e){
 			return "Database access FAILED! ".$e->getMessage();
 		}
+	}
+	public function ventas_pedido($id){
+		$sql="select * from bodega where idventa='$id' order by idbodega desc";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 }
 

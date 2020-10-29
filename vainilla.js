@@ -187,6 +187,35 @@ function fijar(){
   }
 }
 
+class Pbusca extends HTMLFormElement {
+  connectedCallback() {
+   this.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      let id=e.currentTarget.attributes.id.nodeValue;
+      let elemento = document.getElementById(id);
+
+      let idventa=document.getElementById("idventa").value;
+      let prod_venta=document.getElementById("prod_venta").value;
+
+      var formData = new FormData(elemento);
+      formData.append("idventa", idventa);
+      formData.append("prod_venta", prod_venta);
+
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST',"a_venta/productos_lista.php");
+      xhr.addEventListener('load',(data)=>{
+        document.getElementById("resultadosx").innerHTML =data.target.response;
+      });
+      xhr.onerror =  ()=>{
+      };
+      xhr.send(formData);
+   })
+  }
+}
+customElements.define("p-busca", Pbusca, { extends: "form" });
+
+
 
 class Formselecciona extends HTMLFormElement {
   connectedCallback() {
@@ -198,16 +227,43 @@ class Formselecciona extends HTMLFormElement {
       var formData = new FormData(elemento);
       formData.append("function", "agregaventa");
 
+
+      for(let contar=0;contar<elemento.attributes.length; contar++){
+        let arrayDeCadenas = elemento.attributes[contar].name.split("_");
+        if(arrayDeCadenas.length>1){
+          formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
+        }
+      }
+
       let xhr = new XMLHttpRequest();
       xhr.open('POST',"a_venta/db_.php");
       xhr.addEventListener('load',(data)=>{
-        console.log(data.target.response);
+        $('#myModal').modal('hide');
+        let idventa=data.target.response;
+        document.getElementById("idventa").value=idventa;
+        lista(idventa);
       });
       xhr.onerror =  ()=>{
-        console.log("error");
+
       };
       xhr.send(formData);
    })
   }
 }
 customElements.define("is-selecciona", Formselecciona, { extends: "form" });
+
+function lista(idventa){
+  console.log(idventa);
+  var formData = new FormData();
+  formData.append("idventa", idventa);
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/lista_pedido.php");
+  xhr.addEventListener('load',(data)=>{
+    document.getElementById("lista").innerHTML=data.target.response;
+  });
+  xhr.onerror =  ()=>{
+
+  };
+  xhr.send(formData);
+
+}
