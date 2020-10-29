@@ -20,12 +20,9 @@ else{
 	<div class='card'>
 		<div class='card-header'>Entrada de productos # <?php echo $idcompra; ?></div>
 		<form is="f-submit" id="form_editar" db="a_compras/db_" fun="guardar_entrada" des="a_compras/editar" desid='idcompra'>
+			<input type="hidden" name="idcompra" id="idcompra" value="<?php echo $idcompra; ?>" class="form-control" readonly>
 			<div class='card-body'>
 				<div class='row'>
-					<div class='col-2'>
-						<label>Entrada:</label>
-						<input type="text" name="idcompra" id="idcompra" value="<?php echo $idcompra; ?>" class="form-control" readonly>
-					</div>
 					<div class="col-2">
 						<label >Número:</label>
 						<input type="text" class="form-control" name="numero" id="numero" value="<?php echo $numero ;?>" placeholder="Número" readonly>

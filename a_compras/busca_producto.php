@@ -3,22 +3,17 @@
   $texto=$_REQUEST['prod_venta'];
   $idcompra=$_REQUEST['idcompra'];
 
-  $sql="SELECT * from productos where idtienda=:tienda and tipo=3 and
-  (nombre like :texto or
-    descripcion like :texto or
-    codigo like :texto  or
-    rapido like :texto or
-    marca like :texto or
-    modelo like :texto
-  ) order by tipo limit 20";
+  $sql="SELECT * from productos
+	LEFT OUTER JOIN productos_catalogo
+	on productos_catalogo.idcatalogo=productos.idcatalogo
+	where idtienda=".$_SESSION['idtienda']." and tipo=3 and (nombre like '%$texto%' or  codigo like '%$texto%') order by tipo limit 20";
   $sth = $db->dbh->prepare($sql);
   $sth->bindValue(":texto","%$texto%");
-  $sth->bindValue(":tienda",$_SESSION['idtienda']);
   $sth->execute();
   $res=$sth->fetchAll(PDO::FETCH_OBJ);
 
   echo "<div class='row'>";
-  echo "<table class='table table-sm' style='font-size:14px'>";
+  echo "<table class='table table-sm'>";
   echo  "<tr>";
   echo  "<th>-</th>";
   echo  "<th>Código</th>";
@@ -41,7 +36,6 @@
       echo  "<td>";
         echo  "<span style='font-size:12px'>";
         echo  "<B>BARRAS: </B>".$key->codigo."  ";
-        echo  "<br><B>RAPIDO: </B>".$key->rapido;
         echo  "</span>";
       echo  "</td>";
 
