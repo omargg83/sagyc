@@ -17,7 +17,7 @@
 	}
 	$sucursal=$db->sucursal();
 	echo "<hr>";
-	
+
 	echo "<div class='card'>";
 		echo "<form is='f-submit' id='form_editar' des='a_productos/lista' dix='trabajo'>";
 		echo "<div class='row'>";
@@ -45,7 +45,7 @@
 <div class='tabla_css' id='tabla_css'>
 	<div class='row titulo-row'>
 		<div class='col-12'>
-			LISTA DE CLIENTES
+			LISTA DE PRODUCTOS
 		</div>
 	</div>
 	<div class='row header-row'>
@@ -53,7 +53,7 @@
 		<div class='col-2'>Tipo</div>
 		<div class='col-5'>Nombre</div>
 		<div class='col-1'>Global</div>
-		<div class='col-2'>Precio compra</div>
+		<div class='col-2'>Precio</div>
 	</div>
 
 		<?php
@@ -72,7 +72,7 @@
 					echo "</div>";
 
 					echo "<div class='col-2'>";
-						if($key->tipo==0) echo "Registro";
+						if($key->tipo==0) echo "Servicio";
 						if($key->tipo==3) echo "Volúmen";
 					echo "</div>";
 
