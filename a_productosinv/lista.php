@@ -50,10 +50,11 @@
 	</div>
 	<div class='row header-row'>
 		<div class='col-2'>#</div>
-		<div class='col-2'>Tipo</div>
-		<div class='col-5'>Nombre</div>
+		<div class='col-1'>Tipo</div>
+		<div class='col-3'>Nombre</div>
+		<div class='col-1'>Sucursal</div>
 		<div class='col-1'>Global</div>
-		<div class='col-2'>Precio</div>
+		<div class='col-1'>Precio</div>
 	</div>
 
 		<?php
@@ -82,13 +83,13 @@
 						echo "</div>";
 					echo "</div>";
 
-					echo "<div class='col-2'>";
+					echo "<div class='col-1'>";
 						if($key->tipo==0) echo "Servicio";
 						if($key->tipo==3) echo "Volúmen";
 					echo "</div>";
 
-					echo "<div class='col-5'>".$key->nombre."</div>";
-
+					echo "<div class='col-3'>".$key->nombre."</div>";
+					echo "<div class='col-1'>".$key->nombresuc."</div>";
 					echo "<div class='col-1 text-center'>";
 					//	$sql="select sum(cantidad) as total from bodega where idsucursal='$idsucursal' and idproducto='$key->idproducto'";
 					//	$sth = $db->dbh->prepare($sql);
@@ -97,7 +98,7 @@
 						echo $cantidad->total;
 					echo "</div>";
 
-					echo "<div class='col-2 text-right' >".moneda($key->precio)."</div>";
+					echo "<div class='col-1 text-right' >".moneda($key->precio)."</div>";
 				echo '</div>';
 			}
 		?>
