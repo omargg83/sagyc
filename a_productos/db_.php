@@ -50,18 +50,20 @@ class Productos extends Sagyc{
 		return $this->borrar('productos_catalogo',"idcatalogo",$idcatalogo);
 	}
 
-	public function producto_editar($id){
+	public function producto_edit($id){
 		try{
 			$sql="select * from productos_catalogo where idcatalogo=:id and idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(':id', "$id");
+			$sth->bindValue(":id",$id);
 			$sth->execute();
+
 			return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+
 	public function guardar_producto(){
 		try{
 			if (isset($_REQUEST['idcatalogo'])){$idcatalogo=$_REQUEST['idcatalogo'];}

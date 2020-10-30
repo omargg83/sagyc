@@ -2,14 +2,12 @@
 	require_once("db_.php");
 	if (isset($_REQUEST['idproducto'])){$idproducto=$_REQUEST['idproducto'];} else{ $idproducto=0;}
 
-	$codigo="";
-	$nombre="";
-	$unidad="";
 	$precio=0;
 
 	$preciom=0;
 	$stockmin=0;
 	$stockmax=0;
+
 	$categoria=0;
 
 	$marca="";
@@ -27,33 +25,24 @@
 	$cate=$db->categoria();
 	if($idproducto>0){
 		$per = $db->producto_editar($idproducto);
-		$codigo=$per->codigo;
-		$nombre=$per->nombre;
-		$unidad=$per->unidad;
-		$marca=$per->marca;
-		$modelo=$per->modelo;
-		$descripcion=$per->descripcion;
-		$tipo=$per->tipo;
-		$activo=$per->activo;
-		$rapido=$per->rapido;
-		$color=$per->color;
-		$material=$per->material;
+
+
 		$cantidad=$per->cantidad;
 		$precio=$per->precio;
 
 		$preciom=$per->preciom;
 		$stockmin=$per->stockmin;
 		$stockmax=$per->stockmax;
+
 		$categoria=$per->categoria;
 
 		$preciocompra=$per->preciocompra;
-		$idproductoventa=$per->idventa;
 	}
 
 ?>
 
 <div class='container'>
-	<form is="f-submit" id="form_editar" db="a_productos/db_" fun="guardar_producto" des="a_productos/editar" desid='idproducto'>
+	<form is="f-submit" id="form_editar" db="a_productosinv/db_" fun="guardar_producto" des="a_productosinv/editar" desid='idproducto'>
 		<input type="hidden" name="idproducto" id="idproducto" value="<?php echo $idproducto;?>">
 		<div class='card'>
 			<div class='card-header'>
@@ -62,7 +51,7 @@
 			<div class='card-body'>
 				<div class='tab-content' id='myTabContent'>
 					<div class='tab-pane fade show active' id='ssh' role='tabpanel' aria-labelledby='ssh-tab'>
-						<form id='form_producto' action='' data-lugar='a_productos/db_' data-destino='a_productos/editar' data-funcion='guardar_producto'>
+						<form id='form_producto' action='' data-lugar='a_productosinv/db_' data-destino='a_productosinv/editar' data-funcion='guardar_producto'>
 							<input type="hidden" class="form-control form-control-sm" id="id" name='id' value="<?php echo $idproducto; ?>">
 							<div class='row'>
 								<div class="col-12">
@@ -84,20 +73,6 @@
 								 <label>Nombre</label>
 								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" required>
 								</div>
-
-
-							<div class='col-3'>
-									<label>categoría</label>
-									<select class='form-control form-control-sm' name='categoria' id='categoria'>
-										<?php
-										foreach($cate as $key){
-											echo  "<option value='".$key->idcat."' "; if($categoria==$key->idcat){ echo " selected";} echo ">".$key->nombre."</option>";
-										}?>
-									</select>
-								</div>
-
-
-
 
 								<div class="col-12">
 								 <label>Descripción</label>
@@ -162,11 +137,11 @@
 
 											if($idproducto>0){
 												if($tipo==3){
-													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-key'></i>+ existencias</button>";
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productosinv/form_agrega' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-key'></i>+ existencias</button>";
 												}
 											}
 										?>
-										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_productos/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_productosinv/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
 								</div>
 							</div>
 						</form>
@@ -191,7 +166,7 @@
 										echo "<div class='btn-group'>";
 										if(!$key->idventa){
 
-										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/editar' desid='idbodega' dix='trabajo' db='a_productos/db_'  fun='borrar_ingreso' v_id='$key->idbodega' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productosinv/editar' desid='idbodega' dix='trabajo' db='a_productosinv/db_'  fun='borrar_ingreso' v_id='$key->idbodega' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 										}
 										echo "</div>";
 									echo "</td>";

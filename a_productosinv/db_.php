@@ -48,7 +48,7 @@ class Productos extends Sagyc{
 			productos.stockmin,
 			productos.idsucursal,
 			sucursal.idsucursal,
-			sucursal.nombre,
+			sucursal.nombre as nombresuc,
 			bodega.idbodega,
 			bodega.cantidad
 			from productos
@@ -71,7 +71,28 @@ class Productos extends Sagyc{
 
 	public function producto_editar($id){
 		try{
-			$sql="select * from productos where idproducto=:id and idtienda='".$_SESSION['idtienda']."'";
+			$sql="SELECT
+			productos_catalogo.nombre,
+			productos_catalogo.codigo,
+			productos_catalogo.tipo,
+			productos.idproducto,
+			productos.cantidad,
+			productos.precio,
+			productos.preciocompra,
+			productos.preciom,
+			productos.stockmin,
+			productos.idsucursal,
+			sucursal.idsucursal,
+			sucursal.nombre as nombresuc,
+			bodega.idbodega,
+			bodega.cantidad
+			from productos
+			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
+			LEFT OUTER JOIN sucursal ON sucursal.idsucursal =productos.idsucursal
+			LEFT OUTER JOIN bodega ON bodega.idproducto = productos.idproducto
+			where where idproducto=:id and idtienda='".$_SESSION['idtienda']."' ";
+
+			//$sql="select * from productos where idproducto=:id and idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(':id', "$id");
 			$sth->execute();

@@ -1,10 +1,13 @@
 <?php
 	require_once("db_.php");
 	if (isset($_REQUEST['idcatalogo'])){$idcatalogo=$_REQUEST['idcatalogo'];} else{ $idcatalogo=0;}
-
+	print_r($_REQUEST);
+	var_dump ($_REQUEST);
 	$codigo="";
 	$nombre="";
 	$unidad="";
+
+	$categoria=0;
 
 	$marca="";
 	$modelo="";
@@ -16,17 +19,17 @@
 
 	$cate=$db->categoria();
 	if($idcatalogo>0){
-		$per = $db->producto_editar($idcatalogo);
-		$codigo=$per->codigo;
-		$nombre=$per->nombre;
-		$unidad=$per->unidad;
-		$marca=$per->marca;
-		$modelo=$per->modelo;
-		$descripcion=$per->descripcion;
-		$tipo=$per->tipo;
-		$activo_catalogo=$per->activo_catalogo;
-
-		$color=$per->color;
+		$pd = $db->producto_edit($idcatalogo);
+		$codigo=$pd->codigo;
+		$nombre=$pd->nombre;
+		$unidad=$pd->unidad;
+		$marca=$pd->marca;
+		$modelo=$pd->modelo;
+		$descripcion=$pd->descripcion;
+		$tipo=$pd->tipo;
+		$activo_catalogo=$pd->activo_catalogo;
+		$categoria=$pd->categoria;
+		$color=$pd->color;
 	}
 
 ?>
@@ -42,7 +45,7 @@
 				<div class='tab-content' id='myTabContent'>
 					<div class='tab-pane fade show active' id='ssh' role='tabpanel' aria-labelledby='ssh-tab'>
 						<form id='form_producto' action='' data-lugar='a_productos/db_' data-destino='a_productos/editar' data-funcion='guardar_producto'>
-							<input type="hidden" class="form-control form-control-sm" id="id" name='id' value="<?php echo $idcatalogo; ?>">
+							<input type="hidden" class="form-control form-control-sm" id="idcatalogo" name='idcatalogo' value="<?php echo $idcatalogo; ?>">
 							<div class='row'>
 								<div class="col-12">
 								 <label>Tipo de producto</label>
@@ -57,8 +60,18 @@
 							<div class='row'>
 								<div class="col-5">
 								 <label>Nombre</label>
-								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" required>
+								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Nombre" value="<?php echo $nombre; ?>" required>
 								</div>
+
+								<div class='col-3'>
+										<label>categoría</label>
+										<select class='form-control form-control-sm' name='categoria' id='categoria'>
+											<?php
+											foreach($cate as $key){
+												echo  "<option value='".$key->idcat."' "; if($categoria==$key->idcat){ echo " selected";} echo ">".$key->nombre."</option>";
+											}?>
+										</select>
+									</div>
 
 								<div class="col-12">
 								 <label>Descripción</label>

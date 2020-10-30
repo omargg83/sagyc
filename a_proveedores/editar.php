@@ -1,7 +1,6 @@
 <?php
 	require_once("db_.php");
 	if (isset($_REQUEST['idproveedor'])){$idproveedor=$_REQUEST['idproveedor'];} else{ $idproveedor=0;}
-
 	$nombre="";
 	$emailp="";
 	$telp="";

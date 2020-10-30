@@ -16,28 +16,6 @@
 		$pd = $db->productos_lista();
 	}
 	$sucursal=$db->sucursal();
-	echo "<hr>";
-
-	echo "<div class='card'>";
-		echo "<form is='f-submit' id='form_editar' des='a_productos/lista' dix='trabajo'>";
-		echo "<div class='row'>";
-			echo "<div class='col-2'>";
-				echo "<label><b>Sucursal</b></label>";
-			echo "</div>";
-			echo "<div class='col-2'>";
-				echo "<select class='form-control form-control-sm' id='idsucursal' name='idsucursal'>";
-				foreach($sucursal as $row){
-					echo "<option value='$row->idsucursal'" ; if($idsucursal==$row->idsucursal){ echo " selected"; }echo ">$row->nombre</option>";
-				}
-				echo "</select>";
-			echo "</div>";
-			echo "<div class='col-2'>";
-			echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
-			echo "</div>";
-		echo "</div>";
-		echo "</form>";
-	echo "</div>";
-	echo "<hr>";
 
 	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
