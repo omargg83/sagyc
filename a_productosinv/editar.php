@@ -1,42 +1,25 @@
 <?php
 	require_once("db_.php");
-	if (isset($_REQUEST['idproducto'])){$idproducto=$_REQUEST['idproducto'];} else{ $idproducto=0;}
-
-	$precio=0;
-
-	$preciom=0;
-	$stockmin=0;
-	$stockmax=0;
-
-	$categoria=0;
-
-	$marca="";
-	$modelo="";
-	$descripcion="";
-	$tipo="";
-	$activo="1";
-	$rapido="";
-	$color="";
-	$material="";
-	$cantidad="";
-	$preciocompra="";
-	$idproductoventa="";
-
+	$idproducto=$_REQUEST['idproducto'];
 	$cate=$db->categoria();
 	if($idproducto>0){
 		$per = $db->producto_editar($idproducto);
 
-
 		$cantidad=$per->cantidad;
 		$precio=$per->precio;
-
 		$preciom=$per->preciom;
 		$stockmin=$per->stockmin;
 		$stockmax=$per->stockmax;
-
-		$categoria=$per->categoria;
-
 		$preciocompra=$per->preciocompra;
+	}
+	else{
+		$precio=0;
+
+		$preciom=0;
+		$stockmin=0;
+		$stockmax=0;
+		$cantidad=0;
+		$preciocompra="";
 	}
 
 ?>

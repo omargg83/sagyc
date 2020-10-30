@@ -56,7 +56,6 @@ class Productos extends Sagyc{
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
-
 			return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
