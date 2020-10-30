@@ -1,8 +1,6 @@
 <?php
 	require_once("db_.php");
 	if (isset($_REQUEST['idcatalogo'])){$idcatalogo=$_REQUEST['idcatalogo'];} else{ $idcatalogo=0;}
-	print_r($_REQUEST);
-	var_dump ($_REQUEST);
 	$codigo="";
 	$nombre="";
 	$unidad="";
@@ -104,7 +102,7 @@
 
 											if($idcatalogo>0){
 												if($tipo==3){
-													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idproducto='$idcatalogo' ><i class='fas fa-key'></i>+ existencias</button>";
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idcatalogo='$idcatalogo' ><i class='fas fa-key'></i>+ existencias</button>";
 												}
 											}
 										?>
