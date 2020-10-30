@@ -55,7 +55,7 @@ class Productos extends Sagyc{
 			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
 			LEFT OUTER JOIN sucursal ON sucursal.idsucursal =productos.idsucursal
 			LEFT OUTER JOIN bodega ON bodega.idproducto = productos.idproducto
-			where activo=1 and productos.idsucursal='".$_SESSION['idsucursal']."'limit 50";
+			where activo=1 and productos.idsucursal='".$_SESSION['idsucursal']."' group by productos.idsucursal, productos.idproducto limit 50";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
