@@ -9,17 +9,20 @@
 		$precio=$per->precio;
 		$preciom=$per->preciom;
 		$stockmin=$per->stockmin;
-		$stockmax=$per->stockmax;
 		$preciocompra=$per->preciocompra;
+		$nombre=$per->nombre;
+		$descripcion=$per->descripcion;
 	}
 	else{
 		$precio=0;
 
 		$preciom=0;
 		$stockmin=0;
-		$stockmax=0;
 		$cantidad=0;
 		$preciocompra="";
+
+		$nombre="";
+		$descripcion="";
 	}
 
 ?>
@@ -48,10 +51,6 @@
 							</div>
 							<hr>
 							<div class='row'>
-								<div class="col-2">
-								 <label>Busqueda rapida</label>
-								 <input type="text" class="form-control form-control-sm" id="rapido" name='rapido' placeholder="rapido" value="<?php echo $rapido; ?>" maxlength=8>
-								</div>
 								<div class="col-5">
 								 <label>Nombre</label>
 								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" required>
@@ -94,10 +93,6 @@
 								<div class="col-2">
 								 <label>Stock Minimo</label>
 								 <input type="text" class="form-control form-control-sm" id="stockmin" name='stockmin' placeholder="Stock Minimo" value="<?php echo $stockmin; ?>">
-								</div>
-								<div class="col-2">
-								 <label>Stock Maximo</label>
-								 <input type="text" class="form-control form-control-sm" id="stockmax" name='stockmax' placeholder="Stock Maximo" value="<?php echo $stockmax; ?>" >
 								</div>
 
 								<div class="col-3">
