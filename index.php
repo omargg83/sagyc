@@ -71,7 +71,7 @@
 					<hr>
 
 					<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>
-					<a href='#a_productosinv/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Inventario</span></a>
+					<a href='#a_inventario/index' is='menu-link' title='inventario'><i class='fas fa-boxes'></i><span>Inventario</span></a>
 
 					<a href='#a_categorias/index' is='menu-link' title='Categorias'><i class="fab fa-cuttlefish"></i></i><span>Categorias</span></a>
 					<hr>

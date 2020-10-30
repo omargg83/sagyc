@@ -35,7 +35,7 @@
 								<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  v_idventa='<?php echo $key->idventa; ?> ' ><i class="fas fa-pencil-alt"></i></button>
 							</div>
 						</div>
-						<div class='col-2'><?php echo $key->idventa; ?></div>
+						<div class='col-2'><?php echo $key->numero; ?></div>
 						<div class='col-2'><?php echo fecha($key->fecha); ?></div>
 						<div class='col-2'><?php echo $key->nombre; ?></div>
 

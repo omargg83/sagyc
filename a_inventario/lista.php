@@ -19,7 +19,7 @@
 	echo "<hr>";
 
 	echo "<div class='card'>";
-		echo "<form is='f-submit' id='form_editar' des='a_productosinv/lista' dix='trabajo'>";
+		echo "<form is='f-submit' id='form_editar' des='a_inventario/lista' dix='trabajo'>";
 		echo "<div class='row'>";
 			echo "<div class='col-2'>";
 				echo "<label><b>Sucursal</b></label>";
@@ -52,7 +52,6 @@
 		<div class='col-2'>#</div>
 		<div class='col-1'>Tipo</div>
 		<div class='col-3'>Nombre</div>
-		<div class='col-1'>Sucursal</div>
 		<div class='col-1'>Global</div>
 		<div class='col-1'>Precio</div>
 	</div>
@@ -63,11 +62,11 @@
 					echo "<div class='col-2'>";
 						echo "<div class='btn-group'>";
 
-						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_productosinv/editar' dix='trabajo' v_idproducto='$key->idproducto'><i class='fas fa-pencil-alt'></i></button>";
+						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_inventario/editar' dix='trabajo' v_idproducto='$key->idproducto'><i class='fas fa-pencil-alt'></i></button>";
 
-						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-print' title='Editar' des='a_productosinv/imprimir' dix='trabajo' v_idproducto='$key->idproducto' v_variable='demo' v_tipo='1'><i class='fas fa-barcode'></i></button>";
+						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-print' title='Editar' des='a_inventario/imprimir' dix='trabajo' v_idproducto='$key->idproducto' v_variable='demo' v_tipo='1'><i class='fas fa-barcode'></i></button>";
 
-						echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_productosinv/db_' des='a_productosinv/lista' fun='borrar_producto' dix='trabajo' v_idproducto='$key->idproducto' id='eliminar' tp='¿Desea eliminar el Producto seleccionado?'><i class='far fa-trash-alt'></i></button>";
+						echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_inventario/db_' des='a_inventario/lista' fun='borrar_producto' dix='trabajo' v_idproducto='$key->idproducto' id='eliminar' tp='¿Desea eliminar el Producto seleccionado?'><i class='far fa-trash-alt'></i></button>";
 							////
 							$sql="select sum(cantidad) as total from bodega where idsucursal='$idsucursal' and idproducto='$key->idproducto'";
 							$sth = $db->dbh->prepare($sql);
@@ -89,13 +88,9 @@
 					echo "</div>";
 
 					echo "<div class='col-3'>".$key->nombre."</div>";
-					echo "<div class='col-1'>".$key->nombresuc."</div>";
+					
 					echo "<div class='col-1 text-center'>";
-					//	$sql="select sum(cantidad) as total from bodega where idsucursal='$idsucursal' and idproducto='$key->idproducto'";
-					//	$sth = $db->dbh->prepare($sql);
-					//	$sth->execute();
-					//	$cantidad=$sth->fetch(PDO::FETCH_OBJ);
-						echo $cantidad->total;
+						echo $key->cantidad;
 					echo "</div>";
 
 					echo "<div class='col-1 text-right' >".moneda($key->precio)."</div>";

@@ -18,6 +18,7 @@
 
 
 		if($idventa>0){
+			$total=0;
 			foreach($pedido as $key){
 				$sql="SELECT * from productos where idproducto=:id";
 				$sth = $db->dbh->prepare($sql);
@@ -26,7 +27,6 @@
 				$res=$sth->fetch(PDO::FETCH_OBJ);
 
 				echo "<div class='row body-row' draggable='true'>";
-
 					echo "<div class='col-6'>";
 						echo "<div class='btn-group mr-3'>";
 							echo "<button class='btn btn-warning btn-sm' id='del_$key->idbodega' type='button' is='is-borraprod' v_idbodega='$key->idbodega' title='Borrar'><i class='far fa-trash-alt'></i></button>";
@@ -45,9 +45,17 @@
 
 					echo "<div class='col-2 text-right'>";
 						echo number_format($key->v_total,2);
+						$total+=$key->v_total;
 					echo "</div>";
 				echo "</div>";
 			}
+			echo "<div class='row'>";
+				echo "<div class='col-10'>";
+				echo "</div>";
+				echo "<div class='col-2 text-right'>";
+					echo moneda($total);
+				echo "</div>";
+			echo "</div>";
 		}
 		echo "</div>";
 ?>

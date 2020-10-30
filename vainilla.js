@@ -270,9 +270,9 @@ class Borraprod extends HTMLButtonElement {
       e.preventDefault();
 
       let idventa=document.getElementById("idventa").value;
-      var idbodega=e.currentTarget.attributes.v_idbodega.value;
+      let idbodega=e.currentTarget.attributes.v_idbodega.value;
 
-      var formData = new FormData();
+      let formData = new FormData();
       formData.append("idventa", idventa);
       formData.append("idbodega", idbodega);
       formData.append("function", "borrar_venta");
@@ -297,8 +297,22 @@ class Cliente_flo extends HTMLButtonElement {
    this.addEventListener('click', (e) => {
       e.preventDefault();
       let idventa=document.getElementById("idventa").value;
-      alert(idventa);
+      let idcliente=e.currentTarget.attributes.v_idcliente.value;
 
+      let formData = new FormData();
+      formData.append("idventa", idventa);
+      formData.append("idcliente", idcliente);
+      formData.append("function", "agregar_cliente");
+
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST',"a_venta/db_.php");
+      xhr.addEventListener('load',(data)=>{
+        console.log(data.target.response);
+      });
+      xhr.onerror =  ()=>{
+
+      };
+      xhr.send(formData);
    })
   }
 }

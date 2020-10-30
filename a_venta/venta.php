@@ -10,8 +10,13 @@
     $sth = $db->dbh->prepare($sql);
     $sth->execute();
     $venta=$sth->fetch(PDO::FETCH_OBJ);
-    $idcliente=$venta->idcliente;
+    $numero_compra=$venta->numero;
+    $estado_compra=$venta->estado;
 
+    $fecha1 = date ( "Y-m-d" , strtotime($venta->fecha) );
+    $fecha_compra=$fecha1;
+
+    $idcliente=$venta->idcliente;
     $sql="select * from clientes where idtienda='".$_SESSION['idtienda']."' and idcliente='$idcliente'";
     $sth = $db->dbh->prepare($sql);
     $sth->execute();
@@ -22,6 +27,9 @@
   else{
     $idventa=0;
     $idcliente=0;
+    $numero_compra=0;
+    $estado_compra="";
+    $fecha_compra=date ( "Y-m-d" );
 
     $sql="select * from clientes where idtienda='".$_SESSION['idtienda']."' limit 1";
     $sth = $db->dbh->prepare($sql);
@@ -36,16 +44,19 @@
 
 <div class="container-fluid">
 	<div class='card'>
-    <div class='card-header'>Venta #<?php echo $idventa; ?></div>
+    <div class='card-header'>Venta #<?php echo $numero_compra; ?></div>
     <div class='card-body'>
       <div class='row'>
         <div class='col-7'>
-          <div class='row' >
-            <div class='col-12' id='cliente_datos'>
-              <?php
-                include 'cliente_datos.php';
-              ?>
-            </div>
+          <div class='row mb-3' id='dato_compra'>
+            <?php
+              include 'dato_compra.php';
+            ?>
+          </div>
+          <div class='row mb-3' id='cliente_datos'>
+            <?php
+              include 'cliente_datos.php';
+            ?>
           </div>
           <hr>
           <div class='row' >
@@ -54,26 +65,40 @@
                 include 'lista_pedido.php';
               ?>
             </div>
-
           </div>
         </div>
         <div class='col-5'>
+
+
+          <div class='row'>
+            <div class='col-12'>
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <form is="p-busca" id="form_busca" >
+              			<div clas='row'>
+              					<div class="input-group mb-3">
+              					<input type="text" class="form-control form-control-sm" name="prod_venta" id='prod_venta' placeholder='buscar producto' aria-label="buscar producto" aria-describedby="basic-addon2">
+              					<div class="input-group-append">
+              						<button class="btn btn-warning btn-sm" type="submit" ><i class='fas fa-search'></i>Buscar</button>
+              					</div>
+              				</div>
+              			</div>
+              		</form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div clas='row' id='resultadosx' style='height:600px; overflow:auto;'>
+
+          </div>
+
+
           <?php
             include 'producto_buscar.php';
           ?>
-          <hr>
-          <div id='dato_compra'>
-
-          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  $(function(){
-    let idventa=document.getElementById("idventa").value;
-    datos_compra(idventa);
-  });
-</script>

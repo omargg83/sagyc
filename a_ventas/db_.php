@@ -30,15 +30,17 @@ class Venta extends Sagyc{
 	}
 
 	public function ventas_lista(){
+		$sql="select venta.idventa, venta.numero, venta.idsucursal, venta.iddescuento, venta.factura, clientes.nombre, sucursal.nombre as tienda,
+		venta.total, venta.fecha, venta.gtotal, venta.estado
+		from venta
+		left outer join clientes on clientes.idcliente=venta.idcliente
+		left outer join sucursal on sucursal.idsucursal=venta.idsucursal
+		where sucursal.idsucursal='".$_SESSION['idtienda']."' and venta.estado='Activa' order by venta.fecha";
 
-			$sql="select venta.idventa, venta.idtienda, venta.iddescuento, venta.factura, clientes.nombre, et_tienda.nombre as tienda, venta.total, venta.fecha, venta.gtotal, venta.estado, et_descuento.nombre as descuento from venta
-			left outer join clientes on clientes.idcliente=venta.idcliente
-			left outer join et_descuento on et_descuento.iddescuento=venta.iddescuento
-			left outer join et_tienda on et_tienda.id=venta.idtienda where venta.idtienda='".$_SESSION['idtienda']."' and venta.estado='Activa' order by venta.fecha desc";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
-			return $sth->fetchAll(PDO::FETCH_OBJ);
-		}
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetchAll(PDO::FETCH_OBJ);
+	}
 	public function ventas_buscar($texto){
 			$sql="select venta.idventa, venta.idtienda, venta.iddescuento, venta.factura, clientes.nombre, et_tienda.nombre as tienda, venta.total, venta.fecha, venta.gtotal, venta.estado, et_descuento.nombre as descuento from venta
 			left outer join clientes on clientes.idcliente=venta.idcliente
@@ -61,34 +63,7 @@ class Venta extends Sagyc{
 		}
 	}
 
-	public function agrega_cliente(){
-		try{
-			$idventa=$_REQUEST['idventa'];
-			$idcliente=$_REQUEST['idcliente'];
-			if($idventa==0){
-				$arreglo=array();
-				$arreglo+=array('idcliente'=>$idcliente);
-				$arreglo+=array('estado'=>"Activa");
-				$date=date("Y-m-d H:i:s");
-				$arreglo+=array('fecha'=>$date);
-				$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
-				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
-				$x=$this->insert('venta', $arreglo);
-			}
-			else{
-				$arreglo=array();
-				$arreglo+=array('idcliente'=>$idcliente);
-				$x=$this->update('venta',array('idventa'=>$idventa), $arreglo);
-			}
-			return $x;
-		}
-		catch(PDOException $e){
-			return "Database access FAILED! ".$e->getMessage();
-		}
-	}
-
-
-
+	
 	public function selecciona_cita(){
 		try{
 
@@ -193,10 +168,6 @@ class Venta extends Sagyc{
 			return "Database access FAILED! ".$e->getMessage();
 		}
 	}
-
-
-
-
 	public function buscar($texto){
 
 		$texto=trim($texto);

@@ -2,9 +2,10 @@
 	require_once("db_.php");
 	$idproducto=$_REQUEST['idproducto'];
 	$idventa=$_REQUEST['idventa'];
-	echo "idventa:".$idventa;
-	
-	$sql="SELECT * from productos where idproducto=:id";
+
+	$sql="SELECT * from productos
+	left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
+	where idproducto=:id";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idproducto);
 	$sth->execute();
