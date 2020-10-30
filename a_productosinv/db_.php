@@ -110,43 +110,11 @@ class Productos extends Sagyc{
 			$arreglo =array();
 			$tipo="";
 			$imei="";
-			if (isset($_REQUEST['codigo'])){
-				$arreglo += array('codigo'=>$_REQUEST['codigo']);
+
+			if (isset($_REQUEST['activo_producto'])){
+				$arreglo += array('activo_producto'=>$_REQUEST['activo_producto']);
 			}
-			if (isset($_REQUEST['nombre'])){
-				$arreglo += array('nombre'=>$_REQUEST['nombre']);
-			}
-			if (isset($_REQUEST['unidad'])){
-				$arreglo += array('unidad'=>$_REQUEST['unidad']);
-			}
-			if (isset($_REQUEST['marca'])){
-				$arreglo += array('marca'=>$_REQUEST['marca']);
-			}
-			if (isset($_REQUEST['marca'])){
-				$arreglo += array('marca'=>$_REQUEST['marca']);
-			}
-			if (isset($_REQUEST['modelo'])){
-				$arreglo += array('modelo'=>$_REQUEST['modelo']);
-			}
-			if (isset($_REQUEST['descripcion'])){
-				$arreglo += array('descripcion'=>$_REQUEST['descripcion']);
-			}
-			if (isset($_REQUEST['activo'])){
-				$arreglo += array('activo'=>$_REQUEST['activo']);
-			}
-			if (isset($_REQUEST['rapido'])){
-				$arreglo += array('rapido'=>$_REQUEST['rapido']);
-			}
-			if (isset($_REQUEST['color'])){
-				$arreglo += array('color'=>$_REQUEST['color']);
-			}
-			if (isset($_REQUEST['material'])){
-				$arreglo += array('material'=>$_REQUEST['material']);
-			}
-			if (isset($_REQUEST['imei'])){
-				$imei=$_REQUEST['imei'];
-				$arreglo += array('imei'=>$imei);
-			}
+
 			if (isset($_REQUEST['precio'])){
 				$arreglo += array('precio'=>$_REQUEST['precio']);
 			}
@@ -156,12 +124,7 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['stockmin'])){
 				$arreglo += array('stockmin'=>$_REQUEST['stockmin']);
 			}
-			if (isset($_REQUEST['stockmax'])){
-				$arreglo += array('stockmax'=>$_REQUEST['stockmax']);
-			}
-			if (isset($_REQUEST['categoria'])){
-				$arreglo += array('categoria'=>$_REQUEST['categoria']);
-			}
+
 			if (isset($_REQUEST['preciocompra']) and strlen($_REQUEST['preciocompra'])>0  ){
 				$arreglo += array('preciocompra'=>$_REQUEST['preciocompra']);
 			}
@@ -169,34 +132,10 @@ class Productos extends Sagyc{
 				$arreglo += array('preciocompra'=>NULL);
 			}
 
-			if (isset($_REQUEST['tipo'])){
-				$tipo=$_REQUEST['tipo'];
-				$arreglo += array('tipo'=>$_REQUEST['tipo']);
-			}
 			$x="";
 
-			if(strlen($imei)>0){
-				$sql="select * from productos where imei=:id";
-				$sth = $this->dbh->prepare($sql);
-				$sth->bindValue(':id', "$imei");
-				$sth->execute();
-				$resp=$sth->fetch(PDO::FETCH_OBJ);
-				if(!$resp){
-
-				}
-				else{
-					if($id==$resp->id){
-
-					}
-					else{
-						return "Ya existe un producto con el IMEI";
-					}
-				}
-			}
-
 			if($idproducto==0){
-				$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
-				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
+				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$x=$this->insert('productos', $arreglo);
 				$ped=json_decode($x);
 
@@ -205,14 +144,10 @@ class Productos extends Sagyc{
 
 					$this->cantidad_update($idproducto,$tipo);
 
-					$codigo="9".str_pad($idproducto, 8, "0", STR_PAD_LEFT);
-					$arreglo =array();
-					$arreglo = array('codigo'=>$codigo);
 					$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
 				}
 			}
 			else{
-				$arreglo+=array('fechamod'=>date("Y-m-d H:i:s"));
 				$x=$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
 
 				$this->cantidad_update($idproducto,$tipo);
