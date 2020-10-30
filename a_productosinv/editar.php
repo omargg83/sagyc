@@ -13,6 +13,7 @@
 		$nombre=$per->nombre;
 		$descripcion=$per->descripcion;
 		$tipo=$per->tipo;
+		$activo_producto=$per->activo_producto;
 	}
 	else{
 		$precio=0;
@@ -25,6 +26,7 @@
 		$nombre="";
 		$descripcion="";
 		$tipo="";
+		$activo_producto=0;
 	}
 
 ?>
@@ -99,9 +101,9 @@
 
 								<div class="col-3">
 								 <label>Activo</label>
-									<select class="form-control form-control-sm" name="activo" id="activo"  >
-										<option value="0"<?php if($activo=="0") echo "selected"; ?> > Inactivo</option>
-										<option value="1"<?php if($activo=="1") echo "selected"; ?> > Activo</option>
+									<select class="form-control form-control-sm" name="activo_producto" id="activo"  >
+										<option value="0"<?php if($activo_producto=="0") echo "selected"; ?> > Inactivo</option>
+										<option value="1"<?php if($activo_producto=="1") echo "selected"; ?> > Activo</option>
 									</select>
 								</div>
 

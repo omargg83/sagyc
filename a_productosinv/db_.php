@@ -77,6 +77,7 @@ class Productos extends Sagyc{
 			productos_catalogo.tipo,
 			productos_catalogo.descripcion,
 			productos.idproducto,
+			productos.activo_producto,
 			productos.cantidad,
 			productos.precio,
 			productos.preciocompra,
