@@ -98,6 +98,10 @@ class Productos extends Sagyc{
 				$arreglo += array('color'=>$_REQUEST['color']);
 			}
 
+			if (isset($_REQUEST['categoria'])){
+				$arreglo += array('categoria'=>$_REQUEST['categoria']);
+			}
+
 			if (isset($_REQUEST['tipo'])){
 				$tipo=$_REQUEST['tipo'];
 				$arreglo += array('tipo'=>$_REQUEST['tipo']);
