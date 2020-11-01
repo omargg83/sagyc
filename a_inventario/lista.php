@@ -90,7 +90,7 @@
 					echo "<div class='col-3'>".$key->nombre."</div>";
 
 					echo "<div class='col-1 text-center'>";
-						echo $key->cantidad;
+						echo $cantidad->total;
 					echo "</div>";
 
 					echo "<div class='col-1 text-right' >".moneda($key->precio)."</div>";
