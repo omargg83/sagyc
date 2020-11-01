@@ -32,7 +32,7 @@
 ?>
 
 <div class='container'>
-	<form is="f-submit" id="form_editar" db="a_productosinv/db_" fun="guardar_producto" des="a_productosinv/editar" desid='idproducto'>
+	<form is="f-submit" id="form_editar" db="/db_" fun="guardar_producto" des="/editar" desid='idproducto'>
 		<input type="hidden" name="idproducto" id="idproducto" value="<?php echo $idproducto;?>">
 		<div class='card'>
 			<div class='card-header'>
@@ -41,7 +41,7 @@
 			<div class='card-body'>
 				<div class='tab-content' id='myTabContent'>
 					<div class='tab-pane fade show active' id='ssh' role='tabpanel' aria-labelledby='ssh-tab'>
-						<form id='form_producto' action='' data-lugar='a_productosinv/db_' data-destino='a_productosinv/editar' data-funcion='guardar_producto'>
+						<form id='form_producto' action='' data-lugar='/db_' data-destino='/editar' data-funcion='guardar_producto'>
 							<input type="hidden" class="form-control form-control-sm" id="id" name='id' value="<?php echo $idproducto; ?>">
 							<div class='row'>
 								<div class="col-12">
@@ -119,11 +119,11 @@
 
 											if($idproducto>0){
 												if($tipo==3){
-													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productosinv/form_agrega' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-key'></i>+ existencias</button>";
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_inventario/form_agrega' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-key'></i>+ existencias</button>";
 												}
 											}
 										?>
-										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_productosinv/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_inventario/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
 								</div>
 							</div>
 						</form>
@@ -148,7 +148,7 @@
 										echo "<div class='btn-group'>";
 										if(!$key->idventa){
 
-										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productosinv/editar' desid='idbodega' dix='trabajo' db='a_productosinv/db_'  fun='borrar_ingreso' v_id='$key->idbodega' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='/editar' desid='idbodega' dix='trabajo' db='/db_'  fun='borrar_ingreso' v_id='$key->idbodega' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 										}
 										echo "</div>";
 									echo "</td>";
