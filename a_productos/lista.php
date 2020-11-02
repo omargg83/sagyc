@@ -29,8 +29,8 @@
 	<div class='row header-row'>
 		<div class='col-2'>#</div>
 		<div class='col-2'>Tipo</div>
-		<div class='col-5'>Nombre</div>
-		<div class='col-1'>Descripción</div>
+		<div class='col-4'>Nombre</div>
+		<div class='col-2'>Descripción</div>
 	</div>
 
 		<?php
@@ -50,12 +50,12 @@
 
 					echo "<div class='col-2'>";
 						if($key->tipo==0) echo "Servicio";
-						if($key->tipo==3) echo "Volúmen";
+						if($key->tipo==3) echo "Producto";
 					echo "</div>";
 
-					echo "<div class='col-3'>".$key->nombre."</div>";
+					echo "<div class='col-4'>".$key->nombre."</div>";
 
-					echo "<div class='col-3'>".$key->descripcion."</div>";
+					echo "<div class='col-2'>".$key->descripcion."</div>";
 
 
 				echo '</div>';

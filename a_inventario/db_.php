@@ -43,7 +43,7 @@ class Productos extends Sagyc{
 		productos.idsucursal
 		from productos
 		LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
-		where productos.idsucursal='".$_SESSION['idsucursal']."' and productos.nombre like '%$texto%' or productos.codigo='%$texto%' limit 50";
+		where productos.idsucursal='".$_SESSION['idsucursal']."' and productos.nombre like '%$texto%' or productos.codigo='%$texto%' limit 10";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
