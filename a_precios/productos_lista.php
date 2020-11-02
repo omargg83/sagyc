@@ -1,15 +1,29 @@
 <?php
 	require_once("db_.php");
   $texto=$_REQUEST['prod_venta'];
-  $sql="SELECT * from productos where idtienda=".$_SESSION['idtienda']." and
-  	(nombre like '%$texto%' or
-    descripcion like '%$texto%' or
-    codigo like '%$texto%'  or
-    rapido like '%$texto%'
-  ) order by nombre limit 1";
+
+	$sql="SELECT
+	productos_catalogo.nombre,
+	productos_catalogo.codigo,
+	productos_catalogo.tipo,
+	productos.idproducto,
+	productos.cantidad,
+	productos.precio,
+	productos.preciocompra,
+	productos.preciom,
+	productos.stockmin,
+	productos.idsucursal
+	from productos
+	LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
+	where productos.idsucursal='".$_SESSION['idsucursal']."' and
+  (nombre like '%$texto%'or
+	descripcion like '%$texto%'or
+  codigo like '%$texto%'
+  )limit 10";
   $sth = $db->dbh->prepare($sql);
   $sth->execute();
   $res=$sth->fetchAll(PDO::FETCH_OBJ);
+
 	echo "<div class='container'>";
 	echo "<div class='tabla_css' id='tabla_css'>";
 		echo "<div class='row header-row'>";
@@ -58,4 +72,3 @@
 	  }
 		echo "</div>";
 	echo "</div>";
-?>

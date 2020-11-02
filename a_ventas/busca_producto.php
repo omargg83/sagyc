@@ -8,7 +8,6 @@
     descripcion like :texto or
     codigo like :texto  or
     imei like :texto or
-    rapido like :texto or
     marca like :texto or
     modelo like :texto
   ) order by tipo limit 20";
@@ -44,7 +43,6 @@
       echo  "<td>";
         echo  "<span style='font-size:12px'>";
         echo  "<B>BARRAS: </B>".$key->codigo."  ";
-        echo  "<br><B>RAPIDO: </B>".$key->rapido;
         echo  "</span>";
       echo  "</td>";
 
