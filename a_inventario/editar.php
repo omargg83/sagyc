@@ -57,12 +57,12 @@
 							<div class='row'>
 								<div class="col-5">
 								 <label>Nombre</label>
-								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" required>
+								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" readonly>
 								</div>
 
 								<div class="col-12">
 								 <label>Descripción</label>
-								 <input type="text" class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" value="<?php echo $descripcion; ?>">
+								 <input type="text" class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" value="<?php echo $descripcion; ?>" readonly>
 								</div>
 							</div>
 							<div class='row'>
