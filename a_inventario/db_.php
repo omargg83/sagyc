@@ -29,7 +29,6 @@ class Productos extends Sagyc{
 
 	}
 	public function producto_buscar($texto){
-
 		$sql="SELECT
 		productos_catalogo.nombre,
 		productos_catalogo.codigo,
@@ -43,7 +42,11 @@ class Productos extends Sagyc{
 		productos.idsucursal
 		from productos
 		LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
-		where productos.idsucursal='".$_SESSION['idsucursal']."' and productos.nombre like '%$texto%' or productos.codigo='%$texto%' limit 10";
+		where productos.idsucursal='".$_SESSION['idsucursal']."' and
+	  (nombre like '%$texto%'or
+		descripcion like '%$texto%'or
+	  codigo like '%$texto%'
+		)limit 50";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
