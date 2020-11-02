@@ -32,7 +32,7 @@
 ?>
 
 <div class='container'>
-	<form is="f-submit" id="form_editar" db="/db_" fun="guardar_producto" des="/editar" desid='idproducto'>
+	<form is="f-submit" id="form_editar" db="a_inventario/db_" fun="guardar_producto" des="a_inventario/editar" desid='idproducto'>
 		<input type="hidden" name="idproducto" id="idproducto" value="<?php echo $idproducto;?>">
 		<div class='card'>
 			<div class='card-header'>
@@ -129,15 +129,12 @@
 						</form>
 					</div>
 
-
 						<?php
 							$row=$db->productos_inventario($idproducto);
 							echo "<table class='table table-sm' style='font-size:12px'>";
 							echo "<tr>
 							<th>-</th>
 							<th>Fecha</th>
-							<th>Nota de compra</th>
-							<th># Venta</th>
 							<th>Cantidad</th>
 							<th>Precio</th>
 							</tr>";
@@ -148,19 +145,14 @@
 										echo "<div class='btn-group'>";
 										if(!$key->idventa){
 
-										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='/editar' desid='idbodega' dix='trabajo' db='/db_'  fun='borrar_ingreso' v_id='$key->idbodega' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_inventario/editar' desid='idbodega' dix='trabajo' db='a_inventario/db_'  fun='borrar_ingreso' v_idbodega='$key->idbodega' v_idproducto='$idproducto' tp='¿Desea eliminar la entrada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 										}
 										echo "</div>";
 									echo "</td>";
 									echo "<td>";
 										echo fecha($key->fecha);
 									echo "</td>";
-									echo "<td>";
-										echo $key->idcompra;
-									echo "</td>";
-									echo "<td>";
-										echo $key->idventa;
-									echo "</td>";
+
 									echo "<td>";
 										echo $key->cantidad;
 									echo "</td>";

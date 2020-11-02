@@ -26,7 +26,7 @@ class Compras extends Sagyc{
 	}
 	public function compras_lista(){
 		try{
-			$sql="SELECT * FROM compras where idtienda='".$_SESSION['idtienda']."' order by numero desc";
+			$sql="SELECT * FROM compras where idsucursal='".$_SESSION['idsucursal']."' order by numero desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -37,7 +37,7 @@ class Compras extends Sagyc{
 	}
 	public function compras_buscar($texto){
 		try{
-			$sql="SELECT * FROM compras where compras.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."'";
+			$sql="SELECT * FROM compras where compras.nombre like '%$texto%' and idsucursal='".$_SESSION['idsucursal']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -106,17 +106,13 @@ class Compras extends Sagyc{
 			$arreglo+=array('unico'=>$_REQUEST['unico']);
 		}
 		if($idcompra==0){
-			$sql = "SELECT MAX(numero) + 1 FROM compras where idtienda='".$_SESSION['idtienda']."'";
+			$sql = "SELECT MAX(numero) FROM compras where idsucursal='".$_SESSION['idsucursal']."'";
 			$statement = $this->dbh->prepare($sql);
 			$statement->execute();
-			if($statement->fetchColumn()>0){
-				$numero=$statement->fetchColumn();
-			}
-			else{
-				$numero=1;
-			}
+			$numero=$statement->fetchColumn()+1;
+			
 			$arreglo+=array('numero'=>$numero);
-			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
+			$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 			$arreglo+=array('estado'=>"Activa");
 			$x=$this->insert('compras', $arreglo);
 		}
@@ -173,7 +169,7 @@ class Compras extends Sagyc{
 
 		$this->cantidad_update($idproducto,3);
 
-		
+
 		return json_encode($arr);
 	}
 	public function borrar_registro(){

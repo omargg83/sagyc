@@ -6,9 +6,10 @@
 	$cantidad="";
 	$fecha=date("Y-m-d");
 	$nota="";
+	$precio="";
 ?>
 
-<form is="f-submit" id="form_inventario" db="a_productos/db_" fun="existencia_agrega" des="a_productos/editar" desid='idproducto'>
+<form is="f-submit" id="form_inventario" db="a_inventario/db_" fun="existencia_agrega" des="a_inventario/editar" desid='idproducto'>
 <div class='modal-header'>
 	<h5 class='modal-title'>Agregar existencia</h5>
 </div>
@@ -18,17 +19,32 @@
 		echo "<input type='hidden' id='idproducto' NAME='idproducto' value='$idproducto'>";
 	?>
 		<div class='row'>
-			<div class="col-4">
+			<div class="col-3">
 			 <label>Cantidad</label>
 			 <input type="text" class="form-control form-control-sm" id="cantidad" name='cantidad' placeholder="Cantidad" value="<?php echo $cantidad; ?>">
 			</div>
-			<div class="col-4">
+			<div class="col-3">
+			 <label>Precio</label>
+			 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>">
+			</div>
+			<div class="col-3">
 			 <label>Fecha</label>
 			 <input type="date" class="form-control form-control-sm fechaclass" id="fecha" name='fecha' placeholder="Fecha" value="<?php echo $fecha; ?>">
 			</div>
-			<div class="col-4">
+			<div class="col-3">
+
+
 			 <label>Nota de compra</label>
-			 <input type="text" class="form-control form-control-sm" id="nota" name='nota' placeholder="nota" value="<?php echo $nota; ?>">
+			 <?php
+			 	echo "<select type='text' class='form-control form-control-sm' id='idcompra' name='idcompra'>";
+					echo "<option value='0'></option>";
+					foreach ($db->compras_lista() as $v2){
+						echo "<option value='$v2->idcompra'>$v2->nombre</option>";
+					}
+				echo "</select>";
+			?>
+
+
 			</div>
 		</div>
 	</div>

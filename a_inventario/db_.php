@@ -29,7 +29,21 @@ class Productos extends Sagyc{
 
 	}
 	public function producto_buscar($texto){
-		$sql="select * from productos where productos.nombre like '%$texto%' and idtienda='".$_SESSION['idtienda']."' limit 50";
+
+		$sql="SELECT
+		productos_catalogo.nombre,
+		productos_catalogo.codigo,
+		productos_catalogo.tipo,
+		productos.idproducto,
+		productos.cantidad,
+		productos.precio,
+		productos.preciocompra,
+		productos.preciom,
+		productos.stockmin,
+		productos.idsucursal
+		from productos
+		LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
+		where productos.idsucursal='".$_SESSION['idsucursal']."' and productos.nombre like '%$texto%' or productos.codigo='%$textos%' limit 50";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -188,19 +202,26 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['cantidad'])){
 				$arreglo += array('cantidad'=>$_REQUEST['cantidad']);
 			}
-			if (isset($_REQUEST['nota'])){
-				$arreglo += array('nota'=>$_REQUEST['nota']);
+			if (isset($_REQUEST['precio'])){
+				$arreglo += array('c_precio'=>$_REQUEST['precio']);
+			}
+			if (isset($_REQUEST['idcompra'])){
+				if($_REQUEST['idcompra']>0){
+					$arreglo += array('idcompra'=>$_REQUEST['idcompra']);
+				}
+				else{
+					$arreglo += array('idcompra'=>null);
+				}
 			}
 			if (isset($_REQUEST['fecha'])){
 				$fx=explode("-",$_REQUEST['fecha']);
-				//$arreglo+=array('fecha'=>$fx['2']."-".$fx['1']."-".$fx['0']);
+
 				$arreglo+=array('fecha'=>$_REQUEST['fecha']);
 			}
 			$x="";
 			if($id==0){
 				$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
-				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$x=$this->insert('bodega', $arreglo);
 			}
@@ -227,7 +248,9 @@ class Productos extends Sagyc{
 	}
 	public function productos_inventario($id){
 		try{
-			$sql="select * from bodega where idproducto=$id and idsucursal='".$_SESSION['idsucursal']."' order by idbodega desc";
+			$sql="select * from bodega
+
+			where idproducto=$id and idsucursal='".$_SESSION['idsucursal']."' order by idbodega desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -237,16 +260,16 @@ class Productos extends Sagyc{
 		}
 	}
 	public function borrar_ingreso(){
-		$id=$_REQUEST['id'];
+		$idbodega=$_REQUEST['idbodega'];
 		$idproducto=$_REQUEST['idproducto'];
 
-		$sql="SELECT * from bodega where id=:id";
+		$sql="SELECT * from bodega where idbodega=:id";
 		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":id",$id);
+		$sth->bindValue(":id",$idbodega);
 		$sth->execute();
 		$res=$sth->fetch(PDO::FETCH_OBJ);
 
-		$x=$this->borrar('bodega',"id",$id);
+		$x=$this->borrar('bodega',"idbodega",$idbodega);
 
 		$arreglo =array();
 		$arreglo+=array('id'=>$idproducto);
@@ -277,7 +300,17 @@ class Productos extends Sagyc{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-
+	public function compras_lista(){
+		try{
+			$sql="SELECT * FROM compras where idsucursal='".$_SESSION['idsucursal']."' order by numero desc";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
 }
 $db = new Productos();
 if(strlen($function)>0){
