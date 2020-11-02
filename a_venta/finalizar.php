@@ -1,9 +1,9 @@
 <?php
 require_once("db_.php");
-$id=$_REQUEST['idventa'];
+$idventa=$_REQUEST['idventa'];
 
-$pd = $db->venta($id);
-$total=round($pd['total'],2);
+$pd = $db->venta($idventa);
+$total=round($pd->total,2);
 if ($total>0){
 
 }
@@ -20,8 +20,8 @@ else{
 }
 ?>
 
-<form id="form_finalizar" is='f-submit' db="a_ventas/db_" fun="finalizar_venta" des='a_ventas/editar' desid='idventa' dix='trabajo' cmodal='2'>
-  <input type='hidden' name='idventa' id='idventa' value='<?php echo $id; ?>' class='form-control'>
+<form id="form_finalizar" is='f-submit' db="a_venta/db_" fun="finalizar_venta" des='a_venta/venta' desid='idventa' dix='trabajo' cmodal='2'>
+  <input type='hidden' name='idventa' id='idventa' value='<?php echo $idventa; ?>' class='form-control'>
 
   <div class="modal-header">
     <h5 class="modal-title">Finalizar venta</h5>

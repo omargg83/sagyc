@@ -1,23 +1,23 @@
 <?php
 	require_once("db_.php");
-	$idventa=$_REQUEST['id'];
+	$idventa=$_REQUEST['idventa'];
 	$pd = $db->venta($idventa);
-	$id=$pd['idventa'];
-	$idcliente=$pd['idcliente'];
-	$idtienda=$pd['idtienda'];
-	$iddescuento=$pd['iddescuento'];
-	$lugar=$pd['lugar'];
-	$entregar=$pd['entregar'];
-	$dentrega=$pd['dentrega'];
-	$estado=$pd['estado'];
-	$fecha=$pd['fecha'];
-	$subtotal=$pd['subtotal'];
-	$iva=$pd['iva'];
-	$total=$pd['total'];
-	$tipo_pago=$pd['tipo_pago'];
+	$id=$pd->idventa;
+	$idcliente=$pd->idcliente;
+	$idsucursal=$pd->idsucursal;
+	$iddescuento=$pd->iddescuento;
+	$lugar=$pd->lugar;
+	$entregar=$pd->entregar;
+	$dentrega=$pd->dentrega;
+	$estado=$pd->estado;
+	$fecha=$pd->fecha;
+	$subtotal=$pd->subtotal;
+	$iva=$pd->iva;
+	$total=$pd->total;
+	$tipo_pago=$pd->tipo_pago;
 
 	$cliente=$db->cliente($idcliente);
-	$nombre_cli=$cliente->profesion." ".$cliente->nombre." ".$cliente->apellidop." ".$cliente->apellidom;
+	$nombre_cli=$cliente->nombre;
 	$correo_cli=$cliente->correo;
 	$telefono_cli=$cliente->telefono;
 
@@ -48,9 +48,9 @@
 	foreach($pedido as $ped){
 		$data[$contar]=array(
 			'NO.'=>$contar+1,
-			'Nombre'=>$ped['nombre'],
-			'Cantidad'=>number_format($ped['v_cantidad']),
-			'Precio'=>number_format($ped['v_precio'],2)
+			'Nombre'=>$ped->nombre,
+			'Cantidad'=>number_format($ped->v_cantidad),
+			'Precio'=>number_format($ped->v_precio,2)
 		);
 		$contar++;
 	}

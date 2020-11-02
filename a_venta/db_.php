@@ -36,7 +36,6 @@ class Venta extends Sagyc{
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
 	public function agregaventa(){
-
 		$x="";
 		$cliente="";
 		$observaciones="";
@@ -45,6 +44,40 @@ class Venta extends Sagyc{
 		$tipo="0";
 		$idventa=$_REQUEST['idventa'];
 		$idcliente=$_REQUEST['idcliente'];
+
+		if(!isset($_REQUEST['precio'])){
+			$arreglo =array();
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Falta precio");
+			return json_encode($arreglo);
+		}
+		else{
+			$precio=clean_var($_REQUEST['precio']);
+		}
+
+		if(!isset($_REQUEST['cantidad'])){
+			$arreglo =array();
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Falta cantidad");
+			return json_encode($arreglo);
+		}
+		else{
+			$cantidad=clean_var($_REQUEST['cantidad']);
+		}
+
+		if($precio==0){
+			$arreglo =array();
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Verificar precio $precio");
+			return json_encode($arreglo);
+		}
+
+		if($cantidad==0){
+			$arreglo =array();
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Verificar cantidad");
+			return json_encode($arreglo);
+		}
 
 		try{
 			if(isset($_REQUEST['idproducto'])){
@@ -58,13 +91,6 @@ class Venta extends Sagyc{
 				$sth = $this->dbh->prepare($sql);
 				$sth->execute();
 				$producto=$sth->fetch(PDO::FETCH_OBJ);
-
-				if($producto->tipo==3){
-					$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
-					$sth = $this->dbh->prepare($sql);
-					$sth->execute();
-					$suma=$sth->fetch(PDO::FETCH_OBJ);
-				}
 
 				if($idventa==0){
 					$date=date("Y-m-d H:i:s");
@@ -115,12 +141,15 @@ class Venta extends Sagyc{
 				$x=$this->insert('bodega', $arreglo);
 				$ped=json_decode($x);
 
+				$total=$this->suma_venta($idventa);
+
 				if($ped->error==0){
 					$arreglo =array();
 					$arreglo+=array('idventa'=>$idventa);
 					$arreglo+=array('error'=>0);
 					$arreglo+=array('numero'=>$numero);
 					$arreglo+=array('estado'=>$estado);
+					$arreglo+=array('total'=>$total);
 					$fecha1 = date ( "Y-m-d" , strtotime($date) );
 					$arreglo+=array('fecha'=>$fecha1);
 					$arreglo+=array('error'=>0);
@@ -143,7 +172,10 @@ class Venta extends Sagyc{
 	}
 	public function borrar_venta(){
 		$idbodega=$_REQUEST['idbodega'];
+		$idventa=$_REQUEST['idventa'];
 		$x=$this->borrar('bodega',"idbodega",$idbodega);
+		$this->suma_venta($idventa);
+
 		return $x;
 	}
 	public function agregar_cliente(){
@@ -173,6 +205,53 @@ class Venta extends Sagyc{
 				$x=$this->update('venta',array('idventa'=>$idventa), $arreglo);
 			}
 			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED! ".$e->getMessage();
+		}
+	}
+	public function suma_venta($idventa){
+		$sql="select sum(v_precio) as total from bodega where idventa='$idventa' ";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$rex=$sth->fetch(PDO::FETCH_OBJ);
+
+		$arreglo=array();
+		$arreglo+=array('total'=>$rex->total);
+		$this->update('venta',array('idventa'=>$idventa), $arreglo);
+
+		return $rex->total;
+
+	}
+	public function finalizar_venta(){
+
+		$total_g=clean_var($_REQUEST['total_g']);
+		$efectivo_g=clean_var($_REQUEST['efectivo_g']);
+		$cambio_g=clean_var($_REQUEST['cambio_g']);
+		$tipo_pago=clean_var($_REQUEST['tipo_pago']);
+
+		if($total_g>0){
+			if($total_g<=$efectivo_g){
+				if (isset($_REQUEST['idventa'])){$idventa=$_REQUEST['idventa'];}
+				$arreglo =array();
+				$arreglo+=array('tipo_pago'=>$tipo_pago);
+				$arreglo+=array('estado'=>"Pagada");
+				return $this->update('venta',array('idventa'=>$idventa), $arreglo);
+			}
+			else{
+				return "favor de verificar";
+			}
+		}
+		else{
+			return "Debe de agregar un producto";
+		}
+	}
+	public function cliente($idcliente){
+		try{
+			$sql="select * from clientes where idcliente='$idcliente'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED! ".$e->getMessage();

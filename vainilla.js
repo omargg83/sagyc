@@ -1,10 +1,14 @@
 
 ////////////// Ventas
 function cambio_total(){
-  var total_g=$("#total_g").val();
-  var efectivo_g=$("#efectivo_g").val();
-  var total=(efectivo_g-total_g)*100;
-  $("#cambio_g").val(Math.round(total)/100);
+  
+
+
+  let total_g=document.getElementById("total_g").value;
+  let efectivo_g=document.getElementById("efectivo_g").value;
+  let total=(efectivo_g-total_g)*100;
+  total=Math.round(total)/100
+  document.getElementById("cambio_g").value=total;
 }
 function calendar_load(tipo){
   var fecha = new Date();
@@ -238,22 +242,30 @@ class Formselecciona extends HTMLFormElement {
           formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
         }
       }
-
       let xhr = new XMLHttpRequest();
       xhr.open('POST',"a_venta/db_.php");
       xhr.addEventListener('load',(data)=>{
-        $('#myModal').modal('hide');
         console.log(data.target.response);
         var datos = JSON.parse(data.target.response);
-
+        if(datos.error==0){
+          $('#myModal').modal('hide');
           document.getElementById("idventa").value=datos.idventa;
           document.getElementById("numero").value=datos.numero;
           document.getElementById("fecha").value=datos.fecha;
           document.getElementById("estado").value=datos.estado;
-
-
-        lista(datos.idventa);
-        document.getElementById("resultadosx").innerHTML ="";
+          document.getElementById("total").value=datos.total;
+          lista(datos.idventa);
+          document.getElementById("resultadosx").innerHTML ="";
+        }
+        else{
+          Swal.fire({
+            type: 'error',
+            title: "Error: "+datos.terror,
+            showConfirmButton: false,
+            timer: 1000
+          });
+          return;
+        }
       });
       xhr.onerror =  ()=>{
 
@@ -307,6 +319,7 @@ class Cliente_flo extends HTMLButtonElement {
       let xhr = new XMLHttpRequest();
       xhr.open('POST',"a_venta/db_.php");
       xhr.addEventListener('load',(data)=>{
+        cliente_datos(idcliente);
         console.log(data.target.response);
       });
       xhr.onerror =  ()=>{
@@ -343,9 +356,9 @@ function datos_compra(idventa){
   };
   xhr.send(formData);
 }
-function cliente_datos(idventa){
+function cliente_datos(idcliente){
   var formData = new FormData();
-  formData.append("idventa", idventa);
+  formData.append("idcliente", idcliente);
 
   let xhr = new XMLHttpRequest();
   xhr.open('POST',"a_venta/cliente_datos.php");

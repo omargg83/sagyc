@@ -29,20 +29,20 @@
 		<?php
 			foreach($pd as $key){
 		?>
-					<div class='row body-row' draggable='true'>
-						<div class='col-2'>
-							<div class="btn-group">
-								<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  v_idventa='<?php echo $key->idventa; ?> ' ><i class="fas fa-pencil-alt"></i></button>
-							</div>
+				<div class='row body-row' draggable='true'>
+					<div class='col-2'>
+						<div class="btn-group">
+							<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  v_idventa='<?php echo $key->idventa; ?> ' ><i class="fas fa-pencil-alt"></i></button>
 						</div>
-						<div class='col-2'><?php echo $key->numero; ?></div>
-						<div class='col-2'><?php echo fecha($key->fecha); ?></div>
-						<div class='col-2'><?php echo $key->nombre; ?></div>
-
-						<div class='col-2' align="center">$ <?php echo number_format($key->gtotal,2); ?></div>
-						<div class='col-2'><?php echo $key->estado; ?></div>
-
 					</div>
+					<div class='col-2'><?php echo $key->numero; ?></div>
+					<div class='col-2'><?php echo fecha($key->fecha); ?></div>
+					<div class='col-2'><?php echo $key->nombre; ?></div>
+
+					<div class='col-2' align="center">$ <?php echo number_format($key->total,2); ?></div>
+					<div class='col-2'><?php echo $key->estado; ?></div>
+
+				</div>
 		<?php
 			}
 		?>

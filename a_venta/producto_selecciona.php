@@ -38,15 +38,12 @@
 
 		echo "<div class='col-4'>";
 			echo "<label>Cantidad</label>";
-			echo "<input type='text' class='form-control' name='cantidad' id='cantidad' value='1'";
-
-			echo ">";
+			echo "<input type='text' class='form-control' name='cantidad' id='cantidad' value='1' required>";
 		echo "</div>";
 
 		echo "<div class='col-4'>";
 			echo "<label>Precio</label>";
-			echo "<input type='text' class='form-control' name='precio' id='precio' value='".$producto->precio."' ";
-				echo ">";
+			echo "<input type='text' class='form-control' name='precio' id='precio' value='".$producto->precio."' required>";
 		echo "</div>";
 
 	echo "</div>";

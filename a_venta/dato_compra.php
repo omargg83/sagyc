@@ -1,7 +1,3 @@
-<?php
-  require_once("db_.php");
-
-?>
 
   <div class="col-sm-4">
     <input type="text" class="form-control form-control-sm" id="numero" name='numero' value='<?php echo $numero_compra; ?>' placeholder="Numero" readonly>

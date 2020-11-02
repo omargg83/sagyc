@@ -35,35 +35,26 @@ class Venta extends Sagyc{
 		from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
 		left outer join sucursal on sucursal.idsucursal=venta.idsucursal
-		where sucursal.idsucursal='".$_SESSION['idtienda']."' and venta.estado='Activa' order by venta.fecha";
+		where sucursal.idsucursal='".$_SESSION['idtienda']."' and venta.estado='Activa' order by venta.numero desc";
 
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function ventas_buscar($texto){
-			$sql="select venta.idventa, venta.idtienda, venta.iddescuento, venta.factura, clientes.nombre, et_tienda.nombre as tienda, venta.total, venta.fecha, venta.gtotal, venta.estado, et_descuento.nombre as descuento from venta
-			left outer join clientes on clientes.idcliente=venta.idcliente
-			left outer join et_descuento on et_descuento.iddescuento=venta.iddescuento
-			left outer join et_tienda on et_tienda.id=venta.idtienda where venta.idtienda='".$_SESSION['idtienda']."' and (venta.idventa like '%$texto%' or clientes.nombre like '%$texto%') order by venta.fecha desc limit 100";
+		$sql="select venta.idventa, venta.numero, venta.idsucursal, venta.iddescuento, venta.factura, clientes.nombre, sucursal.nombre as tienda,
+		venta.total, venta.fecha, venta.gtotal, venta.estado
+		from venta
+		left outer join clientes on clientes.idcliente=venta.idcliente
+		left outer join sucursal on sucursal.idsucursal=venta.idsucursal
+		where sucursal.idsucursal='".$_SESSION['idtienda']."' and (venta.idventa like '%$texto%' or clientes.nombre like '%$texto%') order by venta.numero desc limit 100";
 
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
-			return $sth->fetchAll(PDO::FETCH_OBJ);
-	  }
-	public function cliente($idcliente){
-		try{
-			$sql="select * from clientes where idcliente='$idcliente'";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
-			return $sth->fetch(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED! ".$e->getMessage();
-		}
-	}
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetchAll(PDO::FETCH_OBJ);
+  }
 
-	
+
 	public function selecciona_cita(){
 		try{
 
@@ -202,99 +193,6 @@ class Venta extends Sagyc{
 		$sth->execute();
 		return $sth->fetchAll();
 	}
-	public function guardar_venta(){
-		$x="";
-
-		$arreglo =array();
-		$id=$_REQUEST['id'];
-		if (isset($_REQUEST['idcliente'])){
-			$arreglo+=array('idcliente'=>$_REQUEST['idcliente']);
-		}
-		if (isset($_REQUEST['iddescuento'])){
-			$arreglo+=array('iddescuento'=>$_REQUEST['iddescuento']);
-		}
-		if (isset($_REQUEST['lugar'])){
-			$arreglo+=array('lugar'=>$_REQUEST['lugar']);
-		}
-		if (isset($_REQUEST['entregarp'])){
-			$arreglo+=array('entregarp'=>$_REQUEST['entregarp']);
-		}
-		if (isset($_REQUEST['estado'])){
-			$arreglo+=array('estado'=>$_REQUEST['estado']);
-		}
-		if (isset($_REQUEST['factura'])){
-			$arreglo+=array('factura'=>$_REQUEST['factura']);
-		}
-		if (isset($_REQUEST['llave'])){
-			$llave=$_REQUEST['llave'];
-			$arreglo+=array('llave'=>$llave);
-		}
-
-		if($id==0){
-			$date=date("Y-m-d H:i:s");
-			$arreglo+=array('fecha'=>$date);
-			$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
-			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
-			$this->insert('venta', $arreglo);
-
-			$sql="select * from venta where llave='$llave' and idusuario='".$_SESSION['idpersona']."'";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
-			$res=$sth->fetch();
-			return $res['idventa'];
-		}
-		else{
-			$x.=$this->update('venta',array('idventa'=>$id), $arreglo);
-			{
-				$sql="select sum(gtotalv) as gtotal from et_bodega where idventa=:texto";
-				$sth = $this->dbh->prepare($sql);
-				$sth->bindValue(":texto",$id);
-				$sth->execute();
-				$res=$sth->fetch();
-				$gtotal=$res['gtotal'];
-
-				$subtotal=$gtotal/1.16;
-				$iva=$gtotal-$subtotal;
-
-				$values = array('subtotal'=>$subtotal, 'iva'=>$iva, 'total'=>$gtotal, 'gtotal'=>$gtotal );
-				$this->update('venta',array('idventa'=>$id), $values);
-			}
-		}
-		return $x;
-	}
-
-	public function imprimir(){
-
-		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
-		$arreglo =array();
-		$arreglo+=array('imprimir'=>1);
-		return $this->update('venta',array('idventa'=>$id), $arreglo);
-	}
-	public function finalizar_venta(){
-
-		$total_g=clean_var($_REQUEST['total_g']);
-		$efectivo_g=clean_var($_REQUEST['efectivo_g']);
-		$cambio_g=clean_var($_REQUEST['cambio_g']);
-		$tipo_pago=clean_var($_REQUEST['tipo_pago']);
-
-		if($total_g>0){
-			if($total_g<=$efectivo_g){
-				if (isset($_REQUEST['idventa'])){$idventa=$_REQUEST['idventa'];}
-				$arreglo =array();
-				$arreglo+=array('tipo_pago'=>$tipo_pago);
-				$arreglo+=array('estado'=>"Pagada");
-				return $this->update('venta',array('idventa'=>$idventa), $arreglo);
-			}
-			else{
-				return "favor de verificar";
-			}
-		}
-		else{
-			return "Debe de agregar un producto";
-		}
-	}
-
-
 	public function productos_vendidos(){
 		try{
 
