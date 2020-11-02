@@ -19,7 +19,7 @@
 		$precio=0;
 
 		$preciom=0;
-		$stockmin=0;
+		$stockmin=1;
 		$cantidad=0;
 		$preciocompra="";
 
