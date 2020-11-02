@@ -59,13 +59,16 @@
           </div>
           <?php
             if($estado_compra=="Activa"){
-              echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_venta/cliente_busca' dix='trabajo' omodal='1'><i class='fas fa-user-tag'></i>Cliente</button>";
+              echo "<button class='btn btn-warning btn-sm mr-2' type='button' is='b-link' des='a_venta/cliente_busca' dix='trabajo' omodal='1'><i class='fas fa-user-tag'></i>Cliente</button>";
 
-              echo "<button type='button' class='btn btn-warning btn-sm' id='producto_add' is='b-link' v_idventa='$idventa' des='a_ventas/form_citas' omodal='1' title='Agregar cita'><i class='far fa-calendar-check'></i>Citas</button>";
+              echo "<button type='button' class='btn btn-warning btn-sm mr-2' id='producto_add' is='b-link' v_idventa='$idventa' des='a_ventas/form_citas' omodal='1' title='Agregar cita'><i class='far fa-calendar-check'></i>Citas</button>";
 
-              echo "<button type='button' class='btn btn-warning btn-sm' id='finalizar' is='b-link' v_idventa='$idventa' des='a_venta/finalizar' omodal='1'><i class='fas fa-cash-register'></i>Finalizar</button>";
+              echo "<button type='button' class='btn btn-warning btn-sm mr-2' id='finalizar' is='b-link' v_idventa='$idventa' des='a_venta/finalizar' omodal='1'><i class='fas fa-cash-register'></i>Finalizar</button>";
             }
-          	echo "<button type='button' class='btn btn-warning btn-sm' id='print_persona' is='b-print' title='Editar' des='a_venta/imprimir' dix='trabajo' v_idventa='$idventa'><i class='fas fa-print'></i>Imprimir</button>";
+            else{
+              echo "<button type='button' class='btn btn-warning btn-sm mr-2' id='nueva' is='b-link' des='a_venta/venta' dix='trabajo'><i class='fas fa-cash-register'></i>Nueva</button>";
+            }
+          	echo "<button type='button' class='btn btn-warning btn-sm mr-2'  id='print_persona' is='b-print' title='Editar' des='a_venta/imprimir' dix='trabajo' v_idventa='$idventa'><i class='fas fa-print'></i>Imprimir</button>";
           ?>
           <hr>
           <div class='row' >
