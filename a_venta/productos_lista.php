@@ -3,11 +3,17 @@
   $texto=$_REQUEST['prod_venta'];
   $idventa=$_REQUEST['idventa'];
 
-	$sql="select * from venta where idventa='$idventa'";
-	$sth = $db->dbh->prepare($sql);
-	$sth->execute();
-	$venta=$sth->fetch(PDO::FETCH_OBJ);
-	$estado_compra=$venta->estado;
+	if($idventa>0){
+		$sql="select * from venta where idventa='$idventa'";
+		$sth = $db->dbh->prepare($sql);
+		$sth->execute();
+		$venta=$sth->fetch(PDO::FETCH_OBJ);
+		$estado_compra=$venta->estado;
+	}
+	else{
+		$estado_compra="Activa";
+	}
+
 
   $sql="SELECT * from productos
 	left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo

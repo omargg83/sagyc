@@ -7,7 +7,7 @@
 		    <h5 class="card-title text-center">VENTA</h5>
 		    <p class="card-text text-center">Nueva Venta.</p>
 				<div class='card-footer'>
-					<a class="btn btn-warning btn-sm btn-block" id='menu_ventas' is='menu-link' href='#a_ventas/editar'>Ir</a>
+					<a class="btn btn-warning btn-sm btn-block" id='menu_ventas' is='menu-link' href='#a_venta/venta'>Ir</a>
 				</div>
 		  </div>
 	  </div>

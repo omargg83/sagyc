@@ -28,6 +28,7 @@
     $idventa=0;
     $idcliente=0;
     $numero_compra=0;
+    $total=0;
     $fecha_compra=date ( "Y-m-d" );
     $estado_compra="Activa";
 
@@ -56,10 +57,12 @@
               include 'cliente_datos.php';
             ?>
           </div>
-
           <?php
             if($estado_compra=="Activa"){
-              echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_venta/cliente_busca' dix='trabajo' omodal='1'>Seleccionar</button>";
+              echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_venta/cliente_busca' dix='trabajo' omodal='1'><i class='fas fa-user-tag'></i>Cliente</button>";
+
+              echo "<button type='button' class='btn btn-warning btn-sm' id='producto_add' is='b-link' v_idventa='$idventa' des='a_ventas/form_citas' omodal='1' title='Agregar cita'><i class='far fa-calendar-check'></i>Citas</button>";
+
               echo "<button type='button' class='btn btn-warning btn-sm' id='finalizar' is='b-link' v_idventa='$idventa' des='a_venta/finalizar' omodal='1'><i class='fas fa-cash-register'></i>Finalizar</button>";
             }
           	echo "<button type='button' class='btn btn-warning btn-sm' id='print_persona' is='b-print' title='Editar' des='a_venta/imprimir' dix='trabajo' v_idventa='$idventa'><i class='fas fa-print'></i>Imprimir</button>";

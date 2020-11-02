@@ -1,5 +1,4 @@
 <?php
-	require_once("db_.php");
 	$idventa=$_REQUEST['idventa'];
 ?>
 
