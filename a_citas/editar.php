@@ -49,7 +49,7 @@
 		$precio=$row->precio;
 
 		$cliente=$db->cliente($idcliente);
-		$nombre_cli=$cliente->profesion." ".$cliente->nombre." ".$cliente->apellidop." ".$cliente->apellidom;
+		$nombre_cli=$cliente->nombre;
 		$correo_cli=$cliente->correo;
 		$telefono_cli=$cliente->telefono;
   }

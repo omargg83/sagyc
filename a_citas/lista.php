@@ -47,7 +47,7 @@
 
 						if($key->idcliente){
 							$cli=$db->cliente($key->idcliente);
-							$nombre=$cli->profesion." ".$cli->nombre." ".$cli->apellidop." ".$cli->apellidom;
+							$nombre=$cli->nombre;
 						}
 						else{
 							$nombre="";
