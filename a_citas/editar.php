@@ -69,7 +69,8 @@
           echo "<div class='row'>";
             echo "<div class='col-2'>";
               echo "<label>Fecha</label>";
-              echo "<input type='date' class='form-control form-control-sm fechaclass' id='fecha' name='fecha' value='$fecha'>";
+              echo "<input type='text' class='form-control form-control-sm fechaclass' id='fecha' name='fecha' value='$fecha'>";
+							
             echo "</div>";
 
 						echo "<div class='col-2'>";
@@ -211,3 +212,9 @@
 		echo "</div>";
 	echo "</div>";
  ?>
+
+ <script>
+   $(function() {
+     fechas();
+   });
+ </script>
