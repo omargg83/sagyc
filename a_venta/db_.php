@@ -44,6 +44,7 @@ class Venta extends Sagyc{
 		$tipo="0";
 		$idventa=$_REQUEST['idventa'];
 		$idcliente=$_REQUEST['idcliente'];
+		$idproducto=$_REQUEST['idproducto'];
 
 		if(!isset($_REQUEST['precio'])){
 			$arreglo =array();
@@ -71,7 +72,6 @@ class Venta extends Sagyc{
 			$arreglo+=array('terror'=>"Verificar precio $precio");
 			return json_encode($arreglo);
 		}
-
 		if($cantidad==0){
 			$arreglo =array();
 			$arreglo+=array('error'=>1);
@@ -79,10 +79,18 @@ class Venta extends Sagyc{
 			return json_encode($arreglo);
 		}
 
+		$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$cantidad_bg=$sth->fetch(PDO::FETCH_OBJ);
+		if ($cantidad>$cantidad_bg->total){
+			$arreglo =array();
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Verificar cantidad");
+			return json_encode($arreglo);
+		}
 		try{
 			if(isset($_REQUEST['idproducto'])){
-				$idproducto=$_REQUEST['idproducto'];
-				$cantidad=$_REQUEST['cantidad'];
 				$precio=$_REQUEST['precio'];
 
 				$sql="select * from productos
@@ -174,9 +182,13 @@ class Venta extends Sagyc{
 		$idbodega=$_REQUEST['idbodega'];
 		$idventa=$_REQUEST['idventa'];
 		$x=$this->borrar('bodega',"idbodega",$idbodega);
-		$this->suma_venta($idventa);
+		$total=$this->suma_venta($idventa);
 
-		return $x;
+		$arreglo =array();
+		$arreglo+=array('idventa'=>$idventa);
+		$arreglo+=array('error'=>0);
+		$arreglo+=array('total'=>$total);
+		return json_encode($arreglo);
 	}
 	public function agregar_cliente(){
 		try{
@@ -211,7 +223,7 @@ class Venta extends Sagyc{
 		}
 	}
 	public function suma_venta($idventa){
-		$sql="select sum(v_precio) as total from bodega where idventa='$idventa' ";
+		$sql="select sum(v_precio * v_cantidad) as total from bodega where idventa='$idventa' ";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		$rex=$sth->fetch(PDO::FETCH_OBJ);
@@ -219,9 +231,7 @@ class Venta extends Sagyc{
 		$arreglo=array();
 		$arreglo+=array('total'=>$rex->total);
 		$this->update('venta',array('idventa'=>$idventa), $arreglo);
-
 		return $rex->total;
-
 	}
 	public function finalizar_venta(){
 

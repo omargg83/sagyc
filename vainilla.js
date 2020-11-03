@@ -1,7 +1,7 @@
 
 ////////////// Ventas
 function cambio_total(){
-  
+
 
 
   let total_g=document.getElementById("total_g").value;
@@ -197,7 +197,7 @@ class Pbusca extends HTMLFormElement {
   connectedCallback() {
    this.addEventListener('submit', (e) => {
       e.preventDefault();
-
+      cargando(true);
       let id=e.currentTarget.attributes.id.nodeValue;
       let elemento = document.getElementById(id);
 
@@ -212,10 +212,13 @@ class Pbusca extends HTMLFormElement {
       xhr.open('POST',"a_venta/productos_lista.php");
       xhr.addEventListener('load',(data)=>{
         document.getElementById("resultadosx").innerHTML =data.target.response;
+        cargando(false);
       });
       xhr.onerror =  ()=>{
+        cargando(false);
       };
       xhr.send(formData);
+
    })
   }
 }
@@ -225,6 +228,7 @@ class Formselecciona extends HTMLFormElement {
   connectedCallback() {
    this.addEventListener('submit', (e) => {
       e.preventDefault();
+      cargando(true);
       let id=e.currentTarget.attributes.id.nodeValue;
       let elemento = document.getElementById(id);
 
@@ -245,7 +249,6 @@ class Formselecciona extends HTMLFormElement {
       let xhr = new XMLHttpRequest();
       xhr.open('POST',"a_venta/db_.php");
       xhr.addEventListener('load',(data)=>{
-        console.log(data.target.response);
         var datos = JSON.parse(data.target.response);
         if(datos.error==0){
           $('#myModal').modal('hide');
@@ -256,8 +259,10 @@ class Formselecciona extends HTMLFormElement {
           document.getElementById("total").value=datos.total;
           lista(datos.idventa);
           document.getElementById("resultadosx").innerHTML ="";
+          cargando(false);
         }
         else{
+          cargando(false);
           Swal.fire({
             type: 'error',
             title: "Error: "+datos.terror,
@@ -268,7 +273,7 @@ class Formselecciona extends HTMLFormElement {
         }
       });
       xhr.onerror =  ()=>{
-
+        cargando(false);
       };
       xhr.send(formData);
    })
@@ -280,25 +285,38 @@ class Borraprod extends HTMLButtonElement {
   connectedCallback() {
    this.addEventListener('click', (e) => {
       e.preventDefault();
-
       let idventa=document.getElementById("idventa").value;
       let idbodega=e.currentTarget.attributes.v_idbodega.value;
-
       let formData = new FormData();
-      formData.append("idventa", idventa);
-      formData.append("idbodega", idbodega);
-      formData.append("function", "borrar_venta");
 
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST',"a_venta/db_.php");
-      xhr.addEventListener('load',(data)=>{
-        lista(idventa);
+      $.confirm({
+        title: 'Eliminar',
+        content: '¿Desea eliminar el producto seleccionada?',
+        buttons: {
+          Eliminar: function () {
+            cargando(true);
+            formData.append("idventa", idventa);
+            formData.append("idbodega", idbodega);
+            formData.append("function", "borrar_venta");
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST',"a_venta/db_.php");
+            xhr.addEventListener('load',(data)=>{
+              var datos = JSON.parse(data.target.response);
+              document.getElementById("total").value=datos.total;
+              lista(idventa);
+              cargando(false);
+            });
+            xhr.onerror =  ()=>{
+              cargando(false);
+            };
+            xhr.send(formData);
+          },
+          Cancelar: function () {
+
+          }
+        }
       });
-      xhr.onerror =  ()=>{
-
-      };
-      xhr.send(formData);
-
    })
   }
 }
@@ -308,6 +326,7 @@ class Cliente_flo extends HTMLButtonElement {
   connectedCallback() {
    this.addEventListener('click', (e) => {
       e.preventDefault();
+      cargando(true);
       let idventa=document.getElementById("idventa").value;
       let idcliente=e.currentTarget.attributes.v_idcliente.value;
 
@@ -320,10 +339,10 @@ class Cliente_flo extends HTMLButtonElement {
       xhr.open('POST',"a_venta/db_.php");
       xhr.addEventListener('load',(data)=>{
         cliente_datos(idcliente);
-        console.log(data.target.response);
+        cargando(false);
       });
       xhr.onerror =  ()=>{
-
+        cargando(false);
       };
       xhr.send(formData);
    })
@@ -370,7 +389,18 @@ function cliente_datos(idcliente){
   xhr.send(formData);
 
 }
-
+function venta(idventa){
+  let formData = new FormData();
+  formData.append("idventa", idventa);
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/venta.php");
+  xhr.addEventListener('load',(data)=>{
+    document.getElementById("trabajo").innerHTML = data.target.response;
+  });
+  xhr.onerror =  ()=>{
+  };
+  xhr.send(formData);
+}
 var dragSrcEl = null;
 var dragdestino = null;
 
@@ -439,3 +469,69 @@ class Divlink extends HTMLDivElement  {
 	}
 }
 customElements.define("b-card", Divlink, { extends: "div" });
+
+class Finalizar_c extends HTMLButtonElement {
+  connectedCallback() {
+   this.addEventListener('click', (e) => {
+      e.preventDefault();
+      let idventa=document.getElementById("idventa").value;
+      $('#myModal').modal('show');
+
+      let formData = new FormData();
+      formData.append("idventa", idventa);
+
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST',"a_venta/finalizar.php");
+      xhr.addEventListener('load',(data)=>{
+        document.getElementById("modal_form").innerHTML = data.target.response;
+      });
+      xhr.onerror =  ()=>{
+
+      };
+      xhr.send(formData);
+   })
+  }
+}
+customElements.define("is-finalizar", Finalizar_c, { extends: "button" });
+
+class Finalizar extends HTMLFormElement {
+  connectedCallback() {
+   this.addEventListener('submit', (e) => {
+      e.preventDefault();
+      cargando(true);
+      let idventa=document.getElementById("idventa").value;
+      let tipo_pago=document.getElementById("tipo_pago").value;
+      let total_g=document.getElementById("total_g").value;
+      let efectivo_g=document.getElementById("efectivo_g").value;
+      let cambio_g=document.getElementById("cambio_g").value;
+      alert(idventa);
+
+      let formData = new FormData();
+      formData.append("idventa", idventa);
+      formData.append("tipo_pago", tipo_pago);
+      formData.append("total_g", total_g);
+      formData.append("efectivo_g", efectivo_g);
+      formData.append("cambio_g", cambio_g);
+      formData.append("function", "finalizar_venta");
+
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST',"a_venta/db_.php");
+      xhr.addEventListener('load',(data)=>{
+        venta(idventa);
+        cargando(false);
+        $('#myModal').modal('hide');
+        Swal.fire({
+          type: 'success',
+          title: "Se proceso correctamente",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      });
+      xhr.onerror =  ()=>{
+        cargando(false);
+      };
+      xhr.send(formData);
+   })
+  }
+}
+customElements.define("is-totalv", Finalizar, { extends: "form" });
