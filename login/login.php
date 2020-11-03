@@ -39,7 +39,6 @@
 						$_SESSION['idpersona']=$CLAVE['idusuario'];
 						$_SESSION['foto']=$CLAVE['file_foto'];
 						$_SESSION['idtienda']=$CLAVE['idtienda'];
-						$_SESSION['idsucursal']=$CLAVE['idsucursal'];
 						$_SESSION['nivel']=$CLAVE['nivel'];
 
 						$fecha=date("Y-m-d");
@@ -47,7 +46,6 @@
 						$_SESSION['n_sistema']="J&D";
 
 						$_SESSION['cfondo']="white";
-						$_SESSION['hasta']=2019;
 						$_SESSION['foco']=mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"));
 						$_SESSION['cfondo']="white";
 
