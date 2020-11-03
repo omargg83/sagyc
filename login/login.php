@@ -36,7 +36,7 @@
 						$_SESSION['nombre']=$CLAVE['nombre'];
 						$_SESSION['idfondo']=$CLAVE['idfondo'];
 						$_SESSION['nick']=$CLAVE['user'];
-						$_SESSION['idpersona']=$CLAVE['idusuario'];
+						$_SESSION['idusuario']=$CLAVE['idusuario'];
 						$_SESSION['foto']=$CLAVE['file_foto'];
 						$_SESSION['idtienda']=$CLAVE['idtienda'];
 						$_SESSION['idsucursal']=$CLAVE['idsucursal'];

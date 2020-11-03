@@ -19,22 +19,18 @@
 		$nivel="1";
 		$nombre="";
 		$estado="1";
+		$idsucursal=$_SESSION['idsucursal'];
 	}
 ?>
-<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des='a_usuarios/editar' desid='id'>
 <div class="container">
 	<div class='card'>
 		<div class='card-header'>
 			Usuarios
 		</div>
-		<div class='card-body'>
-				 <div class="form-group row">
-				   <label class="control-label col-sm-2" for="">Numero:</label>
-				   <div class="col-sm-10">
-					 <input type="text" class="form-control form-control-sm" name="id" id="id" value="<?php echo $id ;?>" placeholder="Tienda" readonly>
-				   </div>
-				 </div>
+		<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des='a_usuarios/editar' desid='id'>
+			<div class='card-body'>
 
+				 <input type="hidden" class="form-control form-control-sm" name="id" id="id" value="<?php echo $id ;?>" placeholder="Tienda" readonly>
 				 <div class="form-group row">
 				   <label class="control-label col-sm-2" for="">Nombre:</label>
 				   <div class="col-sm-10">
@@ -96,14 +92,54 @@
 						<?php
 							if($id>0){
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_pass' omodal='1' v_id='$id'><i class='fas fa-key'></i>Contraseña</button>";
-								//echo "<button type='button' class='btn btn-warning btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
 							}
 						?>
 						<button type="button" class='btn btn-warning btn-sm' id='lista_penarea' is="b-link" des='a_usuarios/lista' dix='trabajo'><i class='fas fa-undo-alt'></i>Regresar</button>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
+
+
+<?php
+	if($id>0){
+		echo "<div class='card-body' >";
+			echo "<form is='f-submit' id='form_permiso' db='a_usuarios/db_' fun='guardar_permiso' des='a_usuarios/form_permisos' dix='permisos' desid='id'>";
+				echo "<input type='hidden' class='form-control form-control-sm' name='idusuariox' id='idusuariox' value='$id' readonly>";
+				echo "<div class='row'>";
+					echo "<div class='col-sm-4'>";
+						echo "<label for='prof'>Modulo:</label>";
+						echo "<select id='modulo' name='modulo' class='form-control'>";
+						echo $db->modulos();
+						echo "</select>";
+					echo "</div>";
+
+					echo "<div class='col-sm-4'>";
+						echo "<label>Captura</label>";
+						echo "<select id='captura' name='captura' class='form-control'>";
+						echo "<option value='0' >Sin captura</option>";
+						echo "<option value='1' >Captura</option>";
+						echo "</select>";
+					echo "</div>";
+
+					echo "<div class='col-sm-4'>";
+						echo "<label for='prof'>Nivel</label>";
+						echo "<select id='nivelx' name='nivelx' class='form-control'>";
+						echo $db->nivel();
+						echo "</select>";
+					echo "</div>";
+
+					echo "<div class='col-sm-12'>";
+						echo "<button class='btn btn-warning btn-sm' type='submit' ><i class='fa fa-check'></i>Agregar</button>";
+					echo "</div>";
+				echo "</div>";
+			echo "</form>";
+
+			echo "<div id='permisos'>";
+				include 'form_permisos.php';
+			echo "</div>";
+		echo "</div>";
+	}
+?>
 	</div>
 </div>
-</form>

@@ -1,7 +1,7 @@
 <?php
 	require_once("db_.php");
-	if(!isset($_SESSION['idpersona']) or strlen($_SESSION['idpersona'])==0 or $_SESSION['autoriza']==0){
-		header("location: login/");
+	if(!isset($_SESSION['idusuario']) or strlen($_SESSION['idusuario'])==0 or $_SESSION['autoriza']==0){
+		//header("location: login/");
 	}
 ?>
 <!DOCTYPE HTML>
@@ -65,30 +65,50 @@
 	    <div class='container-fluid'>
 	      <div class='sidebar sidenav' id='navx'>
 	        <a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
+					<?php
+						if(array_key_exists('VENTA', $db->derecho))
+						echo "<a href='#a_venta/venta' id='ventax' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>";
 
-					<a href='#a_venta/venta' id='ventax' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>
-					<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>
-					<hr>
+						if(array_key_exists('VENTAREGISTRO', $db->derecho))
+						echo "<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>";
 
-					<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>
-					<a href='#a_inventario/index' is='menu-link' title='inventario'><i class='fas fa-boxes'></i><span>Inventario</span></a>
+						echo "<hr>";
 
-					<a href='#a_categorias/index' is='menu-link' title='Categorias'><i class="fab fa-cuttlefish"></i></i><span>Categorias</span></a>
-					<hr>
+						if(array_key_exists('PRODUCTOS', $db->derecho))
+						echo "<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>";
 
-					<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>
-	        <a href='#a_citas/index' is='menu-link' title='Citas'><i class="far fa-calendar-check"></i><span>Citas</span></a>
+						if(array_key_exists('INVENTARIO', $db->derecho))
+						echo "<a href='#a_inventario/index' is='menu-link' title='inventario'><i class='fas fa-boxes'></i><span>Inventario</span></a>";
 
-					<hr>
-	        <a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>
-	        <a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>
-	        <a href='#a_traspasos/index' is='menu-link' title='Traspasos'><i class='fas fa-arrows-alt-h'></i><span>Traspasos</span></a>
-	        <hr>
-	        <a href='#a_datosemp/index' is='menu-link' title='Datosemp'><i class="fas fa-wrench"></i><span>Datos Emp.</span></a>
-	        <a href='#a_sucursal/index' is='menu-link' title='Sucursal'><i class='fas fa-store-alt'></i><span>Sucursal</span></a>
-					<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>
-					<hr>
-					<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>
+						if(array_key_exists('CATEGORIA', $db->derecho))
+						echo "<a href='#a_categorias/index' is='menu-link' title='Categorias'><i class='fab fa-cuttlefish'></i></i><span>Categorias</span></a>";
+
+						if(array_key_exists('CLIENTES', $db->derecho))
+						echo "<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>";
+
+						if(array_key_exists('CITAS', $db->derecho))
+						echo "<a href='#a_citas/index' is='menu-link' title='Citas'><i class='far fa-calendar-check'></i><span>Citas</span></a>";
+
+						if(array_key_exists('PROVEEDORES', $db->derecho))
+						echo "<a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>";
+
+						if(array_key_exists('COMPRAS', $db->derecho))
+						echo "<a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>";
+
+						if(array_key_exists('TRASPASOS', $db->derecho))
+						echo "<a href='#a_traspasos/index' is='menu-link' title='Traspasos'><i class='fas fa-arrows-alt-h'></i><span>Traspasos</span></a>";
+
+						if(array_key_exists('DATOSEMP', $db->derecho))
+		        echo "<a href='#a_datosemp/index' is='menu-link' title='Datosemp'><i class='fas fa-wrench'></i><span>Datos Emp.</span></a>";
+
+						if(array_key_exists('SUCURSAL', $db->derecho))
+		        echo "<a href='#a_sucursal/index' is='menu-link' title='Sucursal'><i class='fas fa-store-alt'></i><span>Sucursal</span></a>";
+
+						echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
+
+						if(array_key_exists('REPORTES', $db->derecho))
+						echo "<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>";
+					?>
 	      </div>
 	    </div>
 	    <div class='fijaproceso main' id='contenido'>

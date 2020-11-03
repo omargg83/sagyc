@@ -55,10 +55,8 @@
 
     function logSubmit(e) {
       e.preventDefault();
-
       var userAcceso=document.getElementById("userAcceso").value;
       var passAcceso=document.getElementById("passAcceso").value;
-
       var formData = new FormData();
       formData.append("userAcceso", userAcceso);
       formData.append("passAcceso", passAcceso);
@@ -67,7 +65,6 @@
       let xhr = new XMLHttpRequest();
       xhr.open('POST',"login.php");
       xhr.addEventListener('load',(data)=>{
-        console.log(data.target.response);
         var data = JSON.parse(data.target.response);
         if (data.acceso==1){
           location.href="../";

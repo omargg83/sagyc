@@ -18,7 +18,7 @@ class Usuario extends Sagyc{
 		parent::__construct();
 		$this->doc="a_clientes/papeles/";
 
-		if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
 		}
 		else{
@@ -89,12 +89,6 @@ class Usuario extends Sagyc{
 		}
 		return $x;
 	}
-	public function lista_acceso(){
-		$sql="select *  from usuariosreg left outer join usuarios on usuarios.idusuario=usuariosreg.idpersonal order by fecha desc limit 1000";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetchAll(PDO::FETCH_OBJ);
-  }
 	public function password(){
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
 		if (isset($_REQUEST['pass1'])){$pass1=$_REQUEST['pass1'];}
@@ -113,6 +107,97 @@ class Usuario extends Sagyc{
 	public function borrar_usuario(){
 		if (isset($_REQUEST['id'])){ $id=$_REQUEST['id']; }
 		return $this->borrar('usuarios',"idusuario",$id);
+	}
+	public function modulos(){
+		$x="";
+		$x.= "<option value='' selected></option>";
+		$x.= "<optgroup label='Ventas'>";
+		$x.= "<option value='VENTA'>Venta</option>";
+		$x.= "<option value='VENTAREGISTRO'>Ventas registro</option>";
+
+		$x.= "<optgroup label='Productos'>";
+		$x.= "<option value='PRODUCTOS'>Productos</option>";
+		$x.= "<option value='INVENTARIO'>Inventario</option>";
+		$x.= "<option value='CATEGORIA'>Categoria</option>";
+
+		$x.= "<optgroup label='Clientes'>";
+		$x.= "<option value='CLIENTES'>Clientes</option>";
+		$x.= "<option value='CITAS'>Citas</option>";
+
+		$x.= "<optgroup label='Proveedores'>";
+		$x.= "<option value='PROVEEDORES'>Proveedores</option>";
+		$x.= "<option value='COMPRAS'>Compras</option>";
+		$x.= "<option value='TRASPASOS'>Traspasos</option>";
+
+		$x.= "<optgroup label='Empresa'>";
+		$x.= "<option value='DATOSEMP'>Datos</option>";
+		$x.= "<option value='SUCURSAL'>Sucursal</option>";
+		$x.= "<option value='REPORTES'>Reportes</option>";
+		return $x;
+	}
+
+	public function nivel(){
+		$x="";
+		$x.="<option value='0' >0-Administrador</option>";
+		$x.="<option value='1' >1-Subsecretarío</option>";
+		$x.="<option value='2' >2-Dirección</option>";
+		$x.="<option value='3' >3-Subdirector</option>";
+		$x.="<option value='4' >4-Coordinador Administrativo</option>";
+		$x.="<option value='5' >5-Jefe Depto.</option>";
+		$x.="<option value='6' >6-Coordinador</option>";
+		$x.="<option value='7' >7-Secretaria</option>";
+		$x.="<option value='8' >8-Chofer</option>";
+		$x.="<option value='9' >9-Personal</option>";
+		$x.="<option value='10' >10-Informatica</option>";
+		$x.="<option value='11' >11-Administrador del sistema</option>";
+		$x.="<option value='12' >12-Oficialia</option>";
+		return $x;
+	}
+	public function guardar_permiso(){
+		$x="";
+
+		$arreglo =array();
+
+		if (isset($_REQUEST['idusuariox'])) {
+			$idusuariox=$_REQUEST['idusuariox'];
+		}
+		else{
+			$acceso=0;
+		}
+		if (isset($_REQUEST['modulo'])) {
+			$aplicacion=$_REQUEST['modulo'];
+			$arreglo+=array('modulo'=>$_REQUEST['modulo']);
+		}
+
+		if (isset($_REQUEST['captura'])) $arreglo+=array('captura'=>$_REQUEST['captura']);
+		if (isset($_REQUEST['nivelx'])) $arreglo+=array('nivel'=>$_REQUEST['nivelx']);
+
+		$sql="select * from usuarios_permiso where idusuario='$idusuariox' and modulo='$aplicacion'";
+		$a=$this->general($sql);
+
+		$arreglo+=array('idusuario'=>$idusuariox);
+
+		if(count($a)>0){
+			$x=$this->update('usuarios_permiso',array('idpermiso'=>$a[0]['idpermiso']),$arreglo);
+		}
+		else{
+			$x=$this->insert('usuarios_permiso', $arreglo);
+		}
+
+		$arreglo =array();
+		$arreglo+=array('id'=>$idusuariox);
+		$arreglo+=array('error'=>0);
+		return json_encode($arreglo);
+
+	}
+	public function borrar_permiso(){
+		if (isset($_REQUEST['idpermiso'])){ $idpermiso=$_REQUEST['idpermiso']; }
+		$this->borrar('usuarios_permiso',"idpermiso",$idpermiso);
+
+		$arreglo =array();
+		$arreglo+=array('id'=>$_REQUEST['idusuario']);
+		$arreglo+=array('error'=>0);
+		return json_encode($arreglo);
 	}
 }
 

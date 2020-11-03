@@ -13,6 +13,7 @@
 		public $nivel_personal;
 		public $nivel_captura;
 		public $limite=300;
+		public $derecho=array();
 
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
@@ -26,6 +27,13 @@
 				$resp=$sth->fetch(PDO::FETCH_OBJ);
 				$_SESSION['nombre_sis']=$resp->nombre_sis;
 
+
+				if (isset($_SESSION['idusuario'])){
+					$sql="select * from usuarios_permiso where idusuario='".$_SESSION['idusuario']."'";
+					foreach ($this->dbh->query($sql) as $res){
+						$this->derecho[$res['modulo']]['modulo']=$res['modulo'];
+					}
+				}
 			}
 			catch(PDOException $e){
 				return "Database access FAILED!";
@@ -34,7 +42,7 @@
 
 		public function login(){
 			$arreglo=array();
-			if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
+			if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 				$valor=$_SESSION['idfondo'];
 				$arreglo=array('sess'=>"abierta", 'fondo'=>$valor);
 			}
@@ -48,7 +56,7 @@
 		}
 		public function salir(){
 			$_SESSION['autoriza'] = 0;
-			$_SESSION['idpersona']="";
+			$_SESSION['idusuario']="";
 		}
 		public function ses(){
 			if($_SESSION['autoriza']==1){
@@ -195,10 +203,10 @@
 			}
 		}
 
-		public function permiso($idpersona){
+		public function permiso($idusuario){
 			try{
 
-				$sql="select * from personal_permiso where idpersona='$idpersona'";
+				$sql="select * from personal_permiso where idusuario='$idusuario'";
 				foreach ($this->dbh->query($sql) as $res){
 					$this->accesox[]=$res;
 				}
@@ -539,7 +547,7 @@
 
 					$numero="pass_".rand(1,6666666);
 					$arreglo=array("llave"=>$numero);
-					$this->update('personal',array('idpersona'=>$res[0]['idpersona']), $arreglo);
+					$this->update('personal',array('idusuario'=>$res[0]['idusuario']), $arreglo);
 
 					$texto="Recuperar contraseña <b>Contraseña! $x</b>";
 					$texto.="<br><a href='http://spublicahgo.ddns.net/acceso/index.php?llave=$numero'>De click para recuperar la contraseña</a>";
@@ -601,7 +609,7 @@
 			if (isset($_REQUEST['imagen'])){$imagen=$_REQUEST['imagen'];}
 			$arreglo=array('idfondo'=>$imagen);
 			$_SESSION['idfondo']=$imagen;
-			$x=$this->update('usuarios',array('idusuario'=>$_SESSION['idpersona']), $arreglo);
+			$x=$this->update('usuarios',array('idusuario'=>$_SESSION['idusuario']), $arreglo);
 		}
 		public function leerfondo(){
 			return $_SESSION['idfondo'];

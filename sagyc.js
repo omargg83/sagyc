@@ -146,9 +146,7 @@
 				else{
 					this.classList.add('activeside');
 				}
-
 				let formData = new FormData();
-
 				let hash=e.currentTarget.hash.slice(1);
 				let arrayDeCadenas = hash.split("?");
 				let nhash=arrayDeCadenas[0];
@@ -543,8 +541,6 @@
 
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
-		cargando(true);
-
 		let des;	/////////////el destino
 		e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
 
@@ -625,6 +621,7 @@
 	}
 	function proceso_f(formData, variables, datos){
 		let variable=0;
+		cargando(true);
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',datos.db);
 		xhr.addEventListener('load',(data)=>{
@@ -645,17 +642,17 @@
 			}
 
 			if (respon.error==0){
-				Swal.fire({
-					type: 'success',
-					title: "Listo",
-					showConfirmButton: false,
-					timer: 1000
-				});
 				if (datos.des.length>0){
 					redirige_div(variables,datos);
 				}
 				else{
 					cargando(false);
+					Swal.fire({
+						type: 'success',
+						title: "Listo",
+						showConfirmButton: false,
+						timer: 1000
+					});
 				}
 			}
 			else{
@@ -699,6 +696,14 @@
 				var scripts = document.getElementById(datos.dix).getElementsByTagName("script");
 				for (var i = 0; i < scripts.length; i++) {
 			    eval(scripts[i].innerText);
+				}
+				if (datos.tp !== undefined && datos.tp.length>0) {
+					Swal.fire({
+						type: 'success',
+						title: "Listo",
+						showConfirmButton: false,
+						timer: 1000
+					});
 				}
 				cargando(false);
 			}
