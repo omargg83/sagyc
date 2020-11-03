@@ -30,30 +30,21 @@ class Venta extends Sagyc{
 	}
 
 	public function ventas_lista(){
-		$sql="select venta.idventa, venta.numero, venta.idsucursal, venta.iddescuento, venta.factura, clientes.nombre, sucursal.nombre as tienda,
-		venta.total, venta.fecha, venta.gtotal, venta.estado
-		from venta
+		$sql="select venta.idventa, venta.numero, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
-		left outer join sucursal on sucursal.idsucursal=venta.idsucursal
-		where sucursal.idsucursal='".$_SESSION['idtienda']."' and venta.estado='Activa' order by venta.numero desc";
-
+		where venta.idsucursal='".$_SESSION['idsucursal']."' and venta.estado='Activa' order by venta.numero desc";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function ventas_buscar($texto){
-		$sql="select venta.idventa, venta.numero, venta.idsucursal, venta.iddescuento, venta.factura, clientes.nombre, sucursal.nombre as tienda,
-		venta.total, venta.fecha, venta.gtotal, venta.estado
-		from venta
+		$sql="select venta.idventa, venta.numero, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
-		left outer join sucursal on sucursal.idsucursal=venta.idsucursal
-		where sucursal.idsucursal='".$_SESSION['idtienda']."' and (venta.idventa like '%$texto%' or clientes.nombre like '%$texto%') order by venta.numero desc limit 100";
-
+		where venta.idsucursal='".$_SESSION['idsucursal']."' and (venta.numero like '%$texto%' or clientes.nombre like '%$texto%') order by venta.numero desc limit 100";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
-
 
 	public function selecciona_cita(){
 		try{

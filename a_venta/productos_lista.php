@@ -15,8 +15,7 @@
 	}
 
 
-  $sql="SELECT * from productos
-	left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
+  $sql="SELECT * from productos	left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
 	where idsucursal=".$_SESSION['idsucursal']." and (nombre like '%$texto%' or  codigo like '%$texto%') order by nombre limit 20";
   $sth = $db->dbh->prepare($sql);
   $sth->execute();

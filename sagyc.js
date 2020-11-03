@@ -6,12 +6,11 @@
 	let intval=""
 
 	onload = ()=> {
-		loadContent(location.hash.slice(1));
 		if(intval==""){
 			intval=setInterval(function(){ sesion_ver(); }, 10000);
 		}
 		setTimeout(fondos, 2000);
-		cargando(false);
+		loadContent(location.hash.slice(1));
 	};
 
 	let url=window.location.href;
@@ -49,9 +48,12 @@
 			for (var i = 0; i < scripts.length; i++) {
 				eval(scripts[i].innerText);
 			}
+			cargando(false);
 		});
+		xhr.onerror = (e)=>{
+			cargando(false);
+		};
 		xhr.send(formData);
-		cargando(false);
 	}
 
 	function fechas () {
@@ -105,7 +107,7 @@
 			}
 		});
 		xhr.onerror = (e)=>{
-			console.log(e);
+
 		};
 		xhr.send(formData);
 	}
@@ -200,6 +202,7 @@
 	class Buttonprint extends HTMLButtonElement  {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {
+				cargando(true);
 				let des;	/////////////el destino
 				e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
 				des+=".php";
@@ -212,6 +215,7 @@
 					}
 				}
 				VentanaCentrada(des+cadena,'Impresion','','1024','768','true');
+				cargando(false);
 			});
 		}
 	}
@@ -222,7 +226,7 @@
 		connectedCallback() {
 			this.addEventListener('change', (e) => {
 				e.preventDefault();
-
+				cargando(true);
 				//////////id del formulario
 		 		let id=e.target.form.id;
 		 		let elemento = document.getElementById(id);
@@ -284,6 +288,7 @@
 								showConfirmButton: false,
 								timer: 1000
 							});
+							cargando(false);
 							return;
 						}
 
@@ -292,14 +297,16 @@
 							if (datos.desid !== undefined && datos.desid.length>0) {
 								document.getElementById(datos.desid).value=respon.id1;
 								formDestino.append(datos.desid, respon.id1);
+								cargando(false);
 							}
 							if (datos.des !== undefined && datos.des.length>4) {
 								redirige_div(formDestino,datos);
 							}
 							if(datos.cmodal==1){
 								$('#myModal').modal('hide');
+								cargando(false);
 							}
-							cargando(false);
+
 							Swal.fire({
 								type: 'success',
 								title: "Se guardó correctamente ",
@@ -308,6 +315,7 @@
 							});
 						}
 						else{
+							cargando(false);
 							Swal.fire({
 								type: 'info',
 								title: respon.terror,
@@ -317,10 +325,11 @@
 						}
 					});
 					xhr.onerror =  ()=>{
+						cargando(false);
 						console.log("error");
 					};
 					xhr.send(formData);
-					cargando(false);
+
 				}
 			});
 		}
@@ -332,7 +341,6 @@
 		connectedCallback() {
 		 this.addEventListener('submit', (e) => {
 			 	e.preventDefault();
-
 				//////////id del formulario
 		 		let id=e.currentTarget.attributes.id.nodeValue;
 		 		let elemento = document.getElementById(id);
@@ -406,6 +414,7 @@
 										showConfirmButton: false,
 										timer: 1000
 									});
+									cargando(false);
 									return;
 								}
 
@@ -414,14 +423,16 @@
 									if (datos.desid !== undefined && datos.desid.length>0) {
 										document.getElementById(datos.desid).value=respon.id;
 										formDestino.append(datos.desid, respon.id);
+										cargando(false);
 									}
 									if (datos.des !== undefined && datos.des.length>4) {
 										redirige_div(formDestino,datos);
 									}
 									if(datos.cmodal==1){
 										$('#myModal').modal('hide');
+										cargando(false);
 									}
-									cargando(false);
+
 									Swal.fire({
 										type: 'success',
 										title: "Se guardó correctamente ",
@@ -430,7 +441,7 @@
 									});
 								}
 								else{
-
+									cargando(false);
 									Swal.fire({
 										type: 'info',
 										title: respon.terror,
@@ -440,26 +451,27 @@
 								}
 							});
 							xhr.onerror =  ()=>{
+								cargando(false);
 								console.log("error");
 							};
 							xhr.send(formData);
-							cargando(false);
+
 						}
 					});
 
 				}
 				else{
-					cargando(true);
 					let xhr = new XMLHttpRequest();
 					xhr.open('POST',datos.des);
 					xhr.addEventListener('load',(data)=>{
 						document.getElementById(datos.dix).innerHTML = data.target.response;
+						cargando(false);
 					});
 					xhr.onerror =  ()=>{
+						cargando(false);
 						console.log("error");
 					};
 					xhr.send(formData);
-					cargando(false);
 				}
 		 })
 		}
@@ -471,7 +483,7 @@
 		connectedCallback() {
 		 this.addEventListener('submit', (e) => {
 				e.preventDefault();
-
+				cargando(true);
 				//////////id del formulario
 				let id=e.currentTarget.attributes.id.nodeValue;
 				let elemento = document.getElementById(id);
@@ -512,18 +524,18 @@
 						formDestino.append(arrayDeCadenas[1], elemento.attributes[contar].value);
 					}
 				}
-
-				cargando(true);
 				let xhr = new XMLHttpRequest();
 				xhr.open('POST',datos.des);
 				xhr.addEventListener('load',(data)=>{
 					document.getElementById(datos.dix).innerHTML = data.target.response;
+					cargando(false);
 				});
 				xhr.onerror =  ()=>{
+					cargando(false);
 					console.log("error");
 				};
 				xhr.send(formData);
-				cargando(false);
+
 		 })
 		}
 	}
@@ -584,7 +596,6 @@
 		}
 		if(datos.cmodal==2){
 			$('#myModal').modal('hide');
-			cargando(false);
 		}
 		//////////////poner aqui proceso en caso de existir funcion
 		if(fun.length>0){
@@ -611,7 +622,6 @@
 		else{
 			redirige_div(formData,datos);
 		}
-		cargando(false);
 	}
 	function proceso_f(formData, variables, datos){
 		let variable=0;
@@ -644,6 +654,9 @@
 				if (datos.des.length>0){
 					redirige_div(variables,datos);
 				}
+				else{
+					cargando(false);
+				}
 			}
 			else{
 				Swal.fire({
@@ -652,6 +665,7 @@
 					showConfirmButton: false,
 					timer: 1000
 				});
+				cargando(false);
 			}
 		});
 		xhr.onerror = (e)=>{
@@ -668,12 +682,12 @@
 		xhr.open('POST', datos.des);
 		xhr.addEventListener('load',(datares)=>{
 			if(datares.target.status=="404"){
-				cargando(false);
 				Swal.fire({
 						type: 'error',
 						title: "No encontrado: "+datos.des,
 						showConfirmButton: false,
 				})
+				cargando(false);
 				return 0;
 			}
 			else{
@@ -690,7 +704,6 @@
 			}
 		});
 		xhr.onerror = (e)=>{
-			cargando(false);
 			console.log(e);
 		};
 		xhr.send(formData);

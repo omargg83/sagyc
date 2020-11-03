@@ -35,20 +35,24 @@ class Usuario extends Sagyc{
 	public function usuario_buscar($texto){
 		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda, sucursal.idsucursal, sucursal.nombre as sucursal from usuarios
 		left outer join tienda on tienda.idtienda=usuarios.idtienda
-		left outer join sucursal on sucursal.idsucursal=usuarios.idsucursal
 		where usuarios.nombre like '%$texto%' and tienda.idtienda='".$_SESSION['idtienda']."'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
 	public function usuario_lista(){
-		$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda, sucursal.idsucursal, sucursal.nombre as sucursal FROM	usuarios
-		LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
-		left outer join sucursal on sucursal.idsucursal=usuarios.idsucursal
-		where tienda.idtienda='".$_SESSION['idtienda']."'";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetchAll(PDO::FETCH_OBJ);
+		try{
+			$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda FROM usuarios
+			LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
+			where tienda.idtienda='".$_SESSION['idtienda']."'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			echo $e;
+			return "Database access FAILED!";
+		}
   }
   public function sucursal_lista(){
 		$sql="SELECT * FROM sucursal where idtienda='".$_SESSION['idtienda']."'";

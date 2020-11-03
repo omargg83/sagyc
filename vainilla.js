@@ -215,7 +215,6 @@ class Pbusca extends HTMLFormElement {
         cargando(false);
       };
       xhr.send(formData);
-
    })
   }
 }
@@ -256,7 +255,7 @@ class Formselecciona extends HTMLFormElement {
           document.getElementById("total").value=datos.total;
           lista(datos.idventa);
           document.getElementById("resultadosx").innerHTML ="";
-          cargando(false);
+
         }
         else{
           cargando(false);
@@ -302,7 +301,6 @@ class Borraprod extends HTMLButtonElement {
               var datos = JSON.parse(data.target.response);
               document.getElementById("total").value=datos.total;
               lista(idventa);
-              cargando(false);
             });
             xhr.onerror =  ()=>{
               cargando(false);
@@ -355,8 +353,10 @@ function lista(idventa){
   xhr.open('POST',"a_venta/lista_pedido.php");
   xhr.addEventListener('load',(data)=>{
     document.getElementById("lista").innerHTML=data.target.response;
+    cargando(false);
   });
   xhr.onerror =  ()=>{
+    cargando(false);
   };
   xhr.send(formData);
 }

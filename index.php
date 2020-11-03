@@ -97,7 +97,7 @@
 	</div>
 </div>
 
-<div class="modal animated fadeInDown" tabindex="-1" role="dialog" id="myModal" data-backdrop="static" data-keyboard="false">
+<div class="modal" tabindex="-1" role="dialog" id="myModal" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-lg" role="document" id='modal_dispo'>
 		<div class="modal-content" id='modal_form'>
 
@@ -119,11 +119,6 @@
 
 	<!-- Animation library for notifications   -->
   <link href="lib/animate.css" rel="stylesheet"/>
-
-	<!-- WYSWYG   -->
-	<link href="lib/summernote8.12/summernote-lite.css" rel="stylesheet" type="text/css">
-  <script src="lib/summernote8.12/summernote-lite.js"></script>
-	<script src="lib/summernote8.12/lang/summernote-es-ES.js"></script>
 
 	<!--   Alertas   -->
 	<script src="lib/swal/dist/sweetalert2.min.js"></script>

@@ -37,6 +37,11 @@
 			echo "<input type='text' class='form-control' name='nombre' id='nombre' value='".$producto->nombre."' readonly>";
 		echo "</div>";
 
+		echo "<div class='col-12'>";
+			echo "<label>Descripción:</label>";
+			echo "<textarea type='text' class='form-control' name='nombre' id='nombre' rows='5' readonly>".$producto->nombre."</textarea>";
+		echo "</div>";
+
 		echo "<div class='col-4'>";
 			echo "<label>Existencia:</label>";
 			echo "<input type='text' class='form-control' name='existencia' id='existencia' value='$exist' readonly>";

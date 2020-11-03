@@ -2,11 +2,9 @@
 	require_once("db_.php");
 	if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];} else{ $id=0;}
 
-	$sucursal = $db->sucursal_lista();
 	if($id>0){
 		$pd = $db->usuario($id);
 		$id=$pd->idusuario;
-		$idsucursal=$pd->idsucursal;
 		$user=$pd->user;
 		$pass=$pd->pass;
 		$nivel=$pd->nivel;
@@ -43,26 +41,7 @@
 				   </div>
 				 </div>
 
-				<div class="form-group row">
-				  <label class="control-label col-sm-2" for="">Sucursal:</label>
-				  <div class="col-sm-10">
-					<?php
-
-						echo "<select class='form-control form-control-sm' name='idsucursal' id='idsucursal'>";
-						echo '<option disabled>Seleccione sucursal</option>';
-						foreach($sucursal as $v1){
-							  echo '<option value="'.$v1->idsucursal.'"';
-							  if($v1->idsucursal==$idsucursal){
-								  echo " selected";
-							  }
-							  echo '>'.$v1->nombre.'</option>';
-						}
-					  echo "</select>";
-					?>
-				  </div>
-				</div>
-
-
+				
 				<div class="form-group row">
 				 <label class="control-label col-sm-2" for="">Estado:</label>
 				  <div class="col-sm-10">

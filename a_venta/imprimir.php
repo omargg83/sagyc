@@ -5,7 +5,6 @@
 	$id=$pd->idventa;
 	$idcliente=$pd->idcliente;
 	$idsucursal=$pd->idsucursal;
-	$iddescuento=$pd->iddescuento;
 	$lugar=$pd->lugar;
 	$entregar=$pd->entregar;
 	$dentrega=$pd->dentrega;

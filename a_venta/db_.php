@@ -11,7 +11,6 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "</div>";
 }
 
-
 class Venta extends Sagyc{
 	public $nivel_personal;
 	public $nivel_captura;
@@ -28,7 +27,6 @@ class Venta extends Sagyc{
 			die();
 		}
 	}
-
 	public function venta($id){
 		$sql="select * from venta where idventa='$id'";
 		$sth = $this->dbh->prepare($sql);

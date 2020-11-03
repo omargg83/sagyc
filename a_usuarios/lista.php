@@ -17,10 +17,8 @@
 	</div>
 	<div class='row header-row'>
 		<div class='col-2'>#</div>
-		<div class='col-2'>NOMBRE</div>
+		<div class='col-4'>NOMBRE</div>
 		<div class='col-2'>NIVEL</div>
-		<div class='col-2'>TIENDA</div>
-		<div class='col-2'>SUCURSAL</div>
 		<div class='col-2'>ACTIVO</div>
 	</div>
 
@@ -32,10 +30,8 @@
 
 							echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_usuarios/db_' des='a_usuarios/lista' fun='borrar_usuario' dix='trabajo' v_id='$key->idusuario' id='eliminar' tp='¿Desea eliminar el usuario seleccionado?'><i class='far fa-trash-alt'></i></button>";
 						echo "</div>";
-					echo "<div class='col-2'>".$key->nombre."</div>";
+					echo "<div class='col-4'>".$key->nombre."</div>";
 					echo "<div class='col-2'>".$key->nivel."</div>";
-					echo "<div class='col-2'>".$key->tienda."</div>";
-					echo "<div class='col-2'>".$key->sucursal."</div>";
 					echo "<div class='col-2'>";
 					if ($key->activo==0) { echo "Inactivo"; }
 					if ($key->activo==1) { echo "Activo"; }
