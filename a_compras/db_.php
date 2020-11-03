@@ -110,7 +110,7 @@ class Compras extends Sagyc{
 			$statement = $this->dbh->prepare($sql);
 			$statement->execute();
 			$numero=$statement->fetchColumn()+1;
-			
+
 			$arreglo+=array('numero'=>$numero);
 			$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 			$arreglo+=array('estado'=>"Activa");
@@ -141,7 +141,7 @@ class Compras extends Sagyc{
 			$arreglo=array();
 			$arreglo+=array('idcatalogo'=>$idcatalogo);
 			$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
-			$arreglo+=array('preciocompra'=>$precio);
+		//	$arreglo+=array('preciocompra'=>$precio);
 			$arreglo+=array('activo_producto'=>1);
 			$x=$this->insert('productos', $arreglo);
 

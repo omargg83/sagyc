@@ -68,7 +68,7 @@
 							<div class='row'>
 
 								<div class="col-3">
-								 <label>Precio compra</label>
+								 <label>Precio compra x Unidad</label>
 								 <input type="text" class="form-control form-control-sm" id="preciocompra" name='preciocompra' placeholder="Precio" value="<?php echo $preciocompra; ?>">
 								</div>
 								<div class="col-3">

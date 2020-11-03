@@ -24,7 +24,7 @@
 			 <input type="text" class="form-control form-control-sm" id="cantidad" name='cantidad' placeholder="Cantidad" value="<?php echo $cantidad; ?>">
 			</div>
 			<div class="col-3">
-			 <label>Precio</label>
+			 <label>Precio de compra</label>
 			 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>">
 			</div>
 			<div class="col-3">
