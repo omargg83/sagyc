@@ -101,9 +101,9 @@
 									//		}
 
 											if($idcatalogo>0){
-												if($tipo==3){
-													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idcatalogo='$idcatalogo' ><i class='fas fa-key'></i>+ existencias</button>";
-												}
+										//		if($tipo==3){
+										//			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idcatalogo='$idcatalogo' ><i class='fas fa-key'></i>+ existencias</button>";
+										//		}
 											}
 										?>
 										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_productos/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>

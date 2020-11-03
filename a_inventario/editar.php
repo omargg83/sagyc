@@ -19,7 +19,7 @@
 		$precio=0;
 
 		$preciom=0;
-		$stockmin=0;
+		$stockmin=1;
 		$cantidad=0;
 		$preciocompra="";
 
@@ -57,18 +57,18 @@
 							<div class='row'>
 								<div class="col-5">
 								 <label>Nombre</label>
-								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" required>
+								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" readonly>
 								</div>
 
 								<div class="col-12">
 								 <label>Descripción</label>
-								 <input type="text" class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" value="<?php echo $descripcion; ?>">
+								 <input type="text" class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" value="<?php echo $descripcion; ?>" readonly>
 								</div>
 							</div>
 							<div class='row'>
 
 								<div class="col-3">
-								 <label>Precio compra</label>
+								 <label>Precio compra x Unidad</label>
 								 <input type="text" class="form-control form-control-sm" id="preciocompra" name='preciocompra' placeholder="Precio" value="<?php echo $preciocompra; ?>">
 								</div>
 								<div class="col-3">

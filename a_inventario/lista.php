@@ -24,7 +24,7 @@
 		<div class='col-3'>Nombre</div>
 		<div class='col-2'>Estatus</div>
 		<div class='col-2'>Existencia</div>
-		<div class='col-2'>Precio</div>
+		<div class='col-2'>Precio de venta</div>
 	</div>
 
 		<?php
@@ -66,7 +66,7 @@
 						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-danger btn-sm' title='Producto sin stock' omodal='1'><i class='far fa-thumbs-down'></i></button>";
 					}
 					echo "</div>";
-					
+
 					echo "<div class='col-2 text-center'>";
 						echo $cantidad->total;
 					echo "</div>";

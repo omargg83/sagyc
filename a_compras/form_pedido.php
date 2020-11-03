@@ -10,7 +10,7 @@
 	<th>Código</th>
 	<th>Nombre</th>
 	<th>Cantidad</th>
-	<th>Precio</th>
+	<th>Precio Compra</th>
 	<th>Total</th>
 	</tr>";
 	$gtotal=0;
