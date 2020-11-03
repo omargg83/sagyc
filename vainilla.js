@@ -504,7 +504,6 @@ class Finalizar extends HTMLFormElement {
       let total_g=document.getElementById("total_g").value;
       let efectivo_g=document.getElementById("efectivo_g").value;
       let cambio_g=document.getElementById("cambio_g").value;
-      alert(idventa);
 
       let formData = new FormData();
       formData.append("idventa", idventa);
