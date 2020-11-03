@@ -65,7 +65,9 @@ class Productos extends Sagyc{
 
 	public function guardar_producto(){
 		try{
-			if (isset($_REQUEST['idcatalogo'])){$idcatalogo=$_REQUEST['idcatalogo'];}
+			if (isset($_REQUEST['idcatalogo'])){
+				$idcatalogo=$_REQUEST['idcatalogo'];
+			}
 			$arreglo =array();
 			$tipo="";
 			$imei="";
@@ -117,12 +119,22 @@ class Productos extends Sagyc{
 				if($ped->error==0){
 					$idcatalogo=$ped->id;
 
-					$this->cantidad_update($idcatalogo,$tipo);
+					$arreglo =array();
+					if($tipo==0){
+						$arreglo+=array('cantidad'=>1);
+					}
+					$arreglo+=array('idcatalogo'=>$idcatalogo);
+					$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
+					$this->insert('productos', $arreglo);
 
+					$this->cantidad_update($idcatalogo,$tipo);
 					$codigo="9".str_pad($idcatalogo, 8, "0", STR_PAD_LEFT);
 					$arreglo =array();
 					$arreglo = array('codigo'=>$codigo);
 					$this->update('productos_catalogo',array('idcatalogo'=>$idcatalogo), $arreglo);
+				}
+				else{
+					return $x;
 				}
 			}
 			else{

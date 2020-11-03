@@ -39,14 +39,16 @@
 
 						echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_inventario/db_' des='a_inventario/lista' fun='borrar_producto' dix='trabajo' v_idproducto='$key->idproducto' id='eliminar' tp='¿Desea eliminar el Producto seleccionado?'><i class='far fa-trash-alt'></i></button>";
 							////
-
-							$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$key->idproducto'";
-							$sth = $db->dbh->prepare($sql);
-							$sth->execute();
-							$cantidad=$sth->fetch(PDO::FETCH_OBJ);
-
-
-
+							if($key->tipo==3){
+								$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$key->idproducto'";
+								$sth = $db->dbh->prepare($sql);
+								$sth->execute();
+								$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+								$exist=$cantidad->total;
+							}
+							else{
+								$exist=$key->cantidad;
+							}
 						//////
 						echo "</div>";
 					echo "</div>";
@@ -68,7 +70,7 @@
 					echo "</div>";
 
 					echo "<div class='col-2 text-center'>";
-						echo $cantidad->total;
+						echo $exist;
 					echo "</div>";
 
 					echo "<div class='col-2 text-right' >".moneda($key->precio)."</div>";

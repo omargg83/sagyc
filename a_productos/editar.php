@@ -42,8 +42,6 @@
 			<div class='card-body'>
 				<div class='tab-content' id='myTabContent'>
 					<div class='tab-pane fade show active' id='ssh' role='tabpanel' aria-labelledby='ssh-tab'>
-						<form id='form_producto' action='' data-lugar='a_productos/db_' data-destino='a_productos/editar' data-funcion='guardar_producto'>
-							<input type="hidden" class="form-control form-control-sm" id="idcatalogo" name='idcatalogo' value="<?php echo $idcatalogo; ?>">
 							<div class='row'>
 								<div class="col-12">
 								 <label>Tipo de producto</label>
@@ -73,7 +71,7 @@
 
 								<div class="col-12">
 								 <label>Descripción</label>
-								 <input type="text" class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" value="<?php echo $descripcion; ?>">
+								 <textarea class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" rows='5'><?php echo $descripcion; ?></textarea>
 								</div>
 							</div>
 							<div class='row'>
@@ -109,7 +107,6 @@
 										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_productos/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
 								</div>
 							</div>
-						</form>
 					</div>
 
 				</div>

@@ -5,7 +5,7 @@
 	if($idproducto>0){
 		$per = $db->producto_editar($idproducto);
 
-		$cantidad=$per->cantidad;
+		$exist=$per->cantidad;
 		$precio=$per->precio;
 		$preciom=$per->preciom;
 		$stockmin=$per->stockmin;
@@ -55,57 +55,59 @@
 							</div>
 							<hr>
 							<div class='row'>
-								<div class="col-5">
+								<div class="col-8">
 								 <label>Nombre</label>
 								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" readonly>
 								</div>
 
-								<div class="col-12">
-								 <label>Descripción</label>
-								 <input type="text" class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" value="<?php echo $descripcion; ?>" readonly>
-								</div>
-							</div>
-							<div class='row'>
-
-								<div class="col-3">
-								 <label>Precio compra x Unidad</label>
-								 <input type="text" class="form-control form-control-sm" id="preciocompra" name='preciocompra' placeholder="Precio" value="<?php echo $preciocompra; ?>">
-								</div>
-								<div class="col-3">
-								 <label>Precio Venta</label>
-								 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>" required>
-								</div>
-								<div class="col-3">
-								 <label>Precio mayoreo</label>
-								 <input type="text" class="form-control form-control-sm" id="preciom" name='preciom' placeholder="Precio Mayoreo" value="<?php echo $preciom; ?>" >
-								</div>
-
-								<div class="col-3">
-									<?php
-									$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
-									$sth = $db->dbh->prepare($sql);
-									$sth->execute();
-									$cantidad=$sth->fetch(PDO::FETCH_OBJ);
-									?>
-								 <label>Existencias</label>
-								 <input type="text" class="form-control form-control-sm" id="tmp_ex" name='tmp_ex' placeholder="Existencias" value="<?php echo $cantidad->total; ?>" readonly>
-								</div>
-
-							</div>
-
-							<div class='row'>
-								<div class="col-2">
-								 <label>Stock Minimo</label>
-								 <input type="text" class="form-control form-control-sm" id="stockmin" name='stockmin' placeholder="Stock Minimo" value="<?php echo $stockmin; ?>">
-								</div>
-
-								<div class="col-3">
+								<div class="col-4">
 								 <label>Activo</label>
 									<select class="form-control form-control-sm" name="activo_producto" id="activo"  >
 										<option value="0"<?php if($activo_producto=="0") echo "selected"; ?> > Inactivo</option>
 										<option value="1"<?php if($activo_producto=="1") echo "selected"; ?> > Activo</option>
 									</select>
 								</div>
+
+
+								<div class="col-12">
+								 <label>Descripción</label>
+								 <textarea class="form-control form-control-sm" id="descripcion" name='descripcion' readonly rows='5'><?php echo $descripcion; ?></textarea>
+								</div>
+							</div>
+							<div class='row'>
+								<div class="col-2">
+									<?php
+									if($tipo==3){
+										$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
+										$sth = $db->dbh->prepare($sql);
+										$sth->execute();
+										$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+										$exist=$cantidad->total;
+									}
+									?>
+								 <label>Existencias</label>
+								 <input type="text" class="form-control form-control-sm" id="tmp_ex" name='tmp_ex' placeholder="Existencias" value="<?php echo $exist; ?>" readonly>
+								</div>
+
+								<div class="col-2">
+								 <label>$ compra x Unidad</label>
+								 <input type="text" class="form-control form-control-sm" id="preciocompra" name='preciocompra' placeholder="Precio" value="<?php echo $preciocompra; ?>">
+								</div>
+								<div class="col-2">
+								 <label>$ Venta</label>
+								 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>" required>
+								</div>
+								<div class="col-2">
+								 <label>$ mayoreo</label>
+								 <input type="text" class="form-control form-control-sm" id="preciom" name='preciom' placeholder="Precio Mayoreo" value="<?php echo $preciom; ?>" >
+								</div>
+
+								<div class="col-2">
+								 <label>Stock Minimo</label>
+								 <input type="text" class="form-control form-control-sm" id="stockmin" name='stockmin' placeholder="Stock Minimo" value="<?php echo $stockmin; ?>">
+								</div>
+
+
 
 							</div>
 							<hr>

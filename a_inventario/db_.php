@@ -96,16 +96,11 @@ class Productos extends Sagyc{
 			productos.stockmin,
 			productos.idsucursal,
 			sucursal.idsucursal,
-			sucursal.nombre as nombresuc,
-			bodega.idbodega,
-			bodega.cantidad
+			sucursal.nombre as nombresuc
 			from productos
 			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
 			LEFT OUTER JOIN sucursal ON sucursal.idsucursal =productos.idsucursal
-			LEFT OUTER JOIN bodega ON bodega.idproducto = productos.idproducto
 			where productos.idproducto=:id ";
-
-			//$sql="select * from productos where idproducto=:id and idtienda='".$_SESSION['idtienda']."'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -144,25 +139,8 @@ class Productos extends Sagyc{
 			}
 
 			$x="";
-
-			if($idproducto==0){
-				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
-				$x=$this->insert('productos', $arreglo);
-				$ped=json_decode($x);
-
-				if($ped->error==0){
-					$idproducto=$ped->id;
-
-					$this->cantidad_update($idproducto,$tipo);
-
-					$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
-				}
-			}
-			else{
-				$x=$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
-
-				$this->cantidad_update($idproducto,$tipo);
-			}
+			$x=$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
+			$this->cantidad_update($idproducto,$tipo);
 			return $x;
 		}
 		catch(PDOException $e){

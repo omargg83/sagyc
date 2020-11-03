@@ -136,7 +136,7 @@
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {cargando(true);
-
+				cargando(true);
 				if(document.querySelector('.activeside')){
 					document.querySelector('.activeside').classList.remove('activeside');
 					this.classList.add('activeside');
@@ -158,7 +158,6 @@
 						formData.append(pair[0],pair[1]);
 					}
 				}
-
 				let datos = new Object();
 				datos.des=nhash+".php";
 				datos.dix="contenido";
@@ -180,6 +179,7 @@
 	class CiLink extends HTMLLIElement {
 	  connectedCallback() {
 	    this.addEventListener('click', (e) => {
+				cargando(true);
 	      proceso_db(e);
 	    });
 	  }
@@ -625,6 +625,7 @@
 					showConfirmButton: false,
 					timer: 1000
 				});
+				cargando(false);
 				return;
 			}
 
@@ -667,6 +668,7 @@
 		xhr.open('POST', datos.des);
 		xhr.addEventListener('load',(datares)=>{
 			if(datares.target.status=="404"){
+				cargando(false);
 				Swal.fire({
 						type: 'error',
 						title: "No encontrado: "+datos.des,
@@ -684,13 +686,15 @@
 				for (var i = 0; i < scripts.length; i++) {
 			    eval(scripts[i].innerText);
 				}
+				cargando(false);
 			}
 		});
 		xhr.onerror = (e)=>{
+			cargando(false);
 			console.log(e);
 		};
 		xhr.send(formData);
-		cargando(false);
+
 	}
 	function cargando(valor) {
 		let element = document.getElementById("cargando_div");

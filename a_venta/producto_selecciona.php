@@ -11,10 +11,16 @@
 	$sth->execute();
 	$producto=$sth->fetch(PDO::FETCH_OBJ);
 
-	$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$producto->idproducto'";
-	$sth = $db->dbh->prepare($sql);
-	$sth->execute();
-	$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+	if($producto->tipo==3){
+		$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$producto->idproducto'";
+		$sth = $db->dbh->prepare($sql);
+		$sth->execute();
+		$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+		$exist=$cantidad->total;
+	}
+	else{
+		$exist=$producto->cantidad;
+	}
 
 	echo "<div class='modal-header'>";
   	echo "<h5 class='modal-title'>Agregar cliente</h5>";
@@ -33,7 +39,7 @@
 
 		echo "<div class='col-4'>";
 			echo "<label>Existencia:</label>";
-			echo "<input type='text' class='form-control' name='existencia' id='existencia' value='".$cantidad->total."' readonly>";
+			echo "<input type='text' class='form-control' name='existencia' id='existencia' value='$exist' readonly>";
 		echo "</div>";
 
 		echo "<div class='col-4'>";

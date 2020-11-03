@@ -30,11 +30,19 @@
 
 	  if(count($res)>0){
 	    foreach ($res as $key) {
+				/*
+				if($key->tipo==3){
+					$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$key->idproducto'";
+					$sth = $db->dbh->prepare($sql);
+					$sth->execute();
+					$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+					$exist=$cantidad->total;
+				}
+				else{
+					$exist=$key->cantidad;
+				}
+				*/
 
-				$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$key->idproducto'";
-				$sth = $db->dbh->prepare($sql);
-				$sth->execute();
-				$cantidad=$sth->fetch(PDO::FETCH_OBJ);
 
 	      echo "<div class='row body-row' is='b-card' draggable='true'>";
 					echo "<div class='col-12'>";
@@ -44,12 +52,9 @@
 							echo  "</div>";
 						}
 
-						echo " (".$cantidad->total.") ";
-
+						//echo " ($exist) ";
+						//echo 	"<b>".moneda($key->precio)."</b>";
 		      	echo  $key->nombre;
-						echo "<br>";
-
-		        echo 	"<b>".moneda($key->precio)."</b>";
 		      echo  "</div>";
 
 	      echo  "</div>";

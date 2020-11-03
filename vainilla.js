@@ -1,9 +1,6 @@
 
 ////////////// Ventas
 function cambio_total(){
-
-
-
   let total_g=document.getElementById("total_g").value;
   let efectivo_g=document.getElementById("efectivo_g").value;
   let total=(efectivo_g-total_g)*100;
@@ -339,6 +336,7 @@ class Cliente_flo extends HTMLButtonElement {
       xhr.open('POST',"a_venta/db_.php");
       xhr.addEventListener('load',(data)=>{
         cliente_datos(idcliente);
+        $('#myModal').modal('hide');
         cargando(false);
       });
       xhr.onerror =  ()=>{

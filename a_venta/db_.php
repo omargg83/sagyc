@@ -46,6 +46,13 @@ class Venta extends Sagyc{
 		$idcliente=$_REQUEST['idcliente'];
 		$idproducto=$_REQUEST['idproducto'];
 
+		$sql="select * from productos
+		left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
+		where idproducto='$idproducto'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$producto=$sth->fetch(PDO::FETCH_OBJ);
+
 		if(!isset($_REQUEST['precio'])){
 			$arreglo =array();
 			$arreglo+=array('error'=>1);
@@ -79,26 +86,24 @@ class Venta extends Sagyc{
 			return json_encode($arreglo);
 		}
 
-		$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		$cantidad_bg=$sth->fetch(PDO::FETCH_OBJ);
-		if ($cantidad>$cantidad_bg->total){
-			$arreglo =array();
-			$arreglo+=array('error'=>1);
-			$arreglo+=array('terror'=>"Verificar cantidad");
-			return json_encode($arreglo);
+		if($producto->tipo==3){
+			$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$idproducto'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$cantidad_bg=$sth->fetch(PDO::FETCH_OBJ);
+			if ($cantidad>$cantidad_bg->total){
+				$arreglo =array();
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Verificar cantidad");
+				return json_encode($arreglo);
+			}
 		}
+
 		try{
 			if(isset($_REQUEST['idproducto'])){
 				$precio=$_REQUEST['precio'];
 
-				$sql="select * from productos
-				left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
-				where idproducto='$idproducto'";
-				$sth = $this->dbh->prepare($sql);
-				$sth->execute();
-				$producto=$sth->fetch(PDO::FETCH_OBJ);
+
 
 				if($idventa==0){
 					$date=date("Y-m-d H:i:s");
