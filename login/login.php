@@ -1,4 +1,6 @@
-<?php @session_start();
+<?php
+	session_name("chingon");
+	@session_start();
 
 	require_once("../init.php");
 	class ipsi{
@@ -44,8 +46,17 @@
 
 						$fecha=date("Y-m-d");
 						list($anyo,$mes,$dia) = explode("-",$fecha);
-						$_SESSION['n_sistema']="J&D";
 
+
+						$sql="SELECT * FROM tienda where idtienda=:idtienda";
+						$sth = $this->dbh->prepare($sql);
+						$sth->bindValue(":idtienda",$CLAVE['idtienda']);
+						$sth->execute();
+						$tienda=$sth->fetch(PDO::FETCH_OBJ);
+
+						$_SESSION['n_sistema']=$tienda->nombre_sis;
+						$_SESSION['a_sistema']=$tienda->activo;
+						
 						$_SESSION['cfondo']="white";
 						$_SESSION['foco']=mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"));
 						$_SESSION['cfondo']="white";

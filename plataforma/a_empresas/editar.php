@@ -9,6 +9,7 @@
 	$ciudad="";
 	$estado="";
 	$nombre_sis="";
+	$activo="";
 
 	if($idtienda>0){
 		$pd = $db->tienda($idtienda);
@@ -19,6 +20,7 @@
 		$ciudad=$pd->ciudad;
 		$estado=$pd->estado;
 		$nombre_sis=$pd->nombre_sis;
+		$activo=$pd->activo;
 	}
 
 ?>
@@ -61,6 +63,14 @@
 					<div class="col-3">
 						<label>Estado:</label>
 							<input type="text" class="form-control form-control-sm" name="estado" id="estado" value="<?php echo $estado;?>" placeholder="Estado" required>
+					</div>
+
+					<div class="col-3">
+						<label>Activo:</label>
+						<select class="form-control form-control-sm" name="activo" id="activo">
+							<option value="1"<?php if($activo=="1") echo "selected"; ?> >Activo</option>
+							<option value="2"<?php if($activo=="0") echo "selected"; ?> >Inactivo</option>
+						</select>
 					</div>
 				</div>
 			</div>

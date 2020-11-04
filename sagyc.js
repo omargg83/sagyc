@@ -101,6 +101,7 @@
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',"control_db.php");
 		xhr.addEventListener('load',(data)=>{
+			console.log(data.target.response);
 			var datos = JSON.parse(data.target.response);
 			if (datos.sess=="cerrada"){
 				location.href ="login/";

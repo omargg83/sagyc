@@ -1,4 +1,5 @@
 <?php
+	session_name("chingon");
 	@session_start();
 	if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
 	if (isset($_REQUEST['ctrl'])){$ctrl=$_REQUEST['ctrl'];}	else{ $ctrl="";}
@@ -22,12 +23,6 @@
 				$this->dbh = new PDO("mysql:host=".SERVIDOR.";port=".PORT.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
 				$this->dbh->query("SET NAMES 'utf8'");
 
-				$sql="select * from tienda";
-				$sth=$this->dbh->query($sql);
-				$resp=$sth->fetch(PDO::FETCH_OBJ);
-				$_SESSION['nombre_sis']=$resp->nombre_sis;
-
-
 				if (isset($_SESSION['idusuario'])){
 					$sql="select * from usuarios_permiso where idusuario='".$_SESSION['idusuario']."'";
 					foreach ($this->dbh->query($sql) as $res){
@@ -49,6 +44,8 @@
 			else {
 				///////////////////////////login
 				$valor=$_SESSION['idfondo'];
+				$_SESSION['idusuario']="";
+				$_SESSION['autoriza']=0;
 				$arreglo=array('sess'=>"cerrada", 'fondo'=>$valor);
 				//////////////////////////fin login
 			}

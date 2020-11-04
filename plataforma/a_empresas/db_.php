@@ -74,6 +74,9 @@ class Datos_tienda extends Sagyc{
 		if (isset($_REQUEST['nombre_sis'])){
 			$arreglo+=array('nombre_sis'=>$_REQUEST['nombre_sis']);
 		}
+		if (isset($_REQUEST['activo'])){
+			$arreglo+=array('activo'=>$_REQUEST['activo']);
+		}
 
 		if($idtienda==0){
 			$x=$this->insert('tienda', $arreglo);
