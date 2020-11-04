@@ -2,7 +2,6 @@
 	require_once("db_.php");
 	$idproducto=$_REQUEST['idproducto'];
 	$idventa=$_REQUEST['idventa'];
-	$tipo_precio=$_REQUEST['idcliente'];
 
 	$sql="SELECT * from productos
 	left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
@@ -55,12 +54,9 @@
 
 		echo "<div class='col-4'>";
 			echo "<label>Precio</label>";
-			if($tipo_precio==0){
+
 			echo "<input type='text' class='form-control' name='precio' id='precio' value='".$producto->precio."' required>";
-			}
-			if($tipo_precio==1){
-			echo "<input type='text' class='form-control' name='precio' id='precio' value='".$producto->preciom."' required>";
-			}
+		
 		echo "</div>";
 
 	echo "</div>";
