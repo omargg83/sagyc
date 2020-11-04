@@ -126,7 +126,6 @@
 				return json_encode($arreglo);
 			}
 		}
-
 		public function borrar($DbTableName, $key, $id){
 			$arreglo=array();
 			try{
@@ -158,7 +157,19 @@
 				return json_encode($arreglo);
 			}
 		}
+		public function tienda($id){
+			try{
 
+				$sql="select * from tienda where idtienda=:id";
+				$sth = $this->dbh->prepare($sql);
+				$sth->bindValue(":id",$id);
+				$sth->execute();
+				return $sth->fetch(PDO::FETCH_OBJ);
+			}
+			catch(PDOException $e){
+				return "Database access FAILED!".$e->getMessage();
+			}
+		}
 	}
 
 

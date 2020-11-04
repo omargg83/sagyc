@@ -32,7 +32,7 @@
 		<div class='card-header'>
 			Usuarios
 		</div>
-		<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des='a_usuarios/editar' desid='id'>
+		<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario">
 			<div class='card-body'>
 
 				 <input type="hidden" class="form-control form-control-sm" name="id" id="id" value="<?php echo $idusuario ;?>" placeholder="Tienda" readonly>
@@ -96,12 +96,10 @@
 						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
 						<?php
 							if($id>0){
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_pass' omodal='1' v_id='$id'><i class='fas fa-key'></i>Contraseña</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_pass' omodal='1' v_idusuario='$id'><i class='fas fa-key'></i>Contraseña</button>";
 							}
-
 							echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/lista' v_idtienda='$idtienda' dix='trabajo'><i class='fas fa-undo-alt'></i>Regresar</button>";
 						?>
-
 					</div>
 				</div>
 			</div>
@@ -137,9 +135,8 @@
 					echo "</div>";
 
 					echo "<div class='col-sm-12'>";
-						echo "<button class='btn btn-warning btn-sm' type='submit' ><i class='fa fa-check'></i>Agregar</button>";
-
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar' desid='id' db='a_usuarios/db_' fun='agregar_todos' dix='trabajo' v_idusuario='$id'>Todos</button>";
+						echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-plus'></i>Agregar</button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_permisos' desid='id' db='a_usuarios/db_' fun='agregar_todos' dix='permisos' v_idusuario='$id'><i class='fas fa-globe-americas'></i>Todos</button>";
 
 					echo "</div>";
 				echo "</div>";

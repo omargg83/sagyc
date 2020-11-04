@@ -1,8 +1,9 @@
 <?php
   require_once("db_.php");
+  
   $idtienda=$_REQUEST['idtienda'];
 	$pd = $db->usuario_lista($idtienda);
-
+  $tienda = $db->tienda($idtienda);
 	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
 
@@ -10,7 +11,10 @@
 		<div class='row titulo-row'>
 			<div class='col-12'>
         <br>
-				LISTA DE USUARIOS
+				LISTA DE USUARIOS:
+        <?php
+          echo $tienda->nombre_sis;
+        ?>
         <hr>
         <?php
         echo "<button class='btn btn-warning btn-sm' is='b-link' des='a_usuarios/editar' dix='trabajo' v_idusuario='0' v_idtienda='$idtienda' id='edit_persona'><i class='far fa-plus-square'></i>Nuevo</button>";

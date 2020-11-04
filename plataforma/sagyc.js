@@ -1,16 +1,13 @@
-/*
-	Libreria Propia V.1
-	Ruben Omar García
-*/
 
 	let intval=""
-
+	let debugx=1;
+	let db_inicial="admin_db.php";
+	
 	onload = ()=> {
-		loadContent(location.hash.slice(1));
 		if(intval==""){
 			intval=setInterval(function(){ sesion_ver(); }, 10000);
 		}
-		cargando(false);
+		loadContent(location.hash.slice(1));
 	};
 
 	let url=window.location.href;
@@ -48,10 +45,37 @@
 			for (var i = 0; i < scripts.length; i++) {
 				eval(scripts[i].innerText);
 			}
+			cargando(false);
 		});
+		xhr.onerror = (e)=>{
+			cargando(false);
+		};
 		xhr.send(formData);
-		cargando(false);
 	}
+
+	function fechas () {
+		$.datepicker.regional['es'] = {
+			 closeText: 'Cerrar',
+			 yearRange: '1910:2040',
+			 prevText: '<Ant',
+			 nextText: 'Sig>',
+			 currentText: 'Hoy',
+			 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+			 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+			 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+			 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			 weekHeader: 'Sm',
+			 dateFormat: 'dd-mm-yy',
+			 firstDay: 0,
+			 isRTL: false,
+			 showMonthAfterYear: false,
+			 yearSuffix: ''
+		 };
+
+		$.datepicker.setDefaults($.datepicker.regional['es']);
+		$(".fechaclass").datepicker();
+	};
 	function salir(){
 		var formData = new FormData();
 		formData.append("function", "salir");
@@ -80,38 +104,16 @@
 			}
 		});
 		xhr.onerror = (e)=>{
-			console.log(e);
+
 		};
 		xhr.send(formData);
 	}
 
-	/*!
-			* Start Bootstrap - SB Admin v6.0.1 (https://startbootstrap.com/templates/sb-admin)
-			* Copyright 2013-2020 Start Bootstrap
-			* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
-			*/
-	(function($) {
-			"use strict";
-
-			// Add active state to sidbar nav links
-			var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
-					$("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
-							if (this.href === path) {
-									$(this).addClass("active");
-							}
-					});
-
-			// Toggle the side navigation
-			$("#sidebarToggle").on("click", function(e) {
-					e.preventDefault();
-					$("body").toggleClass("sb-sidenav-toggled");
-			});
-	})(jQuery);
 
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {cargando(true);
-
+				cargando(true);
 				if(document.querySelector('.activeside')){
 					document.querySelector('.activeside').classList.remove('activeside');
 					this.classList.add('activeside');
@@ -119,9 +121,7 @@
 				else{
 					this.classList.add('activeside');
 				}
-
 				let formData = new FormData();
-
 				let hash=e.currentTarget.hash.slice(1);
 				let arrayDeCadenas = hash.split("?");
 				let nhash=arrayDeCadenas[0];
@@ -133,7 +133,6 @@
 						formData.append(pair[0],pair[1]);
 					}
 				}
-
 				let datos = new Object();
 				datos.des=nhash+".php";
 				datos.dix="contenido";
@@ -155,6 +154,7 @@
 	class CiLink extends HTMLLIElement {
 	  connectedCallback() {
 	    this.addEventListener('click', (e) => {
+				cargando(true);
 	      proceso_db(e);
 	    });
 	  }
@@ -175,6 +175,7 @@
 	class Buttonprint extends HTMLButtonElement  {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {
+				cargando(true);
 				let des;	/////////////el destino
 				e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
 				des+=".php";
@@ -187,6 +188,7 @@
 					}
 				}
 				VentanaCentrada(des+cadena,'Impresion','','1024','768','true');
+				cargando(false);
 			});
 		}
 	}
@@ -197,7 +199,7 @@
 		connectedCallback() {
 			this.addEventListener('change', (e) => {
 				e.preventDefault();
-
+				cargando(true);
 				//////////id del formulario
 		 		let id=e.target.form.id;
 		 		let elemento = document.getElementById(id);
@@ -259,6 +261,8 @@
 								showConfirmButton: false,
 								timer: 1000
 							});
+							console.log(data.target.response);
+							cargando(false);
 							return;
 						}
 
@@ -267,14 +271,16 @@
 							if (datos.desid !== undefined && datos.desid.length>0) {
 								document.getElementById(datos.desid).value=respon.id1;
 								formDestino.append(datos.desid, respon.id1);
+								cargando(false);
 							}
 							if (datos.des !== undefined && datos.des.length>4) {
 								redirige_div(formDestino,datos);
 							}
 							if(datos.cmodal==1){
 								$('#myModal').modal('hide');
+								cargando(false);
 							}
-							cargando(false);
+
 							Swal.fire({
 								type: 'success',
 								title: "Se guardó correctamente ",
@@ -283,6 +289,7 @@
 							});
 						}
 						else{
+							cargando(false);
 							Swal.fire({
 								type: 'info',
 								title: respon.terror,
@@ -292,10 +299,11 @@
 						}
 					});
 					xhr.onerror =  ()=>{
+						cargando(false);
 						console.log("error");
 					};
 					xhr.send(formData);
-					cargando(false);
+
 				}
 			});
 		}
@@ -341,9 +349,6 @@
 				datos.db=db+".php";
 				datos.dix=dix;
 				datos.fun=fun;
-				//datos.tp=tp;
-				//datos.iddest=iddest;
-				//datos.omodal=omodal;
 				datos.cmodal=cmodal;
 				var formDestino = new FormData();
 
@@ -373,14 +378,17 @@
 							let xhr = new XMLHttpRequest();
 							xhr.open('POST',datos.db);
 							xhr.addEventListener('load',(data)=>{
+								console.log("debug"+debugx+"error 1:"+data.target.response);
+
 								if (!isJSON(data.target.response)){
-									console.log(data.target.response);
 									Swal.fire({
 										type: 'error',
 										title: "Error favor de verificar",
 										showConfirmButton: false,
 										timer: 1000
 									});
+									console.log(data.target.response);
+									cargando(false);
 									return;
 								}
 
@@ -389,14 +397,17 @@
 									if (datos.desid !== undefined && datos.desid.length>0) {
 										document.getElementById(datos.desid).value=respon.id;
 										formDestino.append(datos.desid, respon.id);
+										cargando(false);
 									}
 									if (datos.des !== undefined && datos.des.length>4) {
+										console.log("entra 3");
 										redirige_div(formDestino,datos);
 									}
 									if(datos.cmodal==1){
 										$('#myModal').modal('hide');
+										cargando(false);
 									}
-									cargando(false);
+
 									Swal.fire({
 										type: 'success',
 										title: "Se guardó correctamente ",
@@ -405,7 +416,7 @@
 									});
 								}
 								else{
-
+									cargando(false);
 									Swal.fire({
 										type: 'info',
 										title: respon.terror,
@@ -415,26 +426,25 @@
 								}
 							});
 							xhr.onerror =  ()=>{
+								cargando(false);
 								console.log("error");
 							};
 							xhr.send(formData);
-							cargando(false);
 						}
 					});
-
 				}
 				else{
-					cargando(true);
 					let xhr = new XMLHttpRequest();
 					xhr.open('POST',datos.des);
 					xhr.addEventListener('load',(data)=>{
 						document.getElementById(datos.dix).innerHTML = data.target.response;
+						cargando(false);
 					});
 					xhr.onerror =  ()=>{
+						cargando(false);
 						console.log("error");
 					};
 					xhr.send(formData);
-					cargando(false);
 				}
 		 })
 		}
@@ -446,7 +456,7 @@
 		connectedCallback() {
 		 this.addEventListener('submit', (e) => {
 				e.preventDefault();
-
+				cargando(true);
 				//////////id del formulario
 				let id=e.currentTarget.attributes.id.nodeValue;
 				let elemento = document.getElementById(id);
@@ -487,18 +497,17 @@
 						formDestino.append(arrayDeCadenas[1], elemento.attributes[contar].value);
 					}
 				}
-
-				cargando(true);
 				let xhr = new XMLHttpRequest();
 				xhr.open('POST',datos.des);
 				xhr.addEventListener('load',(data)=>{
 					document.getElementById(datos.dix).innerHTML = data.target.response;
+					cargando(false);
 				});
 				xhr.onerror =  ()=>{
+					cargando(false);
 					console.log("error");
 				};
 				xhr.send(formData);
-				cargando(false);
 
 		 })
 		}
@@ -507,8 +516,6 @@
 
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
-		cargando(true);
-
 		let des;	/////////////el destino
 		e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
 
@@ -560,7 +567,6 @@
 		}
 		if(datos.cmodal==2){
 			$('#myModal').modal('hide');
-			cargando(false);
 		}
 		//////////////poner aqui proceso en caso de existir funcion
 		if(fun.length>0){
@@ -587,10 +593,10 @@
 		else{
 			redirige_div(formData,datos);
 		}
-		cargando(false);
 	}
 	function proceso_f(formData, variables, datos){
 		let variable=0;
+		cargando(true);
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',datos.db);
 		xhr.addEventListener('load',(data)=>{
@@ -601,6 +607,8 @@
 					showConfirmButton: false,
 					timer: 1000
 				});
+				console.log(data.target.response);
+				cargando(false);
 				return;
 			}
 
@@ -610,14 +618,17 @@
 			}
 
 			if (respon.error==0){
-				Swal.fire({
-					type: 'success',
-					title: "Listo",
-					showConfirmButton: false,
-					timer: 1000
-				});
 				if (datos.des.length>0){
 					redirige_div(variables,datos);
+				}
+				else{
+					cargando(false);
+					Swal.fire({
+						type: 'success',
+						title: "Listo",
+						showConfirmButton: false,
+						timer: 1000
+					});
 				}
 			}
 			else{
@@ -627,6 +638,7 @@
 					showConfirmButton: false,
 					timer: 1000
 				});
+				cargando(false);
 			}
 		});
 		xhr.onerror = (e)=>{
@@ -639,6 +651,7 @@
 		//for(var pair of formData.entries()) {
    		//console.log(pair[0]+ ', '+ pair[1]);
 		//}
+		console.log("entra 4");
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', datos.des);
 		xhr.addEventListener('load',(datares)=>{
@@ -648,6 +661,7 @@
 						title: "No encontrado: "+datos.des,
 						showConfirmButton: false,
 				})
+				cargando(false);
 				return 0;
 			}
 			else{
@@ -660,13 +674,23 @@
 				for (var i = 0; i < scripts.length; i++) {
 			    eval(scripts[i].innerText);
 				}
+				if (datos.tp !== undefined && datos.tp.length>0) {
+					Swal.fire({
+						type: 'success',
+						title: "Listo",
+						showConfirmButton: false,
+						timer: 1000
+					});
+					console.log("debug"+debugx);
+				}
+				cargando(false);
 			}
 		});
 		xhr.onerror = (e)=>{
 			console.log(e);
 		};
 		xhr.send(formData);
-		cargando(false);
+
 	}
 	function cargando(valor) {
 		let element = document.getElementById("cargando_div");
@@ -686,22 +710,4 @@
 		} catch (e) {
 				return false;
 		}
-	}
-
-	function fijar(){
-	  if(document.querySelector('.sidebar')){
-	    document.getElementById("navx").classList.remove('sidebar');
-	    document.getElementById("navx").classList.add('sidebar_fija');
-
-	    document.getElementById("contenido").classList.remove('main');
-	    document.getElementById("contenido").classList.add('main_fija');
-
-	  }
-	  else{
-	    document.getElementById("navx").classList.remove('sidebar_fija');
-	    document.getElementById("navx").classList.add('sidebar');
-
-	    document.getElementById("contenido").classList.remove('main_fija');
-	    document.getElementById("contenido").classList.add('main');
-	  }
 	}

@@ -75,14 +75,14 @@ class Usuario extends Sagyc{
 		return $x;
 	}
 	public function password(){
-		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		if (isset($_REQUEST['idusuario'])){$idusuario=$_REQUEST['idusuario'];}
 		if (isset($_REQUEST['pass1'])){$pass1=$_REQUEST['pass1'];}
 		if (isset($_REQUEST['pass2'])){$pass2=$_REQUEST['pass2'];}
 		if(trim($pass1)==($pass2)){
-			$arreglo=array();
 			$passPOST=md5(trim($pass1));
+			$arreglo=array();
 			$arreglo=array('pass'=>$passPOST);
-			$x=$this->update('usuarios',array('idusuario'=>$id), $arreglo);
+			$x=$this->update('usuarios',array('idusuario'=>$idusuario), $arreglo);
 			return $x;
 		}
 		else{
@@ -159,12 +159,14 @@ class Usuario extends Sagyc{
 		if (isset($_REQUEST['nivelx'])) $arreglo+=array('nivel'=>$_REQUEST['nivelx']);
 
 		$sql="select * from usuarios_permiso where idusuario='$idusuariox' and modulo='$aplicacion'";
-		$a=$this->general($sql);
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$a=$sth->fetch(PDO::FETCH_OBJ);
 
 		$arreglo+=array('idusuario'=>$idusuariox);
 
-		if(count($a)>0){
-			$x=$this->update('usuarios_permiso',array('idpermiso'=>$a[0]['idpermiso']),$arreglo);
+		if($sth->rowCount()>0){
+			$x=$this->update('usuarios_permiso',array('idpermiso'=>$a->idpermiso),$arreglo);
 		}
 		else{
 			$x=$this->insert('usuarios_permiso', $arreglo);
