@@ -29,6 +29,17 @@
 				$sth->execute();
 				$tienda=$sth->fetch(PDO::FETCH_OBJ);
 
+				//////////////////////////
+				$sql="SELECT * FROM usuarios where idusuario='".$_SESSION['idusuario']."'";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				$CLAVE=$sth->fetch();
+
+				if(is_array($CLAVE)){
+					$_SESSION['idfondo']=$CLAVE['idfondo'];
+				}
+				//////////////////////////
+
 				$_SESSION['n_sistema']=$tienda->nombre_sis;
 				$_SESSION['a_sistema']=$tienda->activo;
 
