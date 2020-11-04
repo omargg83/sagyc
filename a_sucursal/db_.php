@@ -55,6 +55,18 @@ class Sucursal extends Sagyc{
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
+		if (isset($_REQUEST['ciudad'])){
+			$arreglo+=array('ciudad'=>$_REQUEST['ciudad']);
+		}
+		if (isset($_REQUEST['tel1'])){
+			$arreglo+=array('tel1'=>$_REQUEST['tel1']);
+		}
+		if (isset($_REQUEST['tel2'])){
+			$arreglo+=array('tel2'=>$_REQUEST['tel2']);
+		}
+		if (isset($_REQUEST['cp'])){
+			$arreglo+=array('cp'=>$_REQUEST['cp']);
+		}
 		if (isset($_REQUEST['ubicacion'])){
 			$arreglo+=array('ubicacion'=>$_REQUEST['ubicacion']);
 		}

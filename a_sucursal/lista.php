@@ -12,7 +12,10 @@
 	<div class='row header-row'>
 		<div class='col-2'>#</div>
 		<div class='col-2'>Nombre</div>
-		<div class='col-2'>Ubicacion</div>
+		<div class='col-2'>Ubicación</div>
+		<div class='col-2'>Ciudad</div>
+		<div class='col-2'>Teléfono 1</div>
+		<div class='col-2'>Teléfono 2</div>
 	</div>
 
 		<?php
@@ -29,6 +32,9 @@
 					echo "</div>";
 					echo "<div class='col-2'>".$key->nombre."</div>";
 					echo "<div class='col-2'>".$key->ubicacion."</div>";
+					echo "<div class='col-2'>".$key->ciudad."</div>";
+					echo "<div class='col-2'>".$key->tel1."</div>";
+					echo "<div class='col-2'>".$key->tel2."</div>";
 				echo "</div>";
 			}
 		?>

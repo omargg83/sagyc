@@ -4,10 +4,18 @@
 
 	$nombre="";
 	$ubicacion="";
+	$ciudad="";
+	$tel1="";
+	$tel2="";
+	$cp="";
 	if($idsucursal>0){
 		$pd = $db->sucursal($idsucursal);
 		$nombre=$pd->nombre;
 		$ubicacion=$pd->ubicacion;
+		$ciudad=$pd->ciudad;
+		$tel1=$pd->tel1;
+		$tel2=$pd->tel2;
+		$cp=$pd->cp;
 	}
 ?>
 
@@ -20,16 +28,38 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-6">
+					<div class="col-4">
 						<label>Nombre:</label>
-							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required>
+							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required maxlength='100'>
 					</div>
-					<div class="col-6">
+					<div class="col-4">
 						<label>Ubicación:</label>
-							<input type="text" class="form-control form-control-sm" name="ubicacion" id="ubicacion" value="<?php echo $ubicacion;?>" placeholder="Ubicación" required>
+							<input type="text" class="form-control form-control-sm" name="ubicacion" id="ubicacion" value="<?php echo $ubicacion;?>" placeholder="Ubicación" required maxlength='155'>
+					</div>
+					<div class="col-4">
+						<label>Ciudad:</label>
+							<input type="text" class="form-control form-control-sm" name="ciudad" id="ciudad" value="<?php echo $ciudad;?>" placeholder="Ciudad" required maxlength='145'>
 					</div>
 				</div>
 			</div>
+
+			<div class='card-body'>
+				<div class='row'>
+					<div class="col-4">
+						<label>Código Postal:</label>
+							<input type="text" class="form-control form-control-sm" name="cp" id="cp" value="<?php echo $cp;?>" placeholder="Código  postal" maxlength='5'>
+					</div>
+					<div class="col-4">
+						<label>Teléfono 1:</label>
+							<input type="text" class="form-control form-control-sm" name="tel1" id="tel1" value="<?php echo $tel1;?>" placeholder="Teléfono 1" maxlength='15'>
+					</div>
+					<div class="col-4">
+						<label>Teléfono 2:</label>
+							<input type="text" class="form-control form-control-sm" name="tel2" id="tel2" value="<?php echo $tel2;?>" placeholder="Teléfono 2" maxlength='15'>
+					</div>
+				</div>
+			</div>
+
 			<div class='card-footer'>
 				<div class="row">
 					<div class="col-sm-12">
