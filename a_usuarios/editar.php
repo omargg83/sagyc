@@ -131,6 +131,9 @@
 
 					echo "<div class='col-sm-12'>";
 						echo "<button class='btn btn-warning btn-sm' type='submit' ><i class='fa fa-check'></i>Agregar</button>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar' desid='id' db='a_usuarios/db_' fun='agregar_todos' dix='trabajo' v_idusuario='$id'>Todos</button>";
+
 					echo "</div>";
 				echo "</div>";
 			echo "</form>";

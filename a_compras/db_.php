@@ -154,7 +154,7 @@ class Compras extends Sagyc{
 		$arreglo=array();
 		$arreglo+=array('idcompra'=>$idcompra);
 		$arreglo+=array('idproducto'=>$idproducto);
-		$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
+		$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 		$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 		$arreglo+=array('observaciones'=>$observaciones);
 		$arreglo+=array('cantidad'=>$cantidad);

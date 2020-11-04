@@ -114,7 +114,7 @@ class Venta extends Sagyc{
 					$arreglo+=array('estado'=>$estado);
 					$arreglo+=array('numero'=>$numero);
 					$arreglo+=array('fecha'=>$date);
-					$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
+					$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 					$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 					$x=$this->insert('venta', $arreglo);
 					$ped=json_decode($x);
@@ -137,7 +137,7 @@ class Venta extends Sagyc{
 
 				$arreglo=array();
 				$arreglo+=array('idventa'=>$idventa);
-				$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
+				$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$arreglo+=array('idproducto'=>$producto->idproducto);
 				$arreglo+=array('v_cantidad'=>$cantidad);
@@ -208,7 +208,7 @@ class Venta extends Sagyc{
 
 				$date=date("Y-m-d H:i:s");
 				$arreglo+=array('fecha'=>$date);
-				$arreglo+=array('idusuario'=>$_SESSION['idpersona']);
+				$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$x=$this->insert('venta', $arreglo);
 			}

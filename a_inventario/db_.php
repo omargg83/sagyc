@@ -198,7 +198,7 @@ class Productos extends Sagyc{
 			$x="";
 			if($id==0){
 				$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
-				$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
+				$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$x=$this->insert('bodega', $arreglo);
 			}

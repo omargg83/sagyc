@@ -16,7 +16,7 @@ class Usuario extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('USUARIOS', $this->derecho)) {
 
 		}
 		else{
@@ -131,6 +131,7 @@ class Usuario extends Sagyc{
 		$x.= "<option value='DATOSEMP'>Datos</option>";
 		$x.= "<option value='SUCURSAL'>Sucursal</option>";
 		$x.= "<option value='REPORTES'>Reportes</option>";
+		$x.= "<option value='USUARIOS'>Usuarios</option>";
 		return $x;
 	}
 
@@ -197,6 +198,35 @@ class Usuario extends Sagyc{
 		$arreglo+=array('error'=>0);
 		return json_encode($arreglo);
 	}
+	public function agregar_todos(){
+		$id=$_REQUEST['idusuario'];
+
+		$x="";
+		$sql="delete from usuarios_permiso where idusuario='$id'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'USUARIOS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'VENTA'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'VENTAREGISTRO'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'PRODUCTOS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'INVENTARIO'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'CATEGORIA'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'CLIENTES'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'CITAS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'PROVEEDORES'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'COMPRAS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'TRASPASOS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'DATOSEMP'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'SUCURSAL'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'REPORTES'));
+
+		$arreglo =array();
+		$arreglo+=array('id'=>$id);
+		$arreglo+=array('error'=>0);
+		return json_encode($arreglo);
+	}
+
 }
 
 $db = new Usuario();

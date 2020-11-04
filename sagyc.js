@@ -286,6 +286,7 @@
 								showConfirmButton: false,
 								timer: 1000
 							});
+							console.log(data.target.response);
 							cargando(false);
 							return;
 						}
@@ -412,6 +413,7 @@
 										showConfirmButton: false,
 										timer: 1000
 									});
+									console.log(data.target.response);
 									cargando(false);
 									return;
 								}
@@ -632,6 +634,7 @@
 					showConfirmButton: false,
 					timer: 1000
 				});
+				console.log(data.target.response);
 				cargando(false);
 				return;
 			}

@@ -533,7 +533,7 @@ class Pedidos extends Sagyc{
 				$arreglo=array();
 				$arreglo+=array('idcitas'=>$idcitas);
 				$arreglo+=array('idproducto'=>$idproducto);
-				$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
+				$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 				$arreglo+=array('codigo'=>$res->codigo);
 				$arreglo+=array('tipo'=>$tipo);
@@ -610,7 +610,7 @@ class Pedidos extends Sagyc{
 
 				$arreglo=array();
 				$arreglo+=array('idcitas'=>$idcitas);
-				$arreglo+=array('idpersona'=>$_SESSION['idpersona']);
+				$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 				$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 				$arreglo+=array('tipo'=>$tipo);
 				$arreglo+=array('nombre'=>$nombre);

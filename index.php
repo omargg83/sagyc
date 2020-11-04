@@ -104,6 +104,7 @@
 						if(array_key_exists('SUCURSAL', $db->derecho))
 		        echo "<a href='#a_sucursal/index' is='menu-link' title='Sucursal'><i class='fas fa-store-alt'></i><span>Sucursal</span></a>";
 
+						if(array_key_exists('USUARIOS', $db->derecho))
 						echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
 
 						if(array_key_exists('REPORTES', $db->derecho))
