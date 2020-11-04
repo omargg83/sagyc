@@ -1,7 +1,7 @@
 <?php
 	require_once("db_.php");
 	if(!isset($_SESSION['idusuario']) or strlen($_SESSION['idusuario'])==0 or $_SESSION['autoriza']==0){
-		//header("location: login/");
+		header("location: login/");
 	}
 ?>
 <!DOCTYPE HTML>
@@ -35,7 +35,7 @@
 		<button class="btn btn-warning btn-sm mr-2" type="button" onclick='fijar()'><i class='fas fa-bars'></i></button>
 
 	  <img src='img/sagyc.png' width='60' height='30' alt=''>
-	  <a class='navbar-brand text-black text-center ml-3' href='#'> <?php echo $_SESSION['nombre_sis']; ?>  </a>
+	  <a class='navbar-brand text-black text-center ml-3' href='#'> <?php echo $_SESSION['n_sistema']; ?>  </a>
 	  <button class='navbar-toggler collapsed' type='button' data-toggle='collapse' data-target='#navbarsExample06' aria-controls='navbarsExample06' aria-expanded='false' aria-label='Toggle navigation'>
 	    <span class='navbar-toggler-icon'></span>
 	  </button>

@@ -86,7 +86,23 @@ class Datos_tienda extends Sagyc{
 		}
 		return $x;
 	}
+	public function usuario_lista($idtienda){
+		try{
+			$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda FROM usuarios
+			LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
+			where tienda.idtienda='$idtienda'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			echo $e;
+			return "Database access FAILED!";
+		}
+  }
+
 }
+
 
 $db = new Datos_tienda();
 if(strlen($function)>0){
