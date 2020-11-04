@@ -1,9 +1,14 @@
 <?php
 	require_once("db_.php");
-	if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];} else{ $id=0;}
-	$sucursal=$db->sucursal_lista();
-	if($id>0){
-		$pd = $db->usuario($id);
+
+	if (isset($_REQUEST['idusuario'])){$idusuario=$_REQUEST['idusuario'];} else{ $idusuario=0;}
+	if (isset($_REQUEST['idtienda'])){$idtienda=$_REQUEST['idtienda'];} else{ $idtienda=0;}
+
+
+	$sucursal=$db->sucursal_lista($idtienda);
+
+	if($idusuario>0){
+		$pd = $db->usuario($idusuario);
 		$id=$pd->idusuario;
 		$idsucursal=$pd->idsucursal;
 		$user=$pd->user;
@@ -19,7 +24,7 @@
 		$nivel="1";
 		$nombre="";
 		$estado="1";
-		$idsucursal=$_SESSION['idsucursal'];
+		$idsucursal=0;
 	}
 ?>
 <div class="container">
@@ -30,7 +35,7 @@
 		<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des='a_usuarios/editar' desid='id'>
 			<div class='card-body'>
 
-				 <input type="hidden" class="form-control form-control-sm" name="id" id="id" value="<?php echo $id ;?>" placeholder="Tienda" readonly>
+				 <input type="hidden" class="form-control form-control-sm" name="id" id="id" value="<?php echo $idusuario ;?>" placeholder="Tienda" readonly>
 				 <div class="form-group row">
 				   <label class="control-label col-sm-2" for="">Nombre:</label>
 				   <div class="col-sm-10">
@@ -93,8 +98,10 @@
 							if($id>0){
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_pass' omodal='1' v_id='$id'><i class='fas fa-key'></i>Contraseña</button>";
 							}
+
+							echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/lista' v_idtienda='$idtienda' dix='trabajo'><i class='fas fa-undo-alt'></i>Regresar</button>";
 						?>
-						<button type="button" class='btn btn-warning btn-sm' id='lista_penarea' is="b-link" des='a_usuarios/lista' dix='trabajo'><i class='fas fa-undo-alt'></i>Regresar</button>
+
 					</div>
 				</div>
 			</div>

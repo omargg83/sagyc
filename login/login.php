@@ -36,7 +36,7 @@
 					if($userPOST == $CLAVE['user'] and strtoupper($passPOST)==strtoupper($CLAVE['pass'])){
 						$_SESSION['autoriza']=1;
 						$_SESSION['nombre']=$CLAVE['nombre'];
-						$_SESSION['idfondo']=$CLAVE['idfondo'];
+
 						$_SESSION['nick']=$CLAVE['user'];
 						$_SESSION['idusuario']=$CLAVE['idusuario'];
 						$_SESSION['foto']=$CLAVE['file_foto'];
@@ -56,7 +56,14 @@
 
 						$_SESSION['n_sistema']=$tienda->nombre_sis;
 						$_SESSION['a_sistema']=$tienda->activo;
-						
+
+						if($_SESSION['a_sistema']==1){
+							$_SESSION['idfondo']=$CLAVE['idfondo'];
+						}
+						else{
+							$_SESSION['idfondo']="";
+						}
+
 						$_SESSION['cfondo']="white";
 						$_SESSION['foco']=mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"));
 						$_SESSION['cfondo']="white";

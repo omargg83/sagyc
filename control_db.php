@@ -23,6 +23,15 @@
 				$this->dbh = new PDO("mysql:host=".SERVIDOR.";port=".PORT.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
 				$this->dbh->query("SET NAMES 'utf8'");
 
+				$sql="SELECT * FROM tienda where idtienda=:idtienda";
+				$sth = $this->dbh->prepare($sql);
+				$sth->bindValue(":idtienda",$_SESSION['idtienda']);
+				$sth->execute();
+				$tienda=$sth->fetch(PDO::FETCH_OBJ);
+
+				$_SESSION['n_sistema']=$tienda->nombre_sis;
+				$_SESSION['a_sistema']=$tienda->activo;
+
 				if (isset($_SESSION['idusuario'])){
 					$sql="select * from usuarios_permiso where idusuario='".$_SESSION['idusuario']."'";
 					foreach ($this->dbh->query($sql) as $res){

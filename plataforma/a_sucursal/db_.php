@@ -11,7 +11,7 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "</div>";
 }
 
-class Datos_tienda extends Sagyc{
+class Sucursal extends Sagyc{
 	public $nivel_personal;
 	public $nivel_captura;
 	public function __construct(){
@@ -24,9 +24,9 @@ class Datos_tienda extends Sagyc{
 			die();
 		}
 	}
-	public function tienda_lista(){
+	public function sucursal_lista($idtienda){
 		try{
-			$sql="SELECT * FROM tienda";
+			$sql="SELECT * FROM sucursal where idtienda='$idtienda'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -35,10 +35,9 @@ class Datos_tienda extends Sagyc{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function tienda($id){
+	public function sucursal($id){
 		try{
-
-		  $sql="select * from tienda where idtienda=:id";
+		  $sql="select * from sucursal where idsucursal=:id";
 		  $sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":id",$id);
 		  $sth->execute();
@@ -48,50 +47,47 @@ class Datos_tienda extends Sagyc{
 		  return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function guardar_tienda(){
+	public function guardar_sucursal(){
 		$x="";
 		$arreglo =array();
 
-		$idtienda=$_REQUEST['idtienda'];
-		if (isset($_REQUEST['razon'])){
-			$arreglo+=array('razon'=>$_REQUEST['razon']);
-		}
-		if (isset($_REQUEST['calle'])){
-			$arreglo+=array('calle'=>$_REQUEST['calle']);
-		}
-		if (isset($_REQUEST['no'])){
-			$arreglo+=array('no'=>$_REQUEST['no']);
-		}
-		if (isset($_REQUEST['col'])){
-			$arreglo+=array('col'=>$_REQUEST['col']);
+		$idsucursal=$_REQUEST['idsucursal'];
+		if (isset($_REQUEST['nombre'])){
+			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
 		if (isset($_REQUEST['ciudad'])){
 			$arreglo+=array('ciudad'=>$_REQUEST['ciudad']);
 		}
-		if (isset($_REQUEST['estado'])){
-			$arreglo+=array('estado'=>$_REQUEST['estado']);
+		if (isset($_REQUEST['tel1'])){
+			$arreglo+=array('tel1'=>$_REQUEST['tel1']);
 		}
-		if (isset($_REQUEST['nombre_sis'])){
-			$arreglo+=array('nombre_sis'=>$_REQUEST['nombre_sis']);
+		if (isset($_REQUEST['tel2'])){
+			$arreglo+=array('tel2'=>$_REQUEST['tel2']);
 		}
-		if (isset($_REQUEST['activo'])){
-			$arreglo+=array('activo'=>$_REQUEST['activo']);
+		if (isset($_REQUEST['cp'])){
+			$arreglo+=array('cp'=>$_REQUEST['cp']);
+		}
+		if (isset($_REQUEST['ubicacion'])){
+			$arreglo+=array('ubicacion'=>$_REQUEST['ubicacion']);
 		}
 
-		if($idtienda==0){
-			$x=$this->insert('tienda', $arreglo);
+		if($idsucursal==0){
+			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
+			$x=$this->insert('sucursal', $arreglo);
 		}
 		else{
-			$x=$this->update('tienda',array('idtienda'=>$idtienda), $arreglo);
+			$x=$this->update('sucursal',array('idsucursal'=>$idsucursal), $arreglo);
 		}
 		return $x;
 	}
-
-
+	public function borrar_sucursal(){
+		$idsucursal=$_REQUEST['idsucursal'];
+		$x=$this->borrar('sucursal',"idsucursal",$idsucursal);
+		return $x;
+	}
 }
 
-
-$db = new Datos_tienda();
+$db = new Sucursal();
 if(strlen($function)>0){
 	echo $db->$function();
 }

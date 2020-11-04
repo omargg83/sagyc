@@ -28,14 +28,14 @@
 	echo "<body style='background-image: url(\"$valor\")'>";
 ?>
 
-
 <header class="d-block p-2" id='header'>
 	<nav class='barraprincipal navbar navbar-expand-sm fixed-top navbar-light bg-light text-'  style='background-color: #e4e9ee !important; color: white !important;'>
 
 		<button class="btn btn-warning btn-sm mr-2" type="button" onclick='fijar()'><i class='fas fa-bars'></i></button>
 
 	  <img src='img/sagyc.png' width='60' height='30' alt=''>
-	  <a class='navbar-brand text-black text-center ml-3' href='#'> <?php echo $_SESSION['n_sistema']; ?>  </a>
+	  <a class='navbar-brand text-black text-center ml-3' href='#'>
+			<?php echo $_SESSION['n_sistema'];  if($_SESSION['a_sistema']==0){ echo " - SISTEMA INACTIVO";}?>  </a>
 	  <button class='navbar-toggler collapsed' type='button' data-toggle='collapse' data-target='#navbarsExample06' aria-controls='navbarsExample06' aria-expanded='false' aria-label='Toggle navigation'>
 	    <span class='navbar-toggler-icon'></span>
 	  </button>
@@ -45,9 +45,17 @@
 
 	    </ul>
       <ul class='nav navbar-nav navbar-right text-white' id='precios'>
-				<button class="btn btn-warning" type="button" is="b-link" des="a_precios/index" omodal='1'><i class="fas fa-check-circle"></i>Checador de Productos</button>
+				<?php
+					if($_SESSION['a_sistema']==1){
+						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_precios/index' omodal='1'><i class='fas fa-check-circle'></i>Checador de Productos</button>";
+					}
+				?>
 			</ul>
-      <ul class='nav navbar-nav navbar-right text-white' id='fondo'></ul>
+			<?php
+				if($_SESSION['a_sistema']==1){
+      	 echo "<ul class='nav navbar-nav navbar-right text-white' id='fondo'></ul>";
+			 	}
+			?>
       <ul class='nav navbar-nav navbar-right'>
         <li class='nav-item'>
           <a class='nav-link pull-left text-black' onclick='salir()'>
@@ -66,7 +74,7 @@
 	      <div class='sidebar sidenav' id='navx'>
 	        <a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
 					<?php
-						if(array_key_exists('VENTA', $db->derecho))
+						if(array_key_exists('VENTA', $db->derecho) and $_SESSION['a_sistema']==1)
 						echo "<a href='#a_venta/venta' id='ventax' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>";
 
 						if(array_key_exists('VENTAREGISTRO', $db->derecho))
@@ -107,7 +115,7 @@
 						if(array_key_exists('USUARIOS', $db->derecho))
 						echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
 
-						if(array_key_exists('REPORTES', $db->derecho))
+						if(array_key_exists('REPORTES', $db->derecho) and $_SESSION['a_sistema']==1)
 						echo "<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>";
 					?>
 	      </div>

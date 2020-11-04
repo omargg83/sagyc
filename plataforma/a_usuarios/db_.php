@@ -1,5 +1,5 @@
 <?php
-require_once("../control_db.php");
+require_once("../admin_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
@@ -16,33 +16,13 @@ class Usuario extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('USUARIOS', $this->derecho)) {
 
-		}
-		else{
-			include "../error.php";
-			die();
-		}
 	}
-	public function usuario($id){
-		$sql="select * from usuarios where idusuario='$id'";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetch(PDO::FETCH_OBJ);
-	}
-	public function usuario_buscar($texto){
-		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda, sucursal.idsucursal, sucursal.nombre as sucursal from usuarios
-		left outer join tienda on tienda.idtienda=usuarios.idtienda
-		where usuarios.nombre like '%$texto%' and tienda.idtienda='".$_SESSION['idtienda']."'";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetchAll(PDO::FETCH_OBJ);
-  }
-	public function usuario_lista(){
+	public function usuario_lista($idtienda){
 		try{
 			$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda FROM usuarios
 			LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
-			where tienda.idtienda='".$_SESSION['idtienda']."'";
+			where tienda.idtienda='$idtienda'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -51,13 +31,20 @@ class Usuario extends Sagyc{
 			echo $e;
 			return "Database access FAILED!";
 		}
-  }
-  public function sucursal_lista(){
-		$sql="SELECT * FROM sucursal where idtienda='".$_SESSION['idtienda']."'";
+	}
+	public function usuario($id){
+		$sql="select * from usuarios where idusuario='$id'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+	public function sucursal_lista($idtienda){
+		$sql="SELECT * FROM sucursal where idtienda='$idtienda'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
+
 	public function guardar_usuario(){
 		$x="";
 		$arreglo =array();
