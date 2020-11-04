@@ -8,6 +8,7 @@
 		$exist=$per->cantidad;
 		$precio=$per->precio;
 		$preciom=$per->preciom;
+		$preciod=$per->preciod;
 		$stockmin=$per->stockmin;
 		$preciocompra=$per->preciocompra;
 		$nombre=$per->nombre;
@@ -19,6 +20,7 @@
 		$precio=0;
 
 		$preciom=0;
+		$preciod=0;
 		$stockmin=1;
 		$cantidad=0;
 		$preciocompra="";
@@ -98,8 +100,12 @@
 								 <input type="text" class="form-control form-control-sm" id="precio" name='precio' placeholder="Precio" value="<?php echo $precio; ?>" required>
 								</div>
 								<div class="col-2">
-								 <label>$ mayoreo</label>
+								 <label>$ Mayoreo</label>
 								 <input type="text" class="form-control form-control-sm" id="preciom" name='preciom' placeholder="Precio Mayoreo" value="<?php echo $preciom; ?>" >
+								</div>
+								<div class="col-2">
+								 <label>$ Distribuidor</label>
+								 <input type="text" class="form-control form-control-sm" id="preciod" name='preciod' placeholder="Precio Distribuidor" value="<?php echo $preciod; ?>" >
 								</div>
 
 								<div class="col-2">

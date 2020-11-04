@@ -34,6 +34,7 @@ class Productos extends Sagyc{
 		productos.precio,
 		productos.preciocompra,
 		productos.preciom,
+		productos.preciod,
 		productos.stockmin,
 		productos.idsucursal
 		from productos
@@ -58,6 +59,7 @@ class Productos extends Sagyc{
 			productos.precio,
 			productos.preciocompra,
 			productos.preciom,
+			productos.preciod,
 			productos.stockmin,
 			productos.idsucursal
 			from productos
@@ -89,6 +91,7 @@ class Productos extends Sagyc{
 			productos.precio,
 			productos.preciocompra,
 			productos.preciom,
+			productos.preciod,
 			productos.stockmin,
 			productos.idsucursal,
 			sucursal.idsucursal,
@@ -122,6 +125,9 @@ class Productos extends Sagyc{
 			}
 			if (isset($_REQUEST['preciom'])){
 				$arreglo += array('preciom'=>$_REQUEST['preciom']);
+			}
+			if (isset($_REQUEST['preciod'])){
+				$arreglo += array('preciod'=>$_REQUEST['preciod']);
 			}
 			if (isset($_REQUEST['stockmin'])){
 				$arreglo += array('stockmin'=>$_REQUEST['stockmin']);
