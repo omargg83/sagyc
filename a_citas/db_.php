@@ -18,7 +18,7 @@ class Pedidos extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('CITAS', $this->derecho)) {
 
 		}
 		else{

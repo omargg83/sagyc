@@ -16,7 +16,7 @@ class Datos_tienda extends Sagyc{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('DATOSEMP', $this->derecho)) {
 
 		}
 		else{
