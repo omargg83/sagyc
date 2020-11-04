@@ -16,8 +16,6 @@ class Usuario extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		$this->doc="a_clientes/papeles/";
-
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
 		}

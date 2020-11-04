@@ -18,9 +18,7 @@ class Venta extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		$this->doc="a_clientes/papeles/";
-
-		if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
 		}
 		else{

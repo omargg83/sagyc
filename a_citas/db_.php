@@ -14,11 +14,17 @@ if($_SESSION['des']==1 and strlen($function)==0)
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-
 class Pedidos extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
+
+		}
+		else{
+			include "../error.php";
+			die();
+		}
 	}
 	public function busca_cliente($texto){
 		try{

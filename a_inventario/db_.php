@@ -16,17 +16,13 @@ class Productos extends Sagyc{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-
-		$this->doc="a_imagenextra/";
-
-		if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
 		}
 		else{
 			include "../error.php";
 			die();
 		}
-
 	}
 	public function producto_buscar($texto){
 		$sql="SELECT

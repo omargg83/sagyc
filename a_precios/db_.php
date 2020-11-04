@@ -18,8 +18,7 @@ class B_producto extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-
-		if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
 		}
 		else{
