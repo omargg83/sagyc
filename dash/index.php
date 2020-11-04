@@ -7,7 +7,7 @@ require_once("../db_.php");
 		<?php
 
 		if(array_key_exists('VENTA', $db->derecho)){
-			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-1'>
+			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 p-1'>
 		  	<div class='card bg-white text-black'>
 					<img class='card-img-top mx-auto d-block' src='img\\venta.png' alt='Card image' style='width:60px'>
 			    <h5 class='card-title text-center'>VENTA</h5>
@@ -20,7 +20,7 @@ require_once("../db_.php");
 		}
 
 		if(array_key_exists('VENTAREGISTRO', $db->derecho)){
-			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 edit-t mb-1'>
+			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 p-1'>
 		  	<div class='card bg-white text-black'>
 					<img class='card-img-top mx-auto d-block' src='img\\venta.png' alt='Card image' style='width:60px'>
 			    <h5 class='card-title text-center'>VENTAS</h5>
@@ -33,7 +33,7 @@ require_once("../db_.php");
 		}
 
 		if(array_key_exists('CITAS', $db->derecho)){
-			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 edit-t mb-1'>
+			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 p-1'>
 				<div class='card bg-white text-black' >
 					 <img class='card-img-top mx-auto d-block' src='img\\cita.png' alt='Card image' style='width:60px'>
 					<h5 class='card-title text-center'>CITAS</h5>
@@ -46,7 +46,7 @@ require_once("../db_.php");
 		}
 
 		if(array_key_exists('PRODUCTOS', $db->derecho)){
-			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 edit-t mb-1'>
+			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 p-1'>
 				<div class='card bg-white text-black' >
 					 <img class='card-img-top mx-auto d-block' src='img\\pies.png' alt='Card image' style='width:124px'>
 					<h5 class='card-title text-center'>PRODUCTOS</h5>
