@@ -35,7 +35,6 @@
 		$cp=$pd->cp;
 		$pais=$pd->pais;
 		$estado=$pd->estado;
-		$tipo_precio=$pd->tipo_precio;
 		$observaciones=$pd->observaciones;
 	}
 
