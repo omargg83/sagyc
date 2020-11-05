@@ -135,18 +135,18 @@
 							<p></p>
 								<div class='row'>
 									<div class="container">
-  									<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo" onclick="<?php if ($descxmonto==0) { $descxmonto=3;}?>">Desc. x Monto($)</button>
+  									<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo" >Desc. x Monto($)</button>
 										<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo2">Desc. x Cantidad</button>
 										<?php if ($descxmonto==1){
   									echo "<div id='demo' class='collapse show'>";
+										echo $descxmonto;
 										}
 										else{
 											echo "<div id='demo' class='collapse'>";
+											echo $descxmonto;
 										}
 
 										?>
-
-
 											<div class='row'>
 
 												<div class="col-2">
@@ -181,12 +181,12 @@
 											<div class='row'>
 
 												<div class="col-2">
-												 <label>Mayoreo</label>
+												 <label># Mayoreo</label>
 												 <input type="text" class="form-control form-control-sm" id="xcantmay" name='xcantmay' placeholder="# Cant. Mayoreo" value="<?php echo $xcantmay; ?>" >
 												</div>
 
 												<div class="col-2">
-												 <label>Distribuidor</label>
+												 <label># Distribuidor</label>
 												 <input type="text" class="form-control form-control-sm" id="xcantdis" name='xcantdis' placeholder="# Cant. Distribuidor" value="<?php echo $xcantdis; ?>" >
 												</div>
 
