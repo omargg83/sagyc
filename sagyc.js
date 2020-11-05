@@ -54,144 +54,144 @@
 		xhr.send(formData);
 	}
 
-		function fechas () {
-			$.datepicker.regional['es'] = {
-				 closeText: 'Cerrar',
-				 yearRange: '1910:2040',
-				 prevText: '<Ant',
-				 nextText: 'Sig>',
-				 currentText: 'Hoy',
-				 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-				 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-				 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-				 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-				 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-				 weekHeader: 'Sm',
-				 dateFormat: 'dd-mm-yy',
-				 firstDay: 0,
-				 isRTL: false,
-				 showMonthAfterYear: false,
-				 yearSuffix: ''
-			 };
+	function fechas () {
+		$.datepicker.regional['es'] = {
+			 closeText: 'Cerrar',
+			 yearRange: '1910:2040',
+			 prevText: '<Ant',
+			 nextText: 'Sig>',
+			 currentText: 'Hoy',
+			 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+			 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+			 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+			 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			 weekHeader: 'Sm',
+			 dateFormat: 'dd-mm-yy',
+			 firstDay: 0,
+			 isRTL: false,
+			 showMonthAfterYear: false,
+			 yearSuffix: ''
+		 };
 
-			$.datepicker.setDefaults($.datepicker.regional['es']);
-			$(".fechaclass").datepicker();
+		$.datepicker.setDefaults($.datepicker.regional['es']);
+		$(".fechaclass").datepicker();
+	};
+	function salir(){
+		var formData = new FormData();
+		formData.append("function", "salir");
+		formData.append("ctrl", "control");
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',db_inicial);
+		xhr.addEventListener('load',(data)=>{
+			location.href ="login/";
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
 		};
-		function salir(){
-			var formData = new FormData();
-			formData.append("function", "salir");
-			formData.append("ctrl", "control");
-			let xhr = new XMLHttpRequest();
-			xhr.open('POST',db_inicial);
-			xhr.addEventListener('load',(data)=>{
+		xhr.send(formData);
+	}
+	function sesion_ver(){
+		var formData = new FormData();
+		formData.append("function", "ses");
+		formData.append("ctrl", "control");
+
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',db_inicial);
+		xhr.addEventListener('load',(data)=>{
+			var datos = JSON.parse(data.target.response);
+			if (datos.sess=="cerrada"){
 				location.href ="login/";
-			});
-			xhr.onerror = (e)=>{
-				console.log(e);
-			};
-			xhr.send(formData);
-		}
-		function sesion_ver(){
-			var formData = new FormData();
-			formData.append("function", "ses");
-			formData.append("ctrl", "control");
+			}
+		});
+		xhr.onerror = (e)=>{
+		};
+		xhr.send(formData);
+	}
 
-			let xhr = new XMLHttpRequest();
-			xhr.open('POST',db_inicial);
-			xhr.addEventListener('load',(data)=>{
-				var datos = JSON.parse(data.target.response);
-				if (datos.sess=="cerrada"){
-					location.href ="login/";
+	class MenuLink extends HTMLAnchorElement {
+		connectedCallback() {
+			this.addEventListener('click', (e) => {
+				cargando(true);
+				if(document.querySelector('.activeside')){
+					document.querySelector('.activeside').classList.remove('activeside');
+					this.classList.add('activeside');
 				}
+				else{
+					this.classList.add('activeside');
+				}
+				let formData = new FormData();
+				let hash=e.currentTarget.hash.slice(1);
+				let arrayDeCadenas = hash.split("?");
+				let nhash=arrayDeCadenas[0];
+				if(arrayDeCadenas.length>1){
+					let query=arrayDeCadenas[1];
+					var vars = query.split("&");
+					for (var i=0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+						formData.append(pair[0],pair[1]);
+					}
+				}
+				let datos = new Object();
+				datos.des=nhash+".php";
+				datos.dix="contenido";
+				redirige_div(formData,datos);
 			});
-			xhr.onerror = (e)=>{
-			};
-			xhr.send(formData);
 		}
+	}
+	customElements.define("menu-link", MenuLink, { extends: "a" });
 
-		class MenuLink extends HTMLAnchorElement {
-			connectedCallback() {
-				this.addEventListener('click', (e) => {
-					cargando(true);
-					if(document.querySelector('.activeside')){
-						document.querySelector('.activeside').classList.remove('activeside');
-						this.classList.add('activeside');
-					}
-					else{
-						this.classList.add('activeside');
-					}
-					let formData = new FormData();
-					let hash=e.currentTarget.hash.slice(1);
-					let arrayDeCadenas = hash.split("?");
-					let nhash=arrayDeCadenas[0];
+	class ConfirmLink extends HTMLAnchorElement {
+	  connectedCallback() {
+	    this.addEventListener('click', (e) => {
+	      proceso_db(e);
+	    });
+	  }
+	}
+	customElements.define("a-link", ConfirmLink, { extends: "a" });
+
+	class CiLink extends HTMLLIElement {
+	  connectedCallback() {
+	    this.addEventListener('click', (e) => {
+				cargando(true);
+	      proceso_db(e);
+	    });
+	  }
+	}
+	customElements.define("li-link", CiLink, { extends: "li" });
+
+	////////////////////boton normal
+	class Buttonlink extends HTMLButtonElement  {
+		connectedCallback() {
+			this.addEventListener('click', (e) => {
+				proceso_db(e);
+			});
+		}
+	}
+	customElements.define("b-link", Buttonlink, { extends: "button" });
+
+	////////////////////boton imprimir
+	class Buttonprint extends HTMLButtonElement  {
+		connectedCallback() {
+			this.addEventListener('click', (e) => {
+				cargando(true);
+				let des;	/////////////el destino
+				e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
+				des+=".php";
+
+				let cadena="?";
+				for(let contar=0;contar<e.currentTarget.attributes.length; contar++){
+					let arrayDeCadenas = e.currentTarget.attributes[contar].name.split("_");
 					if(arrayDeCadenas.length>1){
-						let query=arrayDeCadenas[1];
-						var vars = query.split("&");
-						for (var i=0; i < vars.length; i++) {
-						var pair = vars[i].split("=");
-							formData.append(pair[0],pair[1]);
-						}
+						cadena+=arrayDeCadenas[1]+"="+e.currentTarget.attributes[contar].value+"&";
 					}
-					let datos = new Object();
-					datos.des=nhash+".php";
-					datos.dix="contenido";
-					redirige_div(formData,datos);
-				});
-			}
+				}
+				VentanaCentrada(des+cadena,'Impresion','','1024','768','true');
+				cargando(false);
+			});
 		}
-		customElements.define("menu-link", MenuLink, { extends: "a" });
-
-		class ConfirmLink extends HTMLAnchorElement {
-		  connectedCallback() {
-		    this.addEventListener('click', (e) => {
-		      proceso_db(e);
-		    });
-		  }
-		}
-		customElements.define("a-link", ConfirmLink, { extends: "a" });
-
-		class CiLink extends HTMLLIElement {
-		  connectedCallback() {
-		    this.addEventListener('click', (e) => {
-					cargando(true);
-		      proceso_db(e);
-		    });
-		  }
-		}
-		customElements.define("li-link", CiLink, { extends: "li" });
-
-		////////////////////boton normal
-		class Buttonlink extends HTMLButtonElement  {
-			connectedCallback() {
-				this.addEventListener('click', (e) => {
-					proceso_db(e);
-				});
-			}
-		}
-		customElements.define("b-link", Buttonlink, { extends: "button" });
-
-		////////////////////boton imprimir
-		class Buttonprint extends HTMLButtonElement  {
-			connectedCallback() {
-				this.addEventListener('click', (e) => {
-					cargando(true);
-					let des;	/////////////el destino
-					e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
-					des+=".php";
-
-					let cadena="?";
-					for(let contar=0;contar<e.currentTarget.attributes.length; contar++){
-						let arrayDeCadenas = e.currentTarget.attributes[contar].name.split("_");
-						if(arrayDeCadenas.length>1){
-							cadena+=arrayDeCadenas[1]+"="+e.currentTarget.attributes[contar].value+"&";
-						}
-					}
-					VentanaCentrada(des+cadena,'Impresion','','1024','768','true');
-					cargando(false);
-				});
-			}
-		}
-		customElements.define("b-print", Buttonprint, { extends: "button" });
+	}
+	customElements.define("b-print", Buttonprint, { extends: "button" });
 
 		//////////////////////////especial submit para control
 		class Sublink extends HTMLInputElement   {

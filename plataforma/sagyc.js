@@ -8,7 +8,6 @@
 			intval=setInterval(function(){ sesion_ver(); }, 10000);
 		}
 		loadContent(location.hash.slice(1));
-		setTimeout(fondos, 2000);
 	};
 
 	let url=window.location.href;
@@ -711,6 +710,7 @@
 				return false;
 		}
 	}
+
 	function fijar(){
 	  if(document.querySelector('.sidebar')){
 	    document.getElementById("navx").classList.remove('sidebar');

@@ -61,12 +61,6 @@ class Productos extends Sagyc{
 			productos.preciom,
 			productos.preciod,
 			productos.stockmin,
-			productos.descxmonto,
-			productos.xmontomay,
-			productos.xmontodis,
-			productos.descxcant,
-			productos.xcantmay,
-			productos.xcantdis,
 			productos.idsucursal
 			from productos
 			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
@@ -86,32 +80,7 @@ class Productos extends Sagyc{
 
 	public function producto_editar($id){
 		try{
-			$sql="SELECT
-			productos_catalogo.nombre,
-			productos_catalogo.codigo,
-			productos_catalogo.tipo,
-			productos_catalogo.descripcion,
-			productos.idproducto,
-			productos.activo_producto,
-			productos.cantidad,
-			productos.precio,
-			productos.preciocompra,
-			productos.preciom,
-			productos.preciod,
-			productos.stockmin,
-			productos.descxmonto,
-			productos.xmontomay,
-			productos.xmontodis,
-			productos.descxcant,
-			productos.xcantmay,
-			productos.xcantdis,
-			productos.idsucursal,
-			sucursal.idsucursal,
-			sucursal.nombre as nombresuc
-			from productos
-			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
-			LEFT OUTER JOIN sucursal ON sucursal.idsucursal =productos.idsucursal
-			where productos.idproducto=:id ";
+			$sql="SELECT * from productos LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo where productos.idproducto=:id ";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -144,29 +113,35 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['stockmin'])){
 				$arreglo += array('stockmin'=>$_REQUEST['stockmin']);
 			}
-
-			if (isset($_REQUEST['descxmonto'])){
-				$arreglo += array('descxmonto'=>$_REQUEST['descxmonto']);
+			if (isset($_REQUEST['cantidad_mayoreo'])){
+				$arreglo += array('cantidad_mayoreo'=>$_REQUEST['cantidad_mayoreo']);
 			}
-
-			if (isset($_REQUEST['xmontomay'])){
-				$arreglo += array('xmontomay'=>$_REQUEST['xmontomay']);
+			if (isset($_REQUEST['precio_mayoreo'])){
+				$arreglo += array('precio_mayoreo'=>$_REQUEST['precio_mayoreo']);
 			}
-
-			if (isset($_REQUEST['xmontodis'])){
-				$arreglo += array('xmontodis'=>$_REQUEST['xmontodis']);
+			if (isset($_REQUEST['cantidad_distri'])){
+				$arreglo += array('cantidad_distri'=>$_REQUEST['cantidad_distri']);
 			}
-
-			if (isset($_REQUEST['descxcant'])){
-				$arreglo += array('descxcant'=>$_REQUEST['descxcant']);
+			if (isset($_REQUEST['precio_distri'])){
+				$arreglo += array('precio_distri'=>$_REQUEST['precio_distri']);
 			}
-
-			if (isset($_REQUEST['xcantmay'])){
-				$arreglo += array('xcantmay'=>$_REQUEST['xcantmay']);
+			if (isset($_REQUEST['mayoreo_minimo'])){
+				$arreglo += array('mayoreo_minimo'=>$_REQUEST['mayoreo_minimo']);
 			}
-
-			if (isset($_REQUEST['xcantdis'])){
-				$arreglo += array('xcantdis'=>$_REQUEST['xcantdis']);
+			if (isset($_REQUEST['mayoreo_maximo'])){
+				$arreglo += array('mayoreo_maximo'=>$_REQUEST['mayoreo_maximo']);
+			}
+			if (isset($_REQUEST['mayoreo_porcentaje'])){
+				$arreglo += array('mayoreo_porcentaje'=>$_REQUEST['mayoreo_porcentaje']);
+			}
+			if (isset($_REQUEST['distri_minimo'])){
+				$arreglo += array('distri_minimo'=>$_REQUEST['distri_minimo']);
+			}
+			if (isset($_REQUEST['distri_maximo'])){
+				$arreglo += array('distri_maximo'=>$_REQUEST['distri_maximo']);
+			}
+			if (isset($_REQUEST['distri_porcentaje'])){
+				$arreglo += array('distri_porcentaje'=>$_REQUEST['distri_porcentaje']);
 			}
 
 

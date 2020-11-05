@@ -74,23 +74,23 @@
 	      <div class='sidebar sidenav' id='navx'>
 
 
-				<div class="sidebar-header">
-	        <div class="user-pic">
-	          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
-	        </div>
-	        <div class="user-info">
-	          <span class="user-name"><?php echo "algo"; ?>
-	          </span>
-	          <span class="user-role">Administrator</span>
-	          <span class="user-status">
-	            <i class="fa fa-circle"></i>
-	            <span>Online</span>
-	          </span>
-	        </div>
-      </div>
+					<div class="sidebar-header">
+		        <div class="user-pic">
+		          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
+		        </div>
+		        <div class="user-info">
+		          <span class="user-name"><?php echo "algo"; ?>
+		          </span>
+		          <span class="user-role">Administrator</span>
+		          <span class="user-status">
+		            <i class="fa fa-circle"></i>
+		            <span>Online</span>
+		          </span>
+		        </div>
+      		</div>
 
-
-	        <a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
+					<div class="sidebar-body">
+	        	<a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
 					<?php
 						if(array_key_exists('VENTA', $db->derecho) and $_SESSION['a_sistema']==1)
 						echo "<a href='#a_venta/venta' id='ventax' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>";
@@ -131,9 +131,8 @@
 						if(array_key_exists('REPORTES', $db->derecho) and $_SESSION['a_sistema']==1)
 						echo "<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>";
 					?>
+					</div>
 	      </div>
-
-
 			</div>
 	    <div class='fijaproceso main' id='contenido'>
 	    </div>
