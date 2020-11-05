@@ -23,32 +23,33 @@
 				$this->dbh = new PDO("mysql:host=".SERVIDOR.";port=".PORT.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
 				$this->dbh->query("SET NAMES 'utf8'");
 
-				$sql="SELECT * FROM tienda where idtienda=:idtienda";
-				$sth = $this->dbh->prepare($sql);
-				$sth->bindValue(":idtienda",$_SESSION['idtienda']);
-				$sth->execute();
-				$tienda=$sth->fetch(PDO::FETCH_OBJ);
+				if(isset($_SESSION['idtienda'])){
+					$sql="SELECT * FROM tienda where idtienda=:idtienda";
+					$sth = $this->dbh->prepare($sql);
+					$sth->bindValue(":idtienda",$_SESSION['idtienda']);
+					$sth->execute();
+					$tienda=$sth->fetch(PDO::FETCH_OBJ);
 
-				//////////////////////////
-				$sql="SELECT * FROM usuarios where idusuario='".$_SESSION['idusuario']."'";
-				$sth = $this->dbh->prepare($sql);
-				$sth->execute();
-				$CLAVE=$sth->fetch();
-
-				if(is_array($CLAVE)){
-					$_SESSION['idfondo']=$CLAVE['idfondo'];
+					$_SESSION['n_sistema']=$tienda->nombre_sis;
+					$_SESSION['a_sistema']=$tienda->activo;
 				}
 				//////////////////////////
+				if(isset($_SESSION['idusuario'])){
+					$sql="SELECT * FROM usuarios where idusuario='".$_SESSION['idusuario']."'";
+					$sth = $this->dbh->prepare($sql);
+					$sth->execute();
+					$CLAVE=$sth->fetch();
 
-				$_SESSION['n_sistema']=$tienda->nombre_sis;
-				$_SESSION['a_sistema']=$tienda->activo;
+					if(is_array($CLAVE)){
+						$_SESSION['idfondo']=$CLAVE['idfondo'];
+					}
 
-				if (isset($_SESSION['idusuario'])){
 					$sql="select * from usuarios_permiso where idusuario='".$_SESSION['idusuario']."'";
 					foreach ($this->dbh->query($sql) as $res){
 						$this->derecho[$res['modulo']]['modulo']=$res['modulo'];
 					}
 				}
+				//////////////////////////
 			}
 			catch(PDOException $e){
 				return "Database access FAILED!";
@@ -74,6 +75,7 @@
 		public function salir(){
 			$_SESSION['autoriza'] = 0;
 			$_SESSION['idusuario']="";
+			session_destroy();
 		}
 		public function ses(){
 			if($_SESSION['autoriza']==1){

@@ -26,8 +26,6 @@
 
 					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_sucursal/editar' dix='trabajo' v_idsucursal='$key->idsucursal'><i class='fas fa-pencil-alt'></i></button>";
 
-					echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_sucursal/db_' des='a_sucursal/lista' fun='borrar_sucursal' dix='trabajo' v_idsucursal='$key->idsucursal' id='eliminar' tp='¿Desea eliminar la sucursal seleccionada?'><i class='far fa-trash-alt'></i></button>";
-
 					echo "</div>";
 					echo "</div>";
 					echo "<div class='col-2'>".$key->nombre."</div>";

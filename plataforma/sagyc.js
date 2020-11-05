@@ -2,12 +2,13 @@
 	let intval=""
 	let debugx=1;
 	let db_inicial="admin_db.php";
-	
+
 	onload = ()=> {
 		if(intval==""){
 			intval=setInterval(function(){ sesion_ver(); }, 10000);
 		}
 		loadContent(location.hash.slice(1));
+		setTimeout(fondos, 2000);
 	};
 
 	let url=window.location.href;
@@ -81,7 +82,7 @@
 		formData.append("function", "salir");
 		formData.append("ctrl", "control");
 		let xhr = new XMLHttpRequest();
-		xhr.open('POST',"admin_db.php");
+		xhr.open('POST',db_inicial);
 		xhr.addEventListener('load',(data)=>{
 			location.href ="login/";
 		});
@@ -96,7 +97,7 @@
 		formData.append("ctrl", "control");
 
 		let xhr = new XMLHttpRequest();
-		xhr.open('POST',"admin_db.php");
+		xhr.open('POST',db_inicial);
 		xhr.addEventListener('load',(data)=>{
 			var datos = JSON.parse(data.target.response);
 			if (datos.sess=="cerrada"){
@@ -104,11 +105,9 @@
 			}
 		});
 		xhr.onerror = (e)=>{
-
 		};
 		xhr.send(formData);
 	}
-
 
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
@@ -378,7 +377,7 @@
 							let xhr = new XMLHttpRequest();
 							xhr.open('POST',datos.db);
 							xhr.addEventListener('load',(data)=>{
-								console.log("debug"+debugx+"error 1:"+data.target.response);
+
 
 								if (!isJSON(data.target.response)){
 									Swal.fire({
@@ -394,14 +393,17 @@
 
 								var respon = JSON.parse(data.target.response);
 								if (respon.error==0){
+
 									if (datos.desid !== undefined && datos.desid.length>0) {
 										document.getElementById(datos.desid).value=respon.id;
 										formDestino.append(datos.desid, respon.id);
 										cargando(false);
 									}
 									if (datos.des !== undefined && datos.des.length>4) {
-										console.log("entra 3");
 										redirige_div(formDestino,datos);
+									}
+									else{
+										cargando(false);
 									}
 									if(datos.cmodal==1){
 										$('#myModal').modal('hide');
@@ -651,7 +653,6 @@
 		//for(var pair of formData.entries()) {
    		//console.log(pair[0]+ ', '+ pair[1]);
 		//}
-		console.log("entra 4");
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', datos.des);
 		xhr.addEventListener('load',(datares)=>{
@@ -681,7 +682,6 @@
 						showConfirmButton: false,
 						timer: 1000
 					});
-					console.log("debug"+debugx);
 				}
 				cargando(false);
 			}
@@ -710,4 +710,21 @@
 		} catch (e) {
 				return false;
 		}
+	}
+	function fijar(){
+	  if(document.querySelector('.sidebar')){
+	    document.getElementById("navx").classList.remove('sidebar');
+	    document.getElementById("navx").classList.add('sidebar_fija');
+
+	    document.getElementById("contenido").classList.remove('main');
+	    document.getElementById("contenido").classList.add('main_fija');
+
+	  }
+	  else{
+	    document.getElementById("navx").classList.remove('sidebar_fija');
+	    document.getElementById("navx").classList.add('sidebar');
+
+	    document.getElementById("contenido").classList.remove('main_fija');
+	    document.getElementById("contenido").classList.add('main');
+	  }
 	}

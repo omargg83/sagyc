@@ -49,6 +49,7 @@ class Usuario extends Sagyc{
 		$x="";
 		$arreglo =array();
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		if (isset($_REQUEST['idtienda'])){$idtienda=$_REQUEST['idtienda'];}
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
@@ -66,7 +67,7 @@ class Usuario extends Sagyc{
 		}
 
 		if($id==0){
-			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
+			$arreglo+=array('idtienda'=>$idtienda);
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{
@@ -91,7 +92,13 @@ class Usuario extends Sagyc{
 	}
 	public function borrar_usuario(){
 		if (isset($_REQUEST['id'])){ $id=$_REQUEST['id']; }
-		return $this->borrar('usuarios',"idusuario",$id);
+		if (isset($_REQUEST['idtienda'])){ $idtienda=$_REQUEST['idtienda']; }
+	 	$this->borrar('usuarios',"idusuario",$id);
+
+		$arreglo =array();
+		$arreglo+=array('id'=>$idtienda);
+		$arreglo+=array('error'=>0);
+		return json_encode($arreglo);
 	}
 	public function modulos(){
 		$x="";
@@ -171,7 +178,6 @@ class Usuario extends Sagyc{
 		else{
 			$x=$this->insert('usuarios_permiso', $arreglo);
 		}
-
 		$arreglo =array();
 		$arreglo+=array('id'=>$idusuariox);
 		$arreglo+=array('error'=>0);

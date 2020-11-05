@@ -9,7 +9,11 @@
 	  </button>
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>
-				<li class='' is='li-link' des='a_datosemp/lista' dix='trabajo'><i class='fas fa-list-ul'></i>Lista</button>
+
+				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_datosemp/lista' dix='trabajo'><i class='fas fa-list-ul'></i><span>Empresa</span></a></li>
+
+				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_sucursal/lista' dix='trabajo'><i class='fas fa-list-ul'></i><span>Sucursal</span></a></li>
+				
 			</ul>
 	  </div>
 	</nav>

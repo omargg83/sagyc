@@ -1,6 +1,6 @@
 <?php
   require_once("db_.php");
-  
+
   $idtienda=$_REQUEST['idtienda'];
 	$pd = $db->usuario_lista($idtienda);
   $tienda = $db->tienda($idtienda);
@@ -38,7 +38,7 @@
 
 								echo "<button class='btn btn-warning btn-sm' is='b-link' des='a_usuarios/editar' dix='trabajo' v_idusuario='$key->idusuario' v_idtienda='$idtienda' id='edit_persona'><i class='fas fa-pencil-alt'></i></button>";
 
-								echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_usuarios/db_' des='a_usuarios/lista' fun='borrar_usuario' dix='trabajo' v_id='$key->idusuario' id='eliminar' tp='¿Desea eliminar el usuario seleccionado?'><i class='far fa-trash-alt'></i></button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_usuarios/db_' des='a_usuarios/lista' des='idtienda' fun='borrar_usuario' dix='trabajo' v_id='$key->idusuario'  v_idtienda='$idtienda' id='eliminar' tp='¿Desea eliminar el usuario seleccionado?'><i class='far fa-trash-alt'></i></button>";
 
 							echo "</div>";
 						echo "<div class='col-4'>".$key->nombre."</div>";

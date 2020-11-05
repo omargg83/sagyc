@@ -32,10 +32,12 @@
 		<div class='card-header'>
 			Usuarios
 		</div>
-		<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario">
+
+		<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des='a_usuarios/editar' desid='id'>
 			<div class='card-body'>
 
-				 <input type="hidden" class="form-control form-control-sm" name="id" id="id" value="<?php echo $idusuario ;?>" placeholder="Tienda" readonly>
+				 <input type="hidden" name="id" id="id" value="<?php echo $idusuario ;?>" placeholder="Tienda" readonly>
+				 <input type="hidden" name="idtienda" id="idtienda" value="<?php echo $idtienda ;?>" placeholder="Tienda" readonly>
 				 <div class="form-group row">
 				   <label class="control-label col-sm-2" for="">Nombre:</label>
 				   <div class="col-sm-10">

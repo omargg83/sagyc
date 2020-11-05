@@ -47,7 +47,7 @@
       <ul class='nav navbar-nav navbar-right text-white' id='precios'>
 				<?php
 					if($_SESSION['a_sistema']==1){
-						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_precios/index' omodal='1'><i class='fas fa-check-circle'></i>Checador de Productos</button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_precios/index' omodal='1'><i class='fas fa-check-circle'></i>Precios</button>";
 					}
 				?>
 			</ul>
@@ -72,6 +72,24 @@
 	  <div class='content navbar-default'>
 	    <div class='container-fluid'>
 	      <div class='sidebar sidenav' id='navx'>
+
+
+				<div class="sidebar-header">
+	        <div class="user-pic">
+	          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
+	        </div>
+	        <div class="user-info">
+	          <span class="user-name"><?php echo "algo"; ?>
+	          </span>
+	          <span class="user-role">Administrator</span>
+	          <span class="user-status">
+	            <i class="fa fa-circle"></i>
+	            <span>Online</span>
+	          </span>
+	        </div>
+      </div>
+
+
 	        <a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
 					<?php
 						if(array_key_exists('VENTA', $db->derecho) and $_SESSION['a_sistema']==1)
@@ -79,8 +97,6 @@
 
 						if(array_key_exists('VENTAREGISTRO', $db->derecho))
 						echo "<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>";
-
-						echo "<hr>";
 
 						if(array_key_exists('PRODUCTOS', $db->derecho))
 						echo "<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>";
@@ -109,9 +125,6 @@
 						if(array_key_exists('DATOSEMP', $db->derecho))
 		        echo "<a href='#a_datosemp/index' is='menu-link' title='Datosemp'><i class='fas fa-wrench'></i><span>Datos Emp.</span></a>";
 
-						if(array_key_exists('SUCURSAL', $db->derecho))
-		        echo "<a href='#a_sucursal/index' is='menu-link' title='Sucursal'><i class='fas fa-store-alt'></i><span>Sucursal</span></a>";
-
 						if(array_key_exists('USUARIOS', $db->derecho))
 						echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
 
@@ -119,7 +132,9 @@
 						echo "<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>";
 					?>
 	      </div>
-	    </div>
+
+
+			</div>
 	    <div class='fijaproceso main' id='contenido'>
 	    </div>
 	  </div>
@@ -134,9 +149,10 @@
 	</div>
 </div>
 
-<div class="loader loader-default is-active" id='cargando_div' data-text="Cargando">
+<div class="loader loader-double is-active" id='cargando_div'>
 	<h2><span style='font-color:white'></span></h2>
 </div>
+
 
 </body>
 	<!--   Core JS Files   -->
@@ -163,12 +179,7 @@
 	<!--   iconos   -->
 	<link rel="stylesheet" href="lib/fontawesome-free-5.12.1-web/css/all.css">
 
-	<!--   carrusel de imagenes   -->
-	<link rel="stylesheet" href="lib/baguetteBox.js-dev/baguetteBox.css">
-	<script src="lib/baguetteBox.js-dev/baguetteBox.js" async></script>
-	<script src="lib/baguetteBox.js-dev/highlight.min.js" async></script>
-
-	<script src="lib/popper.js"></script>
+	<script src="lib/popper.min.js"></script>
 	<script src="lib/tooltip.js"></script>
 
 	<!--   Propios   -->
