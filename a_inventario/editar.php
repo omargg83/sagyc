@@ -135,7 +135,7 @@
 							<p></p>
 								<div class='row'>
 									<div class="container">
-  									<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Desc. x Monto($)</button>
+  									<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo" onclick="<?php if ($descxmonto==0) { $descxmonto=1;}?>">Desc. x Monto($)</button>
 										<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo2">Desc. x Cantidad</button>
 										<?php if ($descxmonto=="1"){
   									echo "<div id='demo' class='collapse show'>";
