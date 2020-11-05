@@ -61,6 +61,12 @@ class Productos extends Sagyc{
 			productos.preciom,
 			productos.preciod,
 			productos.stockmin,
+			productos.descxmonto,
+			productos.xmontomay,
+			productos.xmontodis,
+			productos.descxcant,
+			productos.xcantmay,
+			productos.xcantdis,
 			productos.idsucursal
 			from productos
 			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
@@ -93,6 +99,12 @@ class Productos extends Sagyc{
 			productos.preciom,
 			productos.preciod,
 			productos.stockmin,
+			productos.descxmonto,
+			productos.xmontomay,
+			productos.xmontodis,
+			productos.descxcant,
+			productos.xcantmay,
+			productos.xcantdis,
 			productos.idsucursal,
 			sucursal.idsucursal,
 			sucursal.nombre as nombresuc
@@ -132,6 +144,31 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['stockmin'])){
 				$arreglo += array('stockmin'=>$_REQUEST['stockmin']);
 			}
+
+			if (isset($_REQUEST['descxmonto'])){
+				$arreglo += array('descxmonto'=>$_REQUEST['descxmonto']);
+			}
+
+			if (isset($_REQUEST['xmontomay'])){
+				$arreglo += array('xmontomay'=>$_REQUEST['xmontomay']);
+			}
+
+			if (isset($_REQUEST['xmontodis'])){
+				$arreglo += array('xmontodis'=>$_REQUEST['xmontodis']);
+			}
+
+			if (isset($_REQUEST['descxcant'])){
+				$arreglo += array('descxcant'=>$_REQUEST['descxcant']);
+			}
+
+			if (isset($_REQUEST['xcantmay'])){
+				$arreglo += array('xcantmay'=>$_REQUEST['xcantmay']);
+			}
+
+			if (isset($_REQUEST['xcantdis'])){
+				$arreglo += array('xcantdis'=>$_REQUEST['xcantdis']);
+			}
+
 
 			if (isset($_REQUEST['preciocompra']) and strlen($_REQUEST['preciocompra'])>0  ){
 				$arreglo += array('preciocompra'=>$_REQUEST['preciocompra']);

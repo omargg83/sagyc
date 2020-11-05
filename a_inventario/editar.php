@@ -10,6 +10,14 @@
 		$preciom=$per->preciom;
 		$preciod=$per->preciod;
 		$stockmin=$per->stockmin;
+
+		$descxmonto=$per->descxmonto;
+		$xmontomay=$per->xmontomay;
+		$xmontodis=$per->xmontodis;
+		$descxcant=$per->descxcant;
+		$xcantmay=$per->xcantmay;
+		$xcantdis=$per->xcantdis;
+
 		$preciocompra=$per->preciocompra;
 		$nombre=$per->nombre;
 		$descripcion=$per->descripcion;
@@ -22,6 +30,14 @@
 		$preciom=0;
 		$preciod=0;
 		$stockmin=1;
+
+		$descxmonto=0;
+		$xmontomay=0;
+		$xmontodis=0;
+		$descxcant=0;
+		$xcantmay=0;
+		$xcantdis=0;
+
 		$cantidad=0;
 		$preciocompra="";
 
@@ -113,9 +129,75 @@
 								 <input type="text" class="form-control form-control-sm" id="stockmin" name='stockmin' placeholder="Stock Minimo" value="<?php echo $stockmin; ?>">
 								</div>
 
-
-
 							</div>
+
+							<p></p>
+							<p></p>
+								<div class='row'>
+									<div class="container">
+  									<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Desc. x Monto($)</button>
+										<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo2">Desc. x Cantidad</button>
+										<?php if ($descxmonto=="1"){
+  									echo "<div id='demo' class='collapse show'>";
+										}
+										else{
+											echo "<div id='demo' class='collapse'>";
+										}
+
+										?>
+
+
+											<div class='row'>
+
+												<div class="col-2">
+												 <label>$ Mayoreo</label>
+												 <input type="text" class="form-control form-control-sm" id="xmontomay" name='xmontomay' placeholder="$ Mayoreo >" value="<?php echo $xmontomay; ?>" >
+												</div>
+
+												<div class="col-2">
+												 <label>$ Distribuidor</label>
+												 <input type="text" class="form-control form-control-sm" id="xmontodis" name='xmontodis' placeholder="$ Distribuidor >" value="<?php echo $xmontodis; ?>" >
+												</div>
+
+											 </div>
+
+  								  	</div>
+									</div>
+								</div>
+
+								<div class='row'>
+									<div class="container">
+
+										<?php if ($descxcant=="1"){
+  									echo "<div id='demo2' class='collapse show'>";
+										}
+										else{
+											echo "<div id='demo2' class='collapse'>";
+										}
+
+										?>
+
+
+											<div class='row'>
+
+												<div class="col-2">
+												 <label>Mayoreo</label>
+												 <input type="text" class="form-control form-control-sm" id="xcantmay" name='xcantmay' placeholder="# Cant. Mayoreo" value="<?php echo $xcantmay; ?>" >
+												</div>
+
+												<div class="col-2">
+												 <label>Distribuidor</label>
+												 <input type="text" class="form-control form-control-sm" id="xcantdis" name='xcantdis' placeholder="# Cant. Distribuidor" value="<?php echo $xcantdis; ?>" >
+												</div>
+
+
+											</div>
+
+  									</div>
+									</div>
+								</div>
+
+
 							<hr>
 
 							<div class='row'>
