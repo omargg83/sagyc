@@ -110,9 +110,6 @@ class Cliente extends Sagyc{
 			$arreglo+=array('correo'=>clean_var($_REQUEST['correo']));
 		}
 
-		if (isset($_REQUEST['tipo_precio'])){
-			$arreglo+=array('tipo_precio'=>clean_var($_REQUEST['tipo_precio']));
-		}
 
 		if($idcliente==0){
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);

@@ -24,7 +24,6 @@
 		<div class='col-2'>Nombre</div>
 		<div class='col-2'>Correo</div>
 		<div class='col-2'>Telefono</div>
-		<div class='col-2'>Tipo de precio</div>
 	</div>
 
 		<?php
@@ -46,11 +45,6 @@
 					echo "<div class='col-2'>".$key->correo."</div>";
 					echo "<div class='col-2'>".$key->telefono."</div>";
 
-					echo "<div class='col-2'>";
-						if($key->tipo_precio==0) echo "Menudeo";
-						if($key->tipo_precio==1) echo "Mayoreo";
-						if($key->tipo_precio==2) echo "Distribuidor";
-					echo "</div>";
 
 
 				echo "</div>";

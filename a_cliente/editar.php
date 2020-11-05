@@ -18,7 +18,6 @@
 	$pais="";
 	$estado="";
 	$observaciones="";
-	$tipo_precio="0";
 
 	if($id>0){
 		$pd = $db->cliente($id);
@@ -113,14 +112,7 @@
 						<label>Telefono:</label>
 							<input type="text" class="form-control form-control-sm" name="telefono" id="telefono" value="<?php echo $telefono;?>" placeholder="Telefono" maxlength='45'>
 					</div>
-					<div class="col-3">
-					 <label>Precio a manejar</label>
-						<select class="form-control form-control-sm" name="tipo_precio" id="tipo_precio"  >
-							<option value="0"<?php if($tipo_precio=="0") echo "selected"; ?> > Menudeo</option>
-							<option value="1"<?php if($tipo_precio=="1") echo "selected"; ?> > Mayoreo</option>
-							<option value="2"<?php if($tipo_precio=="2") echo "selected"; ?> > Distribuidor</option>
-						</select>
-					</div>
+
 					<div class="col-12">
 						<label>Observaciones:</label>
 							<textarea type="text" class="form-control form-control-sm" name="observaciones" id="observaciones" placeholder="Observaciones" rows='5'><?php echo $observaciones;?></textarea>
