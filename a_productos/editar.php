@@ -94,6 +94,9 @@
 							<div class='row'>
 								<div class="col-12">
 										<?php
+
+
+
 									//		if(strlen($idproductoventa)==0){
 												echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
 									//		}

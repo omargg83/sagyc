@@ -12,6 +12,7 @@
 		$stockmin=$per->stockmin;
 
 		$preciocompra=$per->preciocompra;
+		$idcatalogo=$per->idcatalogo;
 		$nombre=$per->nombre;
 		$descripcion=$per->descripcion;
 		$tipo=$per->tipo;
@@ -195,7 +196,13 @@
 						<div class="col-12">
 								<?php
 									echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
+
 									if($idproducto>0){
+										echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_productos/editar' dix='trabajo' v_idcatalogo='$idcatalogo'><i class='fas fa-pencil-alt'></i>Editar</button>";
+
+										echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-print' title='Editar' des='a_inventario/imprimir' dix='trabajo' v_idcatalogo='$idcatalogo' v_variable='demo' v_tipo='1'><i class='fas fa-barcode'></i>Barras</button>";
+
+
 										if($tipo==3){
 											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_inventario/form_agrega' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-key'></i>+ existencias</button>";
 										}

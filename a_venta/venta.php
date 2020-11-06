@@ -46,7 +46,7 @@
       <div class='card-header'>Venta #<?php echo $numero_compra; ?></div>
       <div class='card-body'>
         <div class='row'>
-          <div class='col-7'>
+          <div class='col-sm-12 col-md-12 col-lg-7 col-xl-7'>
             <div class='row mb-3' id='dato_compra'>
               <?php
                 include 'dato_compra.php';
@@ -78,17 +78,18 @@
             ?>
             <hr>
             <div class='row' >
-              <div class='col-12' id='lista'>
+              <div class='col-12' id='lista' style='min-height:300px; overflow:auto;'>
                 <?php
                   include 'lista_pedido.php';
                 ?>
               </div>
             </div>
           </div>
-          <div class='col-5'>
+          <hr>
+          <div class='col-sm-12 col-md-12 col-lg-5 col-xl-5'>
             <div class='row'>
               <div class='col-12'>
-                <div class="form-group row">
+
                   <div class="col-sm-12">
                     <form is="p-busca" id="form_busca" >
                 			<div clas='row'>
@@ -101,15 +102,12 @@
                 			</div>
                 		</form>
                   </div>
-                </div>
+
               </div>
             </div>
-
-            <div clas='row' id='resultadosx' style='height:600px; overflow:auto;'>
-
+            <hr>
+            <div clas='row' id='resultadosx' style='min-height:500px; max-height: 500; overflow:auto;'>
             </div>
-
-
             <?php
               include 'producto_buscar.php';
             ?>

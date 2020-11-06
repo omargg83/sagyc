@@ -1,10 +1,10 @@
 <?php
 	require_once("db_.php");
-	$idcomision=$_REQUEST['id'];
+	$idcatalogo=$_REQUEST['idcatalogo'];
 	$tipo=$_REQUEST['tipo'];
 
 	if($tipo==1){			/////////////////comision pdf
-		$inven=$db->producto_editar($idcomision);
+		$inven=$db->producto_editar($idcatalogo);
 		$text=$inven->codigo;
 		$nombre=$inven->nombre;
 

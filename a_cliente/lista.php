@@ -19,9 +19,9 @@
 	</div>
 	<div class='row header-row'>
 		<div class='col-1'>#</div>
-		<div class='col-1'>RFC</div>
+		<div class='col-2'>RFC</div>
 		<div class='col-2'>Razon Social</div>
-		<div class='col-2'>Nombre</div>
+		<div class='col-3'>Nombre</div>
 		<div class='col-2'>Correo</div>
 		<div class='col-2'>Telefono</div>
 	</div>
@@ -39,9 +39,9 @@
 						echo "</div>";
 					echo "</div>";
 
-					echo "<div class='col-1'>".$key->rfc."</div>";
+					echo "<div class='col-2'>".$key->rfc."</div>";
 					echo "<div class='col-2'>".$key->razon_social."</div>";
-					echo "<div class='col-2'>".$key->nombre."</div>";
+					echo "<div class='col-3'>".$key->nombre."</div>";
 					echo "<div class='col-2'>".$key->correo."</div>";
 					echo "<div class='col-2'>".$key->telefono."</div>";
 

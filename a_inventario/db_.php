@@ -30,6 +30,7 @@ class Productos extends Sagyc{
 		productos_catalogo.codigo,
 		productos_catalogo.tipo,
 		productos.idproducto,
+		productos.idcatalogo,
 		productos.cantidad,
 		productos.precio,
 		productos.preciocompra,
@@ -143,7 +144,6 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['distri_porcentaje'])){
 				$arreglo += array('distri_porcentaje'=>$_REQUEST['distri_porcentaje']);
 			}
-
 
 			if (isset($_REQUEST['preciocompra']) and strlen($_REQUEST['preciocompra'])>0  ){
 				$arreglo += array('preciocompra'=>$_REQUEST['preciocompra']);
