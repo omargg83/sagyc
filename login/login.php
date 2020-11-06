@@ -83,30 +83,6 @@
 				return "Database access FAILED!".$e->getMessage();
 			}
 		}
-		public function superior($id){
-			try{
-				$sql="SELECT * from personal where idcargo=:id";
-				$sth = $this->dbh->prepare($sql);
-				$sth->bindValue(":id",$id);
-				$sth->execute();
-				return $sth->fetch(PDO::FETCH_OBJ);
-			}
-			catch(PDOException $e){
-				return "Database access FAILED!".$e->getMessage();
-			}
-		}
-		public function centro($idarea){
-			try{
-				$sql="select idcentro, area from area where idarea=:id";
-				$sth = $this->dbh->prepare($sql);
-				$sth->bindValue(":id",$idarea);
-				$sth->execute();
-				return $sth->fetch(PDO::FETCH_OBJ);
-			}
-			catch(PDOException $e){
-				return "Database access FAILED!".$e->getMessage();
-			}
-		}
 	}
 	function clean_var($val){
 		$val=htmlspecialchars(strip_tags(trim($val)));
