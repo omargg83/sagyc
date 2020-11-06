@@ -98,14 +98,14 @@
 						if(array_key_exists('VENTAREGISTRO', $db->derecho))
 						echo "<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>";
 
-						if(array_key_exists('PRODUCTOS', $db->derecho))
-						echo "<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Productos</span></a>";
+
+
+
+						if(array_key_exists('COMPRAS', $db->derecho))
+						echo "<a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>";
 
 						if(array_key_exists('INVENTARIO', $db->derecho))
 						echo "<a href='#a_inventario/index' is='menu-link' title='inventario'><i class='fas fa-boxes'></i><span>Inventario</span></a>";
-
-						if(array_key_exists('CATEGORIA', $db->derecho))
-						echo "<a href='#a_categorias/index' is='menu-link' title='Categorias'><i class='fab fa-cuttlefish'></i></i><span>Categorias</span></a>";
 
 						if(array_key_exists('CLIENTES', $db->derecho))
 						echo "<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>";
@@ -116,8 +116,6 @@
 						if(array_key_exists('PROVEEDORES', $db->derecho))
 						echo "<a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>";
 
-						if(array_key_exists('COMPRAS', $db->derecho))
-						echo "<a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>";
 
 						if(array_key_exists('TRASPASOS', $db->derecho))
 						echo "<a href='#a_traspasos/index' is='menu-link' title='Traspasos'><i class='fas fa-arrows-alt-h'></i><span>Traspasos</span></a>";

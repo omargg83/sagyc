@@ -55,7 +55,8 @@
 							<hr>
 							<div class='row'>
 								<div class="col-5">
-								 <label>Nombre</label>
+								 <label>Nombre</label><br>
+
 								 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Nombre" value="<?php echo $nombre; ?>" required>
 								</div>
 
@@ -94,17 +95,9 @@
 							<div class='row'>
 								<div class="col-12">
 										<?php
-									//		if(strlen($idproductoventa)==0){
-												echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
-									//		}
-
-											if($idcatalogo>0){
-										//		if($tipo==3){
-										//			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_agrega' omodal='1' v_id='0' v_idcatalogo='$idcatalogo' ><i class='fas fa-key'></i>+ existencias</button>";
-										//		}
-											}
+											echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
 										?>
-										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_productos/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+										<button type='button' class='btn btn-warning btn-sm' id='lista_cat' is='b-link'  des='a_inventario/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
 								</div>
 							</div>
 					</div>
