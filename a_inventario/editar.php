@@ -10,6 +10,7 @@
 		$preciom=$per->preciom;
 		$preciod=$per->preciod;
 		$stockmin=$per->stockmin;
+		$codigo=$per->codigo;
 
 		$preciocompra=$per->preciocompra;
 		$idcatalogo=$per->idcatalogo;
@@ -53,6 +54,7 @@
 		$distri_minimo=0;
 		$distri_maximo=0;
 		$distri_porcentaje=0;
+		$codigo=0;
 	}
 
 ?>
@@ -80,12 +82,16 @@
 					</div>
 					<hr>
 					<div class='row'>
+						<div class="col-2">
+						 <label>Codigo</label>
+						 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $codigo; ?>" readonly>
+						</div>
 						<div class="col-8">
 						 <label>Nombre</label>
 						 <input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Descripción" value="<?php echo $nombre; ?>" readonly>
 						</div>
 
-						<div class="col-4">
+						<div class="col-2">
 						 <label>Activo</label>
 							<select class="form-control form-control-sm" name="activo_producto" id="activo"  >
 								<option value="0"<?php if($activo_producto=="0") echo "selected"; ?> > Inactivo</option>
@@ -99,6 +105,20 @@
 						 <textarea class="form-control form-control-sm" id="descripcion" name='descripcion' readonly rows='5'><?php echo $descripcion; ?></textarea>
 						</div>
 					</div>
+				</div>
+				<div class='card-footer'>
+					<div class='row'>
+						<div class="col-12">
+							<?php
+							if($idproducto>0){
+								echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_productos/editar' dix='trabajo' v_idcatalogo='$idcatalogo'><i class='fas fa-pencil-alt'></i>Editar</button>";
+
+							}
+							?>
+						</div>
+					</div>
+				</div>
+				<div class='card-body'>
 					<div class='row'>
 						<div class="col-3">
 						 <label>$ compra x Unidad</label>
@@ -198,7 +218,6 @@
 									echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
 
 									if($idproducto>0){
-										echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_productos/editar' dix='trabajo' v_idcatalogo='$idcatalogo'><i class='fas fa-pencil-alt'></i>Editar</button>";
 
 										echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-print' title='Editar' des='a_inventario/imprimir' dix='trabajo' v_idcatalogo='$idcatalogo' v_variable='demo' v_tipo='1'><i class='fas fa-barcode'></i>Barras</button>";
 
