@@ -190,161 +190,193 @@ function fijar(){
 
 ///////////////////////////////////////////////ESPECIAL
 
-class Pbusca extends HTMLFormElement {
-  connectedCallback() {
-   this.addEventListener('submit', (e) => {
-      e.preventDefault();
-      cargando(true);
-      let id=e.currentTarget.attributes.id.nodeValue;
-      let elemento = document.getElementById(id);
+$(document).on('submit',"[is*='p-busca']",function(e){
+  e.preventDefault();
+  cargando(true);
+  let id=e.currentTarget.attributes.id.nodeValue;
+  let elemento = document.getElementById(id);
 
-      let idventa=document.getElementById("idventa").value;
-      let prod_venta=document.getElementById("prod_venta").value;
+  let idventa=document.getElementById("idventa").value;
+  let prod_venta=document.getElementById("prod_venta").value;
 
-      var formData = new FormData(elemento);
-      formData.append("idventa", idventa);
-      formData.append("prod_venta", prod_venta);
+  var formData = new FormData(elemento);
+  formData.append("idventa", idventa);
+  formData.append("prod_venta", prod_venta);
 
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST',"a_venta/productos_lista.php");
-      xhr.addEventListener('load',(data)=>{
-        document.getElementById("resultadosx").innerHTML =data.target.response;
-        cargando(false);
-      });
-      xhr.onerror =  ()=>{
-        cargando(false);
-      };
-      xhr.send(formData);
-   })
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/productos_lista.php");
+  xhr.addEventListener('load',(data)=>{
+    document.getElementById("resultadosx").innerHTML =data.target.response;
+    cargando(false);
+  });
+  xhr.onerror =  ()=>{
+    cargando(false);
+  };
+  xhr.send(formData);
+
+});
+$(document).on('submit',"[is*='is-selecciona']",function(e){
+  e.preventDefault();
+  cargando(true);
+  let id=e.currentTarget.attributes.id.nodeValue;
+  let elemento = document.getElementById(id);
+
+  let idventa=document.getElementById("idventa").value;
+  let idcliente=document.getElementById("idcliente").value;
+
+  var formData = new FormData(elemento);
+  formData.append("function", "agregaventa");
+  formData.append("idventa", idventa);
+  formData.append("idcliente", idcliente);
+
+  for(let contar=0;contar<elemento.attributes.length; contar++){
+    let arrayDeCadenas = elemento.attributes[contar].name.split("_");
+    if(arrayDeCadenas.length>1){
+      formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
+    }
   }
-}
-customElements.define("p-busca", Pbusca, { extends: "form" });
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/db_.php");
+  xhr.addEventListener('load',(data)=>{
+    var datos = JSON.parse(data.target.response);
+    if(datos.error==0){
+      $('#myModal').modal('hide');
+      document.getElementById("idventa").value=datos.idventa;
+      document.getElementById("numero").value=datos.numero;
+      document.getElementById("fecha").value=datos.fecha;
+      document.getElementById("estado").value=datos.estado;
+      document.getElementById("total").value=datos.total;
+      lista(datos.idventa);
+      document.getElementById("resultadosx").innerHTML ="";
 
-class Formselecciona extends HTMLFormElement {
-  connectedCallback() {
-   this.addEventListener('submit', (e) => {
-      e.preventDefault();
-      cargando(true);
-      let id=e.currentTarget.attributes.id.nodeValue;
-      let elemento = document.getElementById(id);
+    }
+    else{
+      cargando(false);
+      Swal.fire({
+        type: 'error',
+        title: "Error: "+datos.terror,
+        showConfirmButton: false,
+        timer: 1000
+      });
+      return;
+    }
+  });
+  xhr.onerror =  ()=>{
+    cargando(false);
+  };
+  xhr.send(formData);
+});
+$(document).on('click',"[is*='is-borraprod']",function(e){
+  e.preventDefault();
+  let idventa=document.getElementById("idventa").value;
+  let idbodega=e.currentTarget.attributes.v_idbodega.value;
+  let formData = new FormData();
 
-      let idventa=document.getElementById("idventa").value;
-      let idcliente=document.getElementById("idcliente").value;
+  $.confirm({
+    title: 'Eliminar',
+    content: '¿Desea eliminar el producto seleccionada?',
+    buttons: {
+      Eliminar: function () {
+        cargando(true);
+        formData.append("idventa", idventa);
+        formData.append("idbodega", idbodega);
+        formData.append("function", "borrar_venta");
 
-      var formData = new FormData(elemento);
-      formData.append("function", "agregaventa");
-      formData.append("idventa", idventa);
-      formData.append("idcliente", idcliente);
-
-      for(let contar=0;contar<elemento.attributes.length; contar++){
-        let arrayDeCadenas = elemento.attributes[contar].name.split("_");
-        if(arrayDeCadenas.length>1){
-          formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
-        }
-      }
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST',"a_venta/db_.php");
-      xhr.addEventListener('load',(data)=>{
-        var datos = JSON.parse(data.target.response);
-        if(datos.error==0){
-          $('#myModal').modal('hide');
-          document.getElementById("idventa").value=datos.idventa;
-          document.getElementById("numero").value=datos.numero;
-          document.getElementById("fecha").value=datos.fecha;
-          document.getElementById("estado").value=datos.estado;
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST',"a_venta/db_.php");
+        xhr.addEventListener('load',(data)=>{
+          var datos = JSON.parse(data.target.response);
           document.getElementById("total").value=datos.total;
-          lista(datos.idventa);
-          document.getElementById("resultadosx").innerHTML ="";
-
-        }
-        else{
+          lista(idventa);
+        });
+        xhr.onerror =  ()=>{
           cargando(false);
-          Swal.fire({
-            type: 'error',
-            title: "Error: "+datos.terror,
-            showConfirmButton: false,
-            timer: 1000
-          });
-          return;
-        }
-      });
-      xhr.onerror =  ()=>{
-        cargando(false);
-      };
-      xhr.send(formData);
-   })
-  }
-}
-customElements.define("is-selecciona", Formselecciona, { extends: "form" });
+        };
+        xhr.send(formData);
+      },
+      Cancelar: function () {
 
-class Borraprod extends HTMLButtonElement {
-  connectedCallback() {
-   this.addEventListener('click', (e) => {
-      e.preventDefault();
-      let idventa=document.getElementById("idventa").value;
-      let idbodega=e.currentTarget.attributes.v_idbodega.value;
-      let formData = new FormData();
+      }
+    }
+  });
+});
+$(document).on('click',"[is*='is-cliente']",function(e){
+  e.preventDefault();
+  cargando(true);
+  let idventa=document.getElementById("idventa").value;
+  let idcliente=e.currentTarget.attributes.v_idcliente.value;
 
-      $.confirm({
-        title: 'Eliminar',
-        content: '¿Desea eliminar el producto seleccionada?',
-        buttons: {
-          Eliminar: function () {
-            cargando(true);
-            formData.append("idventa", idventa);
-            formData.append("idbodega", idbodega);
-            formData.append("function", "borrar_venta");
+  let formData = new FormData();
+  formData.append("idventa", idventa);
+  formData.append("idcliente", idcliente);
+  formData.append("function", "agregar_cliente");
 
-            let xhr = new XMLHttpRequest();
-            xhr.open('POST',"a_venta/db_.php");
-            xhr.addEventListener('load',(data)=>{
-              var datos = JSON.parse(data.target.response);
-              document.getElementById("total").value=datos.total;
-              lista(idventa);
-            });
-            xhr.onerror =  ()=>{
-              cargando(false);
-            };
-            xhr.send(formData);
-          },
-          Cancelar: function () {
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/db_.php");
+  xhr.addEventListener('load',(data)=>{
+    cliente_datos(idcliente);
+    $('#myModal').modal('hide');
+    cargando(false);
+  });
+  xhr.onerror =  ()=>{
+    cargando(false);
+  };
+  xhr.send(formData);
 
-          }
-        }
-      });
-   })
-  }
-}
-customElements.define("is-borraprod", Borraprod, { extends: "button" });
+});
+$(document).on('click',"[is*='is-finalizar']",function(e){
+  e.preventDefault();
+  let idventa=document.getElementById("idventa").value;
+  $('#myModal').modal('show');
 
-class Cliente_flo extends HTMLButtonElement {
-  connectedCallback() {
-   this.addEventListener('click', (e) => {
-      e.preventDefault();
-      cargando(true);
-      let idventa=document.getElementById("idventa").value;
-      let idcliente=e.currentTarget.attributes.v_idcliente.value;
+  let formData = new FormData();
+  formData.append("idventa", idventa);
 
-      let formData = new FormData();
-      formData.append("idventa", idventa);
-      formData.append("idcliente", idcliente);
-      formData.append("function", "agregar_cliente");
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/finalizar.php");
+  xhr.addEventListener('load',(data)=>{
+    document.getElementById("modal_form").innerHTML = data.target.response;
+  });
+  xhr.onerror =  ()=>{
 
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST',"a_venta/db_.php");
-      xhr.addEventListener('load',(data)=>{
-        cliente_datos(idcliente);
-        $('#myModal').modal('hide');
-        cargando(false);
-      });
-      xhr.onerror =  ()=>{
-        cargando(false);
-      };
-      xhr.send(formData);
-   })
-  }
-}
-customElements.define("is-cliente", Cliente_flo, { extends: "button" });
+  };
+  xhr.send(formData);
+});
+$(document).on('submit',"[is*='is-totalv']",function(e){
+  e.preventDefault();
+  cargando(true);
+  let idventa=document.getElementById("idventa").value;
+  let tipo_pago=document.getElementById("tipo_pago").value;
+  let total_g=document.getElementById("total_g").value;
+  let efectivo_g=document.getElementById("efectivo_g").value;
+  let cambio_g=document.getElementById("cambio_g").value;
+
+  let formData = new FormData();
+  formData.append("idventa", idventa);
+  formData.append("tipo_pago", tipo_pago);
+  formData.append("total_g", total_g);
+  formData.append("efectivo_g", efectivo_g);
+  formData.append("cambio_g", cambio_g);
+  formData.append("function", "finalizar_venta");
+
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/db_.php");
+  xhr.addEventListener('load',(data)=>{
+    venta(idventa);
+    cargando(false);
+    $('#myModal').modal('hide');
+    Swal.fire({
+      type: 'success',
+      title: "Se proceso correctamente",
+      showConfirmButton: false,
+      timer: 2000
+    });
+  });
+  xhr.onerror =  ()=>{
+    cargando(false);
+  };
+  xhr.send(formData);
+});
 
 function lista(idventa){
   var formData = new FormData();
@@ -399,136 +431,3 @@ function venta(idventa){
   };
   xhr.send(formData);
 }
-var dragSrcEl = null;
-var dragdestino = null;
-
-class Divlink extends HTMLDivElement  {
-	connectedCallback() {
-		this.addEventListener('dragstart', (e) => {
-				this.style.opacity = '0.4';
-				dragSrcEl = this;
-				e.dataTransfer.effectAllowed = 'move';
-				e.dataTransfer.setData('text/html', this.innerHTML);
-		});
-		this.addEventListener('dragenter', (e) => {
-			this.classList.add('over');
-			if (dragSrcEl != this) {
-				dragdestino=this;
-				let tmp=dragSrcEl.innerHTML;
-				dragSrcEl.innerHTML=this.innerHTML;
-				//dragdestino.innerHTML = tmp.innerHTML;
-				//dragSrcEl.innerHTML=
-				//dragSrcEl.innerHTML = dragdestino.innerHTML;
-			}
-		});
-		this.addEventListener('dragover', (e) => {
-				if (e.preventDefault) {
-					e.preventDefault();
-				}
-				e.dataTransfer.dropEffect = 'move';
-				return false;
-		});
-		this.addEventListener('dragleave', (e) => {
-				this.classList.remove('over');
-		});
-		this.addEventListener('drop', (e) => {
-			if (e.stopPropagation) {
-				e.stopPropagation(); // stops the browser from redirecting.
-			}
-			if (dragSrcEl != this) {
-				console.log("destino:"+this.dataset.orden);
-				console.log("idSUbactividad:"+dragSrcEl.id);
-
-				dragSrcEl.innerHTML = this.innerHTML;
-				this.innerHTML = e.dataTransfer.getData('text/html');
-
-				let idx = dragSrcEl.id.split("_");
-
-				let formData = new FormData();
-				formData.append("destino",this.dataset.orden);
-				formData.append("id",idx[1]);
-				formData.append("function","orden_subact");
-
-				let xhr = new XMLHttpRequest();
-				xhr.open('POST',"a_actividades/db_.php");
-				xhr.addEventListener('load',(data)=>{
-					console.log(data.target.response);
-				});
-				xhr.onerror =  ()=>{
-					console.log("error");
-				};
-				xhr.send(formData);
-			}
-			return false;
-		});
-		this.addEventListener('dragend', (e) => {
-				this.style.opacity = '1';
-		});
-	}
-}
-customElements.define("b-card", Divlink, { extends: "div" });
-
-class Finalizar_c extends HTMLButtonElement {
-  connectedCallback() {
-   this.addEventListener('click', (e) => {
-      e.preventDefault();
-      let idventa=document.getElementById("idventa").value;
-      $('#myModal').modal('show');
-
-      let formData = new FormData();
-      formData.append("idventa", idventa);
-
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST',"a_venta/finalizar.php");
-      xhr.addEventListener('load',(data)=>{
-        document.getElementById("modal_form").innerHTML = data.target.response;
-      });
-      xhr.onerror =  ()=>{
-
-      };
-      xhr.send(formData);
-   })
-  }
-}
-customElements.define("is-finalizar", Finalizar_c, { extends: "button" });
-
-class Finalizar extends HTMLFormElement {
-  connectedCallback() {
-   this.addEventListener('submit', (e) => {
-      e.preventDefault();
-      cargando(true);
-      let idventa=document.getElementById("idventa").value;
-      let tipo_pago=document.getElementById("tipo_pago").value;
-      let total_g=document.getElementById("total_g").value;
-      let efectivo_g=document.getElementById("efectivo_g").value;
-      let cambio_g=document.getElementById("cambio_g").value;
-
-      let formData = new FormData();
-      formData.append("idventa", idventa);
-      formData.append("tipo_pago", tipo_pago);
-      formData.append("total_g", total_g);
-      formData.append("efectivo_g", efectivo_g);
-      formData.append("cambio_g", cambio_g);
-      formData.append("function", "finalizar_venta");
-
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST',"a_venta/db_.php");
-      xhr.addEventListener('load',(data)=>{
-        venta(idventa);
-        cargando(false);
-        $('#myModal').modal('hide');
-        Swal.fire({
-          type: 'success',
-          title: "Se proceso correctamente",
-          showConfirmButton: false,
-          timer: 2000
-        });
-      });
-      xhr.onerror =  ()=>{
-        cargando(false);
-      };
-      xhr.send(formData);
-   })
-  }
-}
-customElements.define("is-totalv", Finalizar, { extends: "form" });
