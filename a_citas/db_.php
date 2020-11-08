@@ -167,6 +167,33 @@ class Pedidos extends Sagyc{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+
+	public function servicios_lista(){
+		try{
+			$sql="SELECT
+			productos_catalogo.nombre,
+			productos_catalogo.codigo,
+			productos_catalogo.tipo,
+			productos.idproducto,
+			productos.cantidad,
+			productos.precio,
+			productos.preciocompra,
+			productos.preciom,
+			productos.preciod,
+			productos.stockmin,
+			productos.idsucursal
+			from productos
+			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
+			where productos.idsucursal='".$_SESSION['idsucursal']."' and productos_catalogo.tipo=0 limit 50";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED! ".$e->getMessage();
+		}
+	}
+
 	public function atiende(){
 		try{
 			$sql="select * from usuarios";

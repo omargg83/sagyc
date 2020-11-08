@@ -28,6 +28,7 @@
 	$correo_cli="";
 	$telefono_cli="";
 	$ati=$db->atiende();
+	$serv=$db->servicios_lista();
 	if($id>0){
     $row=$db->editar_cita($id);
 		$fech = new DateTime($row->fecha);
@@ -70,7 +71,7 @@
             echo "<div class='col-2'>";
               echo "<label>Fecha</label>";
               echo "<input type='text' class='form-control form-control-sm fechaclass' id='fecha' name='fecha' value='$fecha'>";
-							
+
             echo "</div>";
 
 						echo "<div class='col-2'>";
@@ -169,16 +170,11 @@
 
 						echo "<div class='col-4'>";
 							echo "<label>Servicio</label>";
-							echo "<select id='servicio' name='servicio' class='form-control form-control-sm'>";
-								echo "<option value='CURACIÓN'"; if($servicio=='CURACIÓN'){ echo " selected"; } echo ">CURACIÓN</option>";
-								echo "<option value='PODOLOGICO PREVENTIVO'"; if($servicio=='PODOLOGICO PREVENTIVO'){ echo " selected"; } echo ">PODOLOGICO PREVENTIVO</option>";
-								echo "<option value='ONICOCRIPTOSIS'"; if($servicio=='ONICOCRIPTOSIS'){ echo " selected"; } echo ">ONICOCRIPTOSIS</option>";
-								echo "<option value='MASAJE RELAJANTE PODAL'"; if($servicio=='MASAJE RELAJANTE PODAL'){ echo " selected"; } echo ">MASAJE RELAJANTE PODAL</option>";
-								echo "<option value='MANICURA'"; if($servicio=='MANICURA'){ echo " selected"; } echo ">MANICURA</option>";
-								echo "<option value='ESMALTE EN GEL'"; if($servicio=='ESMALTE EN GEL'){ echo " selected"; } echo ">ESMALTE EN GEL</option>";
-								echo "<option value='APLICACION DE ESMALTE EN PIES O MANOS'"; if($servicio=='APLICACION DE ESMALTE EN PIES O MANOS'){ echo " selected"; } echo ">APLICACION DE ESMALTE EN PIES O MANOS</option>";
-								echo "<option value='RETIRADO DE GEL'"; if($servicio=='RETIRADO DE GEL'){ echo " selected"; } echo ">RETIRADO DE GEL</option>";
-							echo "</select>";
+							echo "<select class='form-control form-control-sm' name='servicio' id='servicio'>";
+								foreach($serv as $row){
+									echo  "<option value='".$row->nombre."' "; if($servicio==$row->nombre){ echo " selected";} echo ">".$row->nombre."</option>";
+								}
+							echo  "</select>";
 						echo "</div>";
 
 						echo "<div class='col-3'>";
