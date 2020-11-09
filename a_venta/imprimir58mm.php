@@ -47,10 +47,10 @@
 
 	foreach($pedido as $ped){
 		$data[$contar]=array(
-			'No.'=>$contar+1,
-			'Desc.'=>$ped['nombre'],
-			'Cant.'=>number_format($ped['v_cantidad']),
-			'Costo'=>number_format($ped['v_precio'],2)
+			'NO.'=>$contar+1,
+			'Nombre'=>$ped->nombre,
+			'Cantidad'=>number_format($ped->v_cantidad),
+			'Precio'=>number_format($ped->v_precio,2)
 		);
 		$contar++;
 	}
