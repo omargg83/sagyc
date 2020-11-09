@@ -175,6 +175,7 @@ class Pedidos extends Sagyc{
 			productos_catalogo.codigo,
 			productos_catalogo.tipo,
 			productos.idproducto,
+			productos.activo_producto,
 			productos.cantidad,
 			productos.precio,
 			productos.preciocompra,
@@ -184,7 +185,7 @@ class Pedidos extends Sagyc{
 			productos.idsucursal
 			from productos
 			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
-			where productos.idsucursal='".$_SESSION['idsucursal']."' and productos_catalogo.tipo=0 limit 50";
+			where productos.idsucursal='".$_SESSION['idsucursal']."' and productos.activo_producto=1 and productos_catalogo.tipo=0 limit 50";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);

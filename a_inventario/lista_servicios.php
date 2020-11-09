@@ -15,7 +15,7 @@
 <div class='tabla_css' id='tabla_css'>
 	<div class='row titulo-row'>
 		<div class='col-12'>
-			INVENTARIO DE PRODUCTOS
+			INVENTARIO DE SERVICIOS
 		</div>
 	</div>
 	<div class='row header-row'>
@@ -24,7 +24,7 @@
 		<div class='col-3'>Nombre</div>
 		<div class='col-2'>Estatus</div>
 		<div class='col-2'>Existencia</div>
-		<div class='col-2'>Precio de venta</div>
+		<div class='col-2'>Precio de servicio</div>
 	</div>
 
 		<?php
@@ -60,11 +60,11 @@
 					echo "<div class='col-3'>".$key->nombre."</div>";
 
 					echo "<div class='col-2 text-center'>";
-					if($cantidad->total>0 or $key->tipo==0){
-						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia o se trata de un servicio' omodal='1'><i class='far fa-thumbs-up'></i></button>";
+					if($key->activo_producto==1){
+						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Servicio activo' omodal='1'><i class='fas fa-people-carry'></i></button>";
 					}
 					else {
-						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-danger btn-sm' title='Producto sin stock' omodal='1'><i class='far fa-thumbs-down'></i></button>";
+						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-secondary btn-sm' title='Servicio inactivo' omodal='1'><i class='fas fa-ban'></i></button>";
 					}
 					echo "</div>";
 

@@ -7,6 +7,7 @@
 	productos_catalogo.codigo,
 	productos_catalogo.tipo,
 	productos.idproducto,
+	productos.activo_producto,
 	productos.cantidad,
 	productos.precio,
 	productos.preciocompra,
@@ -43,11 +44,17 @@
 	      echo "<div class='row body-row' is='b-card' draggable='true'>";
 	      echo  "<div class='col-2'>";
 		      echo  "<div class='btn-group'>";
-					if($cantidad->total>0 or $key->tipo==0){
-			      echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia o se trata de un servicio' omodal='1'><i class='far fa-thumbs-up'></i></button>";
+					if($cantidad->total>0 and $key->activo_producto==1 ){
+						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia' omodal='1'><i class='far fa-thumbs-up'></i></button>";
 					}
-					else {
+					else if ($cantidad->total<=0 and $key->activo_producto==1){
 						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-danger btn-sm' title='Producto sin stock' omodal='1'><i class='far fa-thumbs-down'></i></button>";
+					}
+					else if ($key->activo_producto==0){
+						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-secondary  btn-sm' title='Producto o servicio inactivo' omodal='1'><i class='fas fa-ban'></i></i></button>";
+					}
+					else if ($key->tipo==0){
+						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Se trata de un servicio' omodal='1'><i class='fas fa-people-carry'></i></button>";
 					}
 
 		    echo  "</div>";
