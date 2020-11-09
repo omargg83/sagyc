@@ -16,6 +16,7 @@
 
   $estatus="";
   $idcliente=0;
+	$idproducto=0;
   $idenvio="";
   $idfactura="";
   $observaciones="";
@@ -43,6 +44,7 @@
 
 		$estatus=$row->estatus;
 		$observaciones=$row->observaciones;
+		$idproducto=$row->idcliente;
 		$idcliente=$row->idcliente;
 		$cubiculo=$row->cubiculo;
 		$atiende=$row->atiende;
@@ -194,7 +196,7 @@
 
 							}
 							if($id>0){
-								echo "<button type='button' class='btn btn-warning btn-sm' id='winmodal_producto' data-id='0' data-id2='$id' data-lugar='a_citas/form_producto'>+ <i class='fab fa-product-hunt'></i>Producto</button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' id='producto_add' v_idproducto='$idproducto'is='b-link' v_idcita='$id' des='a_citas/form_producto'  dix='trabajo' omodal='1'>+ <i class='fab fa-product-hunt'></i>Producto</button>";
 							}
 
             echo "<button type='button' class='btn btn-warning btn-sm' id='lista_cat' data-lugar='a_citas/lista' title='Regresar'><i class='fas fa-undo-alt'></i>Regresar</button>";

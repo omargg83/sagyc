@@ -25,6 +25,7 @@
 	set_include_path('../lib/pdf2/src/'.PATH_SEPARATOR.get_include_path());
 	include 'Cezpdf.php';
 
+	//$pdf = new Cezpdf('C8','portrait','color',array(255,255,255)); //ticket 58mm en mozilla
 	$pdf = new Cezpdf('C7','portrait','color',array(255,255,255));
 	$pdf->selectFont('Helvetica');
 	// la imagen solo aparecera si antes del codigo ezStream se pone ob_end_clean como se muestra al final men

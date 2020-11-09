@@ -331,14 +331,27 @@ class Pedidos extends Sagyc{
 			$texto=$_REQUEST['texto'];
 			$idcitas=$_REQUEST['idcitas'];
 
-			$sql="SELECT * from productos where idtienda=:tienda and cantidad>0 and
-			(nombre like :texto or
-				descripcion like :texto or
-				codigo like :texto  or
-				imei like :texto or
-				marca like :texto or
-				modelo like :texto
-			) order by tipo limit 20";
+			$sql="SELECT
+			productos_catalogo.nombre,
+			productos_catalogo.codigo,
+			productos_catalogo.tipo,
+			productos.idproducto,
+			productos.idcatalogo,
+			productos.activo_producto,
+			productos.cantidad,
+			productos.precio,
+			productos.preciocompra,
+			productos.preciom,
+			productos.preciod,
+			productos.stockmin,
+			productos.idsucursal
+			from productos
+			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
+			where productos.idsucursal='".$_SESSION['idsucursal']."' and
+		  (nombre like '%$texto%'or
+			descripcion like '%$texto%'or
+		  codigo like '%$texto%'
+			)limit 50";
 
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":texto","%$texto%");
