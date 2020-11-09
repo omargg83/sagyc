@@ -47,7 +47,7 @@
 					if($cantidad->total>0 and $key->activo_producto==1 ){
 						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia' omodal='1'><i class='far fa-thumbs-up'></i></button>";
 					}
-					else if ($cantidad->total<=0 and $key->activo_producto==1){
+					else if ($cantidad->total<=0 and $key->activo_producto==1 and $key->tipo<>0){
 						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-danger btn-sm' title='Producto sin stock' omodal='1'><i class='far fa-thumbs-down'></i></button>";
 					}
 					else if ($key->activo_producto==0){
