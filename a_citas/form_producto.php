@@ -2,9 +2,10 @@
 
 	<?php
 	require_once("db_.php");
-	$id=$_REQUEST['id'];
-	$id2=$_REQUEST['id2'];
+	$idproducto=$_REQUEST['idproducto'];
+	$idcita=$_REQUEST['idcita'];
 	?>
+
 		<div class="modal-header">
 		  <h5 class="modal-title">Buscar producto</h5>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
