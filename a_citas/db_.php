@@ -365,8 +365,6 @@ class Pedidos extends Sagyc{
 			echo  "<th>-</th>";
 			echo  "<th>Código</th>";
 			echo  "<th>Nombre</th>";
-			echo  "<th>Marca</th>";
-			echo  "<th>Modelo</th>";
 			echo  "<th>Existencias</th>";
 			echo  "<th>Precio</th>";
 			echo "</tr>";
@@ -391,14 +389,6 @@ class Pedidos extends Sagyc{
 					echo  $key["nombre"];
 					echo  "</td>";
 
-					echo  "<td>";
-					echo  $key["marca"];
-					echo  "</td>";
-
-					echo  "<td>";
-					echo  $key["modelo"];
-					echo  "</td>";
-
 					echo  "<td class='text-center'>";
 					echo  $key["cantidad"];
 					echo  "</td>";
@@ -420,11 +410,24 @@ class Pedidos extends Sagyc{
 			$idproducto=$_REQUEST['idproducto'];
 			$idcitas=$_REQUEST['idcitas'];
 
-			$sql="SELECT * from productos where id=:id";
+			$sql="SELECT * from productos
+			left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
+			where idproducto=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$idproducto);
 			$sth->execute();
 			$res=$sth->fetch(PDO::FETCH_OBJ);
+
+			if($producto->tipo==3){
+				$sql="select sum(cantidad) as total from bodega where idsucursal='".$_SESSION['idsucursal']."' and idproducto='$producto->idproducto'";
+				$sth = $db->dbh->prepare($sql);
+				$sth->execute();
+				$cantidad=$sth->fetch(PDO::FETCH_OBJ);
+				$exist=$cantidad->total;
+			}
+			else{
+				$exist=$producto->cantidad;
+			}
 
 			echo "<form id='form_producto' action='' data-lugar='a_citas/db_' data-destino='a_citas/editar' data-funcion='agregaventa'>";
 			echo "<input type='hidden' name='idcitas' id='idcitas' value='$idcitas' readonly>";
