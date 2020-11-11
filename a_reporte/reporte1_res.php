@@ -16,7 +16,6 @@
   		<th>Cliente</th>
   		<th>Tienda</th>
   		<th>Total</th>
-  		<th>Gran total</th>
   		<th>Estado</th>
   		</tr>
   		</thead>
@@ -27,7 +26,8 @@
   					<tr id="<?php echo $pd[$i]['idventa']; ?>" class="edit-t">
   						<td>
   							<div class="btn-group">
-  								<button class='btn btn-outline-primary btn-sm'  id='edit_persona' title='Editar' data-lugar='a_ventas/editar'><i class="fas fa-pencil-alt"></i></button>
+                  <button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  v_idventa='<?php echo $pd[$i]['idventa']; ?> ' ><i class="fas fa-pencil-alt"></i></button>
+
   							</div>
   						</td>
   						<td  ><?php echo $pd[$i]["idventa"]; ?></td>
@@ -35,7 +35,6 @@
   						<td><?php echo $pd[$i]["nombrecli"]; ?></td>
               <td><?php echo $pd[$i]["nombre"]; ?></td>
   						<td align="left"><?php echo number_format($pd[$i]["total"],2); ?></td>
-  						<td align="left"><?php echo number_format($pd[$i]["gtotal"],2); ?></td>
   						<td><?php echo $pd[$i]["estado"]; ?></td>
 
   					</tr>

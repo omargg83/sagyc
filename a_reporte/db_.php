@@ -36,9 +36,9 @@ class Venta extends Sagyc{
 			$desde = date("Y-m-d", strtotime($desde))." 00:00:00";
 			$hasta = date("Y-m-d", strtotime($hasta))." 23:59:59";
 
-			$sql="select et_venta.idventa, et_venta.idtienda, et_venta.iddescuento, et_venta.factura, clientes.nombre as nombrecli, et_tienda.nombre, et_venta.total, et_venta.fecha, et_venta.gtotal, et_venta.estado from et_venta
-			left outer join clientes on clientes.idcliente=et_venta.idcliente
-			left outer join et_tienda on et_tienda.id=et_venta.idtienda where (et_venta.fecha BETWEEN :fecha1 AND :fecha2)";
+			$sql="select venta.idventa, venta.idsucursal, venta.descuento, venta.factura, clientes.nombre as nombrecli, sucursal.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
+			left outer join clientes on clientes.idcliente=venta.idcliente
+			left outer join sucursal on sucursal.idsucursal=venta.idsucursal where (venta.fecha BETWEEN :fecha1 AND :fecha2)";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":fecha1",$desde);
 			$sth->bindValue(":fecha2",$hasta);
@@ -58,15 +58,15 @@ class Venta extends Sagyc{
 			$desde = date("Y-m-d", strtotime($desde))." 00:00:00";
 			$hasta = date("Y-m-d", strtotime($hasta))." 23:59:59";
 
-			$sql="SELECT et_venta.idventa, et_venta.idtienda,	et_venta.iddescuento,	et_venta.factura, clientes.nombre, et_tienda.nombre, et_venta.total, et_venta.fecha, et_venta.gtotal, et_venta.estado,			bodega.v_cantidad, bodega.v_precio,	bodega.v_total,	bodega.nombre, bodega.observaciones, bodega.cliente, usuarios.nombre as vendedor FROM	bodega
-				LEFT OUTER JOIN et_venta ON et_venta.idventa = bodega.idventa
-				LEFT OUTER JOIN usuarios ON usuarios.idusuario = et_venta.idusuario
-				left outer join productos on productos.id=bodega.idproducto
-				LEFT OUTER JOIN clientes ON clientes.idcliente = et_venta.idcliente
-				LEFT OUTER JOIN et_tienda ON et_tienda.id = et_venta.idtienda
-				where bodega.idventa and (et_venta.fecha BETWEEN :fecha1 AND :fecha2)";
+			$sql="SELECT venta.idventa, venta.idsucursal,	venta.descuento,	venta.factura, clientes.nombre as nombrecli, sucursal.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado,bodega.v_cantidad, bodega.v_precio,	bodega.v_total,	bodega.nombre, bodega.observaciones, bodega.cliente, usuarios.nombre as vendedor FROM	bodega
+				LEFT OUTER JOIN venta ON venta.idventa = bodega.idventa
+				LEFT OUTER JOIN usuarios ON usuarios.idusuario = venta.idusuario
+				left outer join productos on productos.idproducto=bodega.idproducto
+				LEFT OUTER JOIN clientes ON clientes.idcliente = venta.idcliente
+				LEFT OUTER JOIN sucursal ON sucursal.idsucursal = venta.idsucursal
+				where bodega.idventa and (venta.fecha BETWEEN :fecha1 AND :fecha2)";
 				if(strlen($idusuario)>0){
-					$sql.=" and et_venta.idusuario=:idusuario";
+					$sql.=" and venta.idusuario=:idusuario";
 				}
 				$sql.=" order by idventa desc";
 			$sth = $this->dbh->prepare($sql);

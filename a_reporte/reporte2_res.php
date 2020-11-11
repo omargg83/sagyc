@@ -1,7 +1,6 @@
 <?php
   require_once("db_.php");
   $pd=$db->productos_vendidos();
-
 	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 	echo "<br><h5>Ventas</h5>";
 	echo "<hr>";
