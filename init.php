@@ -1,6 +1,8 @@
 <?php
+
 $server=3;
-$_SESSION['des']=0;
+$_SESSION['des']=1;
+
 if($server==1){
   /////////remoto
   define("MYSQLUSER", "saludpublica");
