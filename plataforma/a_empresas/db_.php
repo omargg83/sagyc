@@ -77,6 +77,12 @@ class Datos_tienda extends Sagyc{
 		if (isset($_REQUEST['activo'])){
 			$arreglo+=array('activo'=>$_REQUEST['activo']);
 		}
+		if (isset($_REQUEST['desglose'])){
+			$arreglo+=array('desglose'=>$_REQUEST['desglose']);
+		}
+		if (isset($_REQUEST['mensaje'])){
+			$arreglo+=array('mensaje'=>$_REQUEST['mensaje']);
+		}
 
 		if($idtienda==0){
 			$x=$this->insert('tienda', $arreglo);
@@ -85,6 +91,35 @@ class Datos_tienda extends Sagyc{
 			$x=$this->update('tienda',array('idtienda'=>$idtienda), $arreglo);
 		}
 		return $x;
+	}
+
+	public function foto(){
+		$x="";
+		$arreglo =array();
+		$idtienda=$_REQUEST['idtienda'];
+
+		$extension = '';
+		$ruta = '../'.$this->f_empresas;
+		$logotipo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($logotipo!=""){
+			$extension = $info['extension'];
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$_SESSION['foto']=$nombreFile;
+				$arreglo+=array('logotipo'=>$nombreFile);
+			}
+			else{
+				echo "fail";
+				exit;
+			}
+		}
+
+		return $this->update('tienda',array('idtienda'=>$idtienda), $arreglo);
 	}
 
 

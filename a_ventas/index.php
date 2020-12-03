@@ -20,11 +20,14 @@
 
 				<?php
 					if($_SESSION['a_sistema']==1){
-						echo "<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' is='a-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  ><i class='fas fa-plus'></i><span>Nueva</span></a></li>";
+						if($db->nivel_captura==1){
+							echo "<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' is='a-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  ><i class='fas fa-plus'></i><span>Nueva</span></a></li>";
+						}
 					}
 				?>
 
 				<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' is='a-link' des='a_ventas/lista' dix='trabajo' ><i class="far fa-folder-open"></i><span>Abiertas</span></a></li>
+				<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision2' is='a-link' des='a_ventas/lista_pagadas' dix='trabajo' ><i class="far fa-check-square"></i><span>Efectuadas</span></a></li>
 
 			</ul>
 	  </div>

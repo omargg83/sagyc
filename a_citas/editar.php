@@ -13,7 +13,7 @@
 	$servicio=0;
 	$precio=0;
 
-
+	$asunto="";
   $estatus="";
   $idcliente=0;
 	$idproducto=0;
@@ -42,9 +42,10 @@
 		$hora_fin=$fech_fin->format('H');
 		$minuto_fin=$fech_fin->format('i');
 
+		$asunto=$row->asunto;
 		$estatus=$row->estatus;
 		$observaciones=$row->observaciones;
-		$idproducto=$row->idcliente;
+		//$idproducto=$row->idcliente;
 		$idcliente=$row->idcliente;
 		$cubiculo=$row->cubiculo;
 		$atiende=$row->atiende;
@@ -52,9 +53,12 @@
 		$precio=$row->precio;
 
 		$cliente=$db->cliente($idcliente);
+		if ($idcliente>0){
 		$nombre_cli=$cliente->nombre;
 		$correo_cli=$cliente->correo;
 		$telefono_cli=$cliente->telefono;
+		}
+
   }
 
 	echo "<div class='container'>";
@@ -70,13 +74,13 @@
         echo "<div class='card-body'>";
 
           echo "<div class='row'>";
-            echo "<div class='col-2'>";
+            echo "<div class='col-xl col-auto'>";
               echo "<label>Fecha</label>";
               echo "<input type='text' class='form-control form-control-sm fechaclass' id='fecha' name='fecha' value='$fecha'>";
 
             echo "</div>";
 
-						echo "<div class='col-2'>";
+						echo "<div class='col-xl col-auto'>";
 			        echo "<label>Hora Inicio</label>";
 			        echo "<select class='form-control form-control-sm' name='hora' id='hora'>";
 								for($i=0;$i<24;$i++){
@@ -85,7 +89,7 @@
 			        echo  "</select>";
 			      echo "</div>";
 
-						echo "<div class='col-2'>";
+						echo "<div class='col-xl col-auto'>";
 			        echo "<label>Minuto</label>";
 			        echo "<select class='form-control form-control-sm' name='minuto' id='minuto'>";
 								for($i=0;$i<=59;$i++){
@@ -94,7 +98,7 @@
 			        echo  "</select>";
 			      echo "</div>";
 
-						echo "<div class='col-2'>";
+						echo "<div class='col-xl col-auto'>";
 			        echo "<label>Hora final</label>";
 			        echo "<select class='form-control form-control-sm' name='hora_fin' id='hora_fin'>";
 								for($i=0;$i<24;$i++){
@@ -103,7 +107,7 @@
 			        echo  "</select>";
 			      echo "</div>";
 
-						echo "<div class='col-2'>";
+						echo "<div class='col-xl col-auto'>";
 			        echo "<label>Minuto</label>";
 			        echo "<select class='form-control form-control-sm' name='minuto_fin' id='minuto_fin'>";
 								for($i=0;$i<=59;$i++){
@@ -112,7 +116,7 @@
 			        echo  "</select>";
 			      echo "</div>";
 
-						echo "<div class='col-3'>";
+						echo "<div class='col-xl col-auto'>";
 							echo "<label>Estado</label>";
 							echo "<select id='estatus' name='estatus' class='form-control form-control-sm'>";
 								echo "<option value='PENDIENTE'"; if($estatus=='PENDIENTE'){ echo " selected"; } echo ">PENDIENTE</option>";
@@ -122,36 +126,47 @@
 							echo "</select>";
 						echo "</div>";
 
-
+					echo "<hr>";
 					echo "</div>";
 
 					echo "<hr>";
 					echo "<div class='row'>";
-						echo "<div class='col-8'>";
+						echo "<div class='col-xl col-auto'>";
+							echo "<label>Asunto:</label>";
+								echo "<input type='text' class='form-control form-control-sm' id='asunto' name='asunto' value='$asunto' placeholder='Asunto' maxlength='65' required >";
+						echo "</div>";
+
+						echo "<div class='col-xl col-auto'>";
 							echo "<label>Nombre:</label>";
 								echo "<input type='text' class='form-control form-control-sm' id='nombre' name='nombre' value='$nombre_cli' placeholder='Nombre del cliente' readonly>";
 						echo "</div>";
 
-						echo "<div class='col-4'>";
+
+					echo "</div>";
+
+					echo "<div class='row'>";
+
+						echo "<div class='col-xl col-auto'>";
 							echo "<label>Correo:</label>";
 							echo "<input type='text' class='form-control form-control-sm' id='correo' name='correo' value='$correo_cli' readonly>";
 						echo "</div>";
 
-						echo "<div class='col-4'>";
+						echo "<div class='col-xl col-auto'>";
 							echo "<label>Teléfono:</label>";
 							echo "<input type='text' class='form-control form-control-sm' id='telefono' name='telefono' value='$telefono_cli' readonly>";
 						echo "</div>";
-					echo "</div>";
 
+					echo "</div>";
+					echo "<hr>";
 				  echo "<div class='row'>";
-            echo "<div class='col-12'>";
+            echo "<div class='col-xl col-auto'>";
               echo "<label>Notas de la cita</label>";
               echo "<input type='text' class='form-control form-control-sm' id='observaciones' name='observaciones' value='$observaciones' placeholder='Notas del pedido'>";
             echo "</div>";
           echo "</div>";
 
 					echo "<div class='row'>";
-						echo "<div class='col-2'>";
+						echo "<div class='col-xl col-auto'>";
 							echo "<label>Cubiculo</label>";
 							echo "<select class='form-control form-control-sm' name='cubiculo' id='cubiculo'>";
 								echo  "<option value='1' "; if($cubiculo=="1"){ echo " selected";} echo ">1</option>";
@@ -161,7 +176,7 @@
 							echo  "</select>";
 						echo "</div>";
 
-						echo "<div class='col-3'>";
+						echo "<div class='col-xl col-auto'>";
 							echo "<label>Atiende</label>";
 							echo "<select class='form-control form-control-sm' name='atiende' id='atiende'>";
 								foreach($ati as $key){
@@ -170,16 +185,17 @@
 							echo  "</select>";
 						echo "</div>";
 
-						echo "<div class='col-4'>";
+						echo "<div class='col-xl col-auto'>";
 							echo "<label>Servicio</label>";
 							echo "<select class='form-control form-control-sm' name='servicio' id='servicio'>";
+							echo "<option value=''"; if($servicio==''){ echo " selected"; } echo "></option>";
 								foreach($serv as $row){
 									echo  "<option value='".$row->nombre."' "; if($servicio==$row->nombre){ echo " selected";} echo ">".$row->nombre."</option>";
 								}
 							echo  "</select>";
 						echo "</div>";
 
-						echo "<div class='col-3'>";
+						echo "<div class='col-xl col-auto'>";
               echo "<label>Costo:</label>";
               echo "<input type='text' class='form-control form-control-sm' id='precio' name='precio' value='$precio' placeholder='Costo de la cita'>";
             echo "</div>";
@@ -195,11 +211,11 @@
 								echo "<button type='button' class='btn btn-warning btn-sm' id='cliente_add' v_idcliente='$idcliente' is='b-link' v_idcita='$id' des='a_citas/form_cliente' omodal='1' title='Agregar Cliente'><i class='fas fa-user-tag'></i>Cliente</button>";
 
 							}
+							/*
 							if($id>0){
 								echo "<button type='button' class='btn btn-warning btn-sm' id='producto_add' v_idproducto='$idproducto'is='b-link' v_idcita='$id' des='a_citas/form_producto'  dix='trabajo' omodal='1'>+ <i class='fab fa-product-hunt'></i>Producto</button>";
-							}
-
-            echo "<button type='button' class='btn btn-warning btn-sm' id='lista_cat' data-lugar='a_citas/lista' title='Regresar'><i class='fas fa-undo-alt'></i>Regresar</button>";
+							}*/
+            echo "<button type='button' class='btn btn-warning btn-sm' id='calendario' onclick='calendar_load(1)' title='Regresar'><i class='fas fa-undo-alt'></i>Regresar</button>";
 
         echo "</div>";
 				echo "</form>";

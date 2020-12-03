@@ -33,28 +33,31 @@ $total=round($total,2);
 
   <div class="modal-body" style='max-height:580px;overflow: auto;'>
     <div clas='row'>
-      <div class='col-12'>
+      <div class='col-xl col-auto'>
         <label>Metodo de pago</label>
         <select class="form-control" name="tipo_pago" id="tipo_pago">
           <option value="Efectivo">Efectivo</option>
-          <option value="Debito">Tarjeta debito</option>
-          <option value="Credito">Credito</option>
+          <option value="Debito">Tarjeta de debito</option>
+          <option value="T.Credito">Tarjeta de Credito</option>
+          <option value="Transferencia">Transferencia Electronica</option>
+          <option value="Deposito">Deposito</option>
+          <option value="Vale">Vale</option>
           <option value="Cupon">Cupón</option>
         </select>
       </div>
 
 
-      <div class='col-12'>
+      <div class='col-xl col-auto'>
         <label>Total</label>
         <input type='text' name='total_g' id='total_g' style='text-align:right' placeholder='Total' value='<?php echo $total; ?>' class='form-control' readonly>
       </div>
 
-      <div class='col-12'>
+      <div class='col-xl col-auto'>
         <label>Recibido</label>
         <input type='text' name='efectivo_g' id='efectivo_g' style='text-align:right' placeholder='Recibido' value='' class='form-control' required onchange='cambio_total()'>
       </div>
 
-      <div class='col-12'>
+      <div class='col-xl col-auto'>
         <label>Cambio</label>
         <input type='text' name='cambio_g' id='cambio_g' style='text-align:right' placeholder='Cambio' value='' class='form-control' required readonly>
       </div>

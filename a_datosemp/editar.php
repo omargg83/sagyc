@@ -8,7 +8,8 @@
 	$col="";
 	$ciudad="";
 	$estado="";
-
+	$desglose=0;
+	$mensaje="";
 	if($idtienda>0){
 		$pd = $db->tienda($idtienda);
 		$razon=$pd->razon;
@@ -17,6 +18,8 @@
 		$col=$pd->col;
 		$ciudad=$pd->ciudad;
 		$estado=$pd->estado;
+		$desglose=$pd->desglose;
+		$mensaje=$pd->mensaje;
 	}
 
 ?>
@@ -30,33 +33,49 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Razón social:</label>
 							<input type="text" class="form-control form-control-sm" name="razon" id="razon" value="<?php echo $razon;?>" placeholder="Razón" readonly>
 					</div>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Calle:</label>
 							<input type="text" class="form-control form-control-sm" name="calle" id="calle" value="<?php echo $calle;?>" placeholder="Calle" readonly>
 					</div>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>No.:</label>
 							<input type="text" class="form-control form-control-sm" name="no" id="no" value="<?php echo $no;?>" placeholder="Número" required readonly>
 					</div>
 				</div>
 				<div class='row'>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Colonia:</label>
 							<input type="text" class="form-control form-control-sm" name="col" id="col" value="<?php echo $col;?>" placeholder="Colonia" readonly>
 					</div>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Ciudad:</label>
 							<input type="text" class="form-control form-control-sm" name="ciudad" id="ciudad" value="<?php echo $ciudad;?>" placeholder="Ciudad" readonly>
 					</div>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Estado:</label>
 							<input type="text" class="form-control form-control-sm" name="estado" id="estado" value="<?php echo $estado;?>" placeholder="Estado" readonly>
 					</div>
 				</div>
+
+				<div class='row'>
+					<div class='col-xl col-auto'>
+						<label>Desglose de iva</label>
+						<select class="form-control form-control-sm" name="desglose" id="desglose"required>
+							<option value='0'<?php if($desglose=='0') echo 'selected'; ?> >NO</option>
+							<option value='1'<?php if($desglose=='1') echo 'selected'; ?> >SI</option>
+						</select>
+					</div>
+					<div class="col-xl col-auto">
+						<label>Mensaje ticket</label>
+							<input type="text" class="form-control form-control-sm" name="mensaje" id="mensaje" value="<?php echo $mensaje;?>" placeholder="Mensaje del ticket" readonly>
+					</div>
+
+				</div>
+
 			</div>
 			<div class='card-footer'>
 				<div class="row">

@@ -1,22 +1,14 @@
 <?php
-
 $server=3;
-$_SESSION['des']=1;
+$_SESSION['des']=0;
+$_SESSION['pagina']=50;
 
-if($server==1){
-  /////////remoto
-  define("MYSQLUSER", "saludpublica");
-  define("MYSQLPASS", "saludp123$");
-  define("SERVIDOR", "172.16.0.20");
-  define("BDD", "sagycrmr_sagyc");
-  define("PORT", "3306");
-}
-else if($server==2){
+if($server==2){
   //////////localhost
   define("MYSQLUSER", "root");
   define("MYSQLPASS", "root");
   define("SERVIDOR", "localhost");
-  define("BDD", "sagycrmr_sagyc");
+  define("BDD", "sagycrmr_nala");
   define("PORT", "3306");
 }
 else if($server==3){
@@ -32,7 +24,7 @@ else if($server==4){
   define("MYSQLUSER", "root");
   define("MYSQLPASS", "root");
   define("SERVIDOR", "localhost");
-  define("BDD", "sagycrmr_sagyc");
+  define("BDD", "sagycrmr_nala");
   define("PORT", "8889");
 }
 ?>

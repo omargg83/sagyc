@@ -3,10 +3,10 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
-	echo "<hr>";
+	echo "<br>";
 	echo print_r($_REQUEST);
 	echo "</div>";
 }
@@ -18,13 +18,34 @@ class Venta extends Sagyc{
 	public function __construct(){
 		parent::__construct();
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('VENTA', $this->derecho)) {
+			////////////////PERMISOS
+			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='VENTA'";
+			$stmt= $this->dbh->query($sql);
 
+			$row =$stmt->fetchObject();
+			$this->nivel_personal=$row->nivel;
+			$this->nivel_captura=$row->captura;
 		}
 		else{
 			include "../error.php";
 			die();
 		}
 	}
+
+	public function sucursal_info(){
+		$sql="select * from sucursal where idsucursal='".$_SESSION['idsucursal']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+
+	public function tienda_info(){
+		$sql="select * from tienda where idtienda='".$_SESSION['idtienda']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+
 	public function venta($id){
 		$sql="select * from venta where idventa='$id'";
 		$sth = $this->dbh->prepare($sql);
@@ -99,12 +120,10 @@ class Venta extends Sagyc{
 			if(isset($_REQUEST['idproducto'])){
 				$precio=$_REQUEST['precio'];
 
-
-
 				if($idventa==0){
 					$date=date("Y-m-d H:i:s");
 					$estado="Activa";
-					$sql = "SELECT MAX(numero) FROM venta where idsucursal='".$_SESSION['idtienda']."'";
+					$sql = "SELECT MAX(numero) FROM venta where idsucursal='".$_SESSION['idsucursal']."'";
 					$statement = $this->dbh->prepare($sql);
 					$statement->execute();
 					$numero=$statement->fetchColumn()+1;
@@ -135,24 +154,50 @@ class Venta extends Sagyc{
 					$estado=$venta->estado;
 				}
 
+				///////////////////////////recalcula esquemas
+				$esquema=json_decode(self::esquemas($idproducto,$cantidad));
+
 				$arreglo=array();
+				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idventa'=>$idventa);
 				$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$arreglo+=array('idproducto'=>$producto->idproducto);
-				$arreglo+=array('v_cantidad'=>$cantidad);
-				$arreglo+=array('v_precio'=>$precio);
-				$total=$cantidad*$precio;
-				$arreglo+=array('v_total'=>$total);
-				$cantidad=$cantidad*-1;
-				$arreglo+=array('cantidad'=>$cantidad);
 				$arreglo+=array('nombre'=>$producto->nombre);
+				$arreglo+=array('esquema'=>$producto->esquema);
+				$arreglo+=array('codigo'=>$producto->codigo);
+
+				$arreglo+=array('v_cantidad'=>$cantidad);
+				$total=$cantidad*$precio;
+				$resta=$cantidad*-1;
+				$arreglo+=array('cantidad'=>$resta);
+
+				$arreglo+=array('v_precio_normal'=>$esquema->precio_normal);
+				$arreglo+=array('v_total_normal'=>$esquema->total_menudeo);
+
+				$arreglo+=array('v_precio_mayoreo'=>$esquema->precio_mayoreo);
+				$arreglo+=array('v_total_mayoreo'=>$esquema->total_mayoreo);
+
+				$arreglo+=array('v_precio_distribuidor'=>$esquema->precio_distribuidor);
+				$arreglo+=array('v_total_distribuidor'=>$esquema->total_distribuidor);
+
+				$arreglo+=array('mayoreo_cantidad'=>$producto->mayoreo_cantidad); //define el stock minimo para alcanzar el precio mayoreo y distribuidor en el esquema 2
+				$arreglo+=array('distri_cantidad'=>$producto->distri_cantidad);
+
+				$arreglo+=array('cantidad_mayoreo'=>$producto->cantidad_mayoreo);	//define el stock minimo para alcanzar el precio mayoreo y distribuidor en el esquema 1
+				$arreglo+=array('monto_mayor'=>$producto->monto_mayor);
+				$arreglo+=array('monto_distribuidor'=>$producto->monto_distribuidor);
+
+				$arreglo+=array('v_precio'=>$precio);
 				$x=$this->insert('bodega', $arreglo);
 				$ped=json_decode($x);
 
 				$total=$this->suma_venta($idventa);
-
 				if($ped->error==0){
+
+					parent::recalcular($idproducto);
+
+
 					$arreglo =array();
 					$arreglo+=array('idventa'=>$idventa);
 					$arreglo+=array('error'=>0);
@@ -161,7 +206,6 @@ class Venta extends Sagyc{
 					$arreglo+=array('total'=>$total);
 					$fecha1 = date ( "Y-m-d" , strtotime($date) );
 					$arreglo+=array('fecha'=>$fecha1);
-					$arreglo+=array('error'=>0);
 					return json_encode($arreglo);
 				}
 				else{
@@ -180,11 +224,23 @@ class Venta extends Sagyc{
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function borrar_venta(){
+
 		$idbodega=$_REQUEST['idbodega'];
 		$idventa=$_REQUEST['idventa'];
-		$x=$this->borrar('bodega',"idbodega",$idbodega);
-		$total=$this->suma_venta($idventa);
 
+		$sql="select * from bodega where idbodega='$idbodega'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$bodega=$sth->fetch(PDO::FETCH_OBJ);
+
+		$x=$this->borrar('bodega',"idbodega",$idbodega);
+		
+		$ped=json_decode($x);
+		if($ped->error==0){
+			parent::recalcular($bodega->idproducto, "FECHA" ,$bodega->fecha);
+		}
+
+		$total=$this->suma_venta($idventa);
 		$arreglo =array();
 		$arreglo+=array('idventa'=>$idventa);
 		$arreglo+=array('error'=>0);
@@ -224,16 +280,22 @@ class Venta extends Sagyc{
 		}
 	}
 	public function suma_venta($idventa){
+
+		///////////////corregir este
 		$sql="select sum(v_precio * v_cantidad) as total from bodega where idventa='$idventa' ";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		$rex=$sth->fetch(PDO::FETCH_OBJ);
+		$total=$rex->total;
+		$subtotal=$total/1.16;
+		$iva=$total-$subtotal;
 
 		$arreglo=array();
-		$arreglo+=array('total'=>$rex->total);
+		$arreglo+=array('total'=>$rex->total,'subtotal'=>$subtotal, 'iva'=>$iva);
 		$this->update('venta',array('idventa'=>$idventa), $arreglo);
 		return $rex->total;
 	}
+
 	public function finalizar_venta(){
 
 		$total_g=clean_var($_REQUEST['total_g']);
@@ -267,6 +329,137 @@ class Venta extends Sagyc{
 		catch(PDOException $e){
 			return "Database access FAILED! ".$e->getMessage();
 		}
+	}
+	public function esquemas($idproducto,$cantidad){
+
+		$sql="SELECT * from productos	where idproducto=:id";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":id",$idproducto);
+		$sth->execute();
+		$producto=$sth->fetch(PDO::FETCH_OBJ);
+
+
+		///////////////comienzan variables
+		$monto_mayor=$producto->monto_mayor;
+		$monto_distribuidor=$producto->monto_distribuidor;
+		$esquema=$producto->esquema;
+
+		////////////////
+		$precio=$producto->precio;
+		$precio_mayoreo=$producto->precio_mayoreo;
+		$precio_distri=$producto->precio_distri;
+		$cantidad_mayoreo=$producto->cantidad_mayoreo;
+
+		//////////////para esquema 2
+		$mayoreo_cantidad=$producto->mayoreo_cantidad;
+		$distri_cantidad=$producto->distri_cantidad;
+
+
+		///////////////terminan variables
+
+		//////////////// empieza el caclulo de los esquemas cuando se selecciona un producto antes de agregarlo (pantalla agregar producto)
+
+		if($esquema==0){//esquema 0
+			$total_menudeo=($precio*$cantidad);
+			$precio_f=$precio;
+
+			$total_menudeo=$total_menudeo;
+			$total_mayoreo=$total_menudeo;
+			$total_distribuidor=$total_menudeo;
+
+			$precio_mayoreo=$total_menudeo;
+			$precio_distri=$total_menudeo;
+
+		}
+
+		else if($esquema==1){
+			$total_menudeo=($precio*$cantidad);
+
+			$precio_f=$precio;
+
+			////////////////validaciones
+			if($cantidad_mayoreo>0 and $monto_mayor>0 and $precio_mayoreo>0){
+				///////////la buena
+				$total_mayoreo=($precio_mayoreo*$cantidad);
+			}
+			else{
+				$total_mayoreo=$total_menudeo;
+			}
+			if($cantidad_mayoreo>0 and $monto_distribuidor>0 and $precio_distri>0){
+				///////////la buena
+				$total_distribuidor=($precio_distri*$cantidad);
+			}
+			else{
+				$total_distribuidor=$total_menudeo;
+			}
+
+			///////////////calculo
+			$precio=$total_menudeo;
+
+			if($total_mayoreo>=$monto_mayor and $total_mayoreo<$monto_distribuidor){
+				////////////cuando es mayor que 1000
+				$precio=$precio_mayoreo;
+			}
+			else if($total_distribuidor>=$monto_distribuidor){
+				/////////////cuando es mayor que 3000
+				$precio=$precio_distri;
+			}
+			else if($cantidad>=$cantidad_mayoreo){
+				//////////////cuando es mayor de 10
+				$precio=$precio_mayoreo;
+			}
+			else{
+				$precio=$precio_f;
+			}
+		}
+		else if($esquema==2){//esquema 2
+			$total_menudeo=($precio*$cantidad);
+			$precio_f=$precio;
+
+			//////////////validaciones
+			if($precio_mayoreo>0 and $mayoreo_cantidad>0){
+				$total_mayoreo=($precio_mayoreo*$cantidad);
+			}
+			else{
+				$total_mayoreo=$total_menudeo;
+			}
+
+			if($precio_distri>0 and $distri_cantidad>0){
+				$total_distribuidor=($precio_distri*$cantidad);
+			}
+			else{
+				$total_distribuidor=$total_menudeo;
+			}
+
+			///////////////calculo
+			$precio=$precio_f;
+			if($cantidad>=$mayoreo_cantidad and $cantidad<$distri_cantidad){
+				$precio=$precio_mayoreo;
+			}
+			else if($cantidad>=$distri_cantidad){
+				$precio=$precio_distri;
+			}
+		}
+
+		$arreglo =array();
+		$arreglo+=array('error'=>0);
+		$arreglo+=array('total_menudeo'=>$total_menudeo);
+		$arreglo+=array('total_mayoreo'=>$total_mayoreo);
+		$arreglo+=array('total_distribuidor'=>$total_distribuidor);
+
+		$arreglo+=array('precio_normal'=>$precio_f);
+		$arreglo+=array('precio_mayoreo'=>$precio_mayoreo);
+		$arreglo+=array('precio_distribuidor'=>$precio_distri);
+
+		$arreglo+=array('precio'=>$precio);
+		return json_encode($arreglo);
+	}
+	public function esquemas_prev(){
+		////////////////////checar aca que variables quedan
+		$idproducto=clean_var($_REQUEST['idproducto']);
+		$cantidad=clean_var($_REQUEST['cantidad']);
+
+		return self::esquemas($idproducto,$cantidad);
 	}
 }
 

@@ -3,10 +3,10 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
-	echo "<hr>";
+	echo "<br>";
 	echo print_r($_REQUEST);
 	echo "</div>";
 }
@@ -17,16 +17,23 @@ class Compras extends Sagyc{
 	public function __construct(){
 		parent::__construct();
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('COMPRAS', $this->derecho)) {
+			////////////////PERMISOS
+			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='COMPRAS'";
+			$stmt= $this->dbh->query($sql);
 
+			$row =$stmt->fetchObject();
+			$this->nivel_personal=$row->nivel;
+			$this->nivel_captura=$row->captura;
 		}
 		else{
 			include "../error.php";
 			die();
 		}
 	}
-	public function compras_lista(){
+	public function compras_lista($pagina){
 		try{
-			$sql="SELECT * FROM compras where idsucursal='".$_SESSION['idsucursal']."' order by numero desc";
+			$pagina=$pagina*$_SESSION['pagina'];
+			$sql="SELECT * FROM compras where idsucursal='".$_SESSION['idsucursal']."' order by numero desc limit $pagina,".$_SESSION['pagina']."";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -124,10 +131,17 @@ class Compras extends Sagyc{
 	public function agregacompra(){
 
 		$idcatalogo=$_REQUEST['idcatalogo'];
-		$precio=$_REQUEST['precio'];
+		$preciocompra=$_REQUEST['precio'];
 		$idcompra=$_REQUEST['idcompra'];
 		$observaciones=$_REQUEST['observaciones'];
 		$cantidad=$_REQUEST['cantidad'];
+
+		if(strlen($cantidad)==0 or $cantidad==0){
+			$arr=array();
+			$arr+=array('error'=>1);
+			$arr+=array('terror'=>"Verificar cantidad");
+			return json_encode($arr);
+		}
 
 		////////////////////se da de alta el producto en la sucursal
 		$sql="select * from productos where idsucursal='".$_SESSION['idsucursal']."' and idcatalogo='$idcatalogo'";
@@ -136,14 +150,75 @@ class Compras extends Sagyc{
 		if($sth->rowCount()>0){
 			$producto=$sth->fetch(PDO::FETCH_OBJ);
 			$idproducto=$producto->idproducto;
+
+			$arreglo=array();
+			$arreglo+=array('preciocompra'=>$preciocompra);
+			$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
 		}
 		else{
-			$arreglo=array();
+			///////////////////
+			////////////busca en el catalogo el tipo de producto
+			$sql="select * from productos_catalogo where idcatalogo='$idcatalogo'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$catalogo=$sth->fetch(PDO::FETCH_OBJ);
+			$tipo=$catalogo->tipo;
+
+			$arreglo =array();
 			$arreglo+=array('idcatalogo'=>$idcatalogo);
 			$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
-		//	$arreglo+=array('preciocompra'=>$precio);
 			$arreglo+=array('activo_producto'=>1);
+			if($tipo==0){
+				$arreglo+=array('cantidad'=>1);
+			}
+			else{
+				$arreglo+=array('cantidad'=>0);
+			}
+
+			////////////busca el primer producto que encuentre para duplicarlo en sucursal
+			$sql="select * from productos where idcatalogo='$idcatalogo' order by idproducto asc limit 1";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			if($sth->rowCount()>0){
+				$producto=$sth->fetch(PDO::FETCH_OBJ);
+				$precio=$producto->precio;
+				$stockmin=$producto->stockmin;
+				$cantidad_mayoreo=$producto->cantidad_mayoreo;
+				$precio_mayoreo=$producto->precio_mayoreo;
+				$precio_distri=$producto->precio_distri;
+				$mayoreo_cantidad=$producto->mayoreo_cantidad;
+				$distri_cantidad=$producto->distri_cantidad;
+				$esquema=$producto->esquema;
+				$monto_mayor=$producto->monto_mayor;
+				$monto_distribuidor=$producto->monto_distribuidor;
+			}
+			else{
+				$precio=0;
+				$stockmin=0;
+				$cantidad_mayoreo=10;
+				$precio_mayoreo=0;
+				$precio_distri=0;
+				$mayoreo_cantidad=0;
+				$distri_cantidad=0;
+				$esquema=0;
+				$monto_mayor=1000;
+				$monto_distribuidor=3000;
+				$stockmin=1;
+			}
+
+			$arreglo+=array('preciocompra'=>$preciocompra);
+			$arreglo+=array('precio'=>$precio);
+			$arreglo+=array('stockmin'=>$stockmin);
+			$arreglo+=array('cantidad_mayoreo'=>$cantidad_mayoreo);
+			$arreglo+=array('precio_mayoreo'=>$precio_mayoreo);
+			$arreglo+=array('precio_distri'=>$precio_distri);
+			$arreglo+=array('mayoreo_cantidad'=>$mayoreo_cantidad);
+			$arreglo+=array('distri_cantidad'=>$distri_cantidad);
+			$arreglo+=array('esquema'=>$esquema);
+			$arreglo+=array('monto_mayor'=>$monto_mayor);
+			$arreglo+=array('monto_distribuidor'=>$monto_distribuidor);
 			$x=$this->insert('productos', $arreglo);
+			///////////////////
 
 			$ped=json_decode($x);
 			if($ped->error==0){
@@ -152,24 +227,20 @@ class Compras extends Sagyc{
 		}
 
 		$arreglo=array();
+		$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
+		$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
 		$arreglo+=array('idcompra'=>$idcompra);
 		$arreglo+=array('idproducto'=>$idproducto);
 		$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 		$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 		$arreglo+=array('observaciones'=>$observaciones);
 		$arreglo+=array('cantidad'=>$cantidad);
-		$arreglo+=array('c_precio'=>$precio);
+		$arreglo+=array('c_precio'=>$preciocompra);
 		$x=$this->insert('bodega', $arreglo);
-
 
 		$arr=array();
 		$arr+=array('id'=>$idcompra);
 		$arr+=array('error'=>0);
-
-
-		$this->cantidad_update($idproducto,3);
-
-
 		return json_encode($arr);
 	}
 	public function borrar_registro(){

@@ -3,10 +3,10 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
-	echo "<hr>";
+	echo "<br>";
 	echo print_r($_REQUEST);
 	echo "</div>";
 }
@@ -19,7 +19,13 @@ class Pedidos extends Sagyc{
 	public function __construct(){
 		parent::__construct();
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('CITAS', $this->derecho)) {
+			////////////////PERMISOS
+			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='CITAS'";
+			$stmt= $this->dbh->query($sql);
 
+			$row =$stmt->fetchObject();
+			$this->nivel_personal=$row->nivel;
+			$this->nivel_captura=$row->captura;
 		}
 		else{
 			include "../error.php";
@@ -92,8 +98,8 @@ class Pedidos extends Sagyc{
 			if (isset($_REQUEST['buscar']) and strlen(trim($_REQUEST['buscar']))>0){
 				$texto=trim(htmlspecialchars($_REQUEST['buscar']));
 				$sql="SELECT * from pedidos
-				left outer join clientes on clientes.id=pedidos.idcliente
-				where pedidos.id like '%$texto%' or pedidos.estatus like '%$texto%' or clientes.nombre like '%$texto' order by pedidos.id desc limit 100";
+				left outer join clientes on clientes.id=citas.idcliente
+				where citas.idcitas like '%$texto%' or citas.estatus like '%$texto%' or clientes.nombre like '%$texto' order by citas.idcitas desc limit 100";
 			}
 			else{
 				$sql="SELECT * from citas order by citas.idcitas desc";
@@ -115,13 +121,13 @@ class Pedidos extends Sagyc{
 
 			$hora_fin=$_REQUEST['hora_fin'];
 			$minuto_fin=$_REQUEST['minuto_fin'];
-			if (!isset($_REQUEST['idcliente']) or strlen($_REQUEST['idcliente'])==0 or $_REQUEST['idcliente']==0){
+		/*	if (!isset($_REQUEST['idcliente']) or strlen($_REQUEST['idcliente'])==0 or $_REQUEST['idcliente']==0){
 				$resp=array();
 				$resp+=array('id'=>0);
 				$resp+=array('error'=>1);
 				$resp+=array('terror'=>'Falta seleccionar cliente');
 				return json_encode($resp);
-			}
+			}*/
 
 			if (isset($_REQUEST['fecha']) and strlen($_REQUEST['fecha'])>0){
 				$fx=explode("-",$_REQUEST['fecha']);
@@ -131,6 +137,9 @@ class Pedidos extends Sagyc{
 			if (isset($_REQUEST['fecha']) and strlen($_REQUEST['fecha'])>0){
 				$fx=explode("-",$_REQUEST['fecha']);
 				$arreglo+=array('fecha_fin'=>$fx['2']."-".$fx['1']."-".$fx['0']." $hora_fin:$minuto_fin:00");
+			}
+			if (isset($_REQUEST['asunto'])){
+				$arreglo+= array('asunto'=>$_REQUEST['asunto']);
 			}
 			if (isset($_REQUEST['estatus'])){
 				$arreglo+= array('estatus'=>$_REQUEST['estatus']);
@@ -176,12 +185,7 @@ class Pedidos extends Sagyc{
 			productos_catalogo.tipo,
 			productos.idproducto,
 			productos.activo_producto,
-			productos.cantidad,
 			productos.precio,
-			productos.preciocompra,
-			productos.preciom,
-			productos.preciod,
-			productos.stockmin,
 			productos.idsucursal
 			from productos
 			LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
@@ -231,9 +235,10 @@ class Pedidos extends Sagyc{
 	}
 
 	public function borrar_cita(){
-		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		if (isset($_REQUEST['idcita'])){$id=$_REQUEST['idcita'];}
 		return $this->borrar('citas',"idcitas",$id);
 	}
+
 
 	public function info($id){
 		try{
@@ -341,8 +346,6 @@ class Pedidos extends Sagyc{
 			productos.cantidad,
 			productos.precio,
 			productos.preciocompra,
-			productos.preciom,
-			productos.preciod,
 			productos.stockmin,
 			productos.idsucursal
 			from productos

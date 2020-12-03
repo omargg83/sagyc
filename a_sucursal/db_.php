@@ -3,10 +3,10 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
-	echo "<hr>";
+	echo "<br>";
 	echo print_r($_REQUEST);
 	echo "</div>";
 }
@@ -17,7 +17,13 @@ class Sucursal extends Sagyc{
 	public function __construct(){
 		parent::__construct();
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('SUCURSAL', $this->derecho)) {
+			////////////////PERMISOS
+			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='SUCURSAL'";
+			$stmt= $this->dbh->query($sql);
 
+			$row =$stmt->fetchObject();
+			$this->nivel_personal=$row->nivel;
+			$this->nivel_captura=$row->captura;
 		}
 		else{
 			include "../error.php";
@@ -50,8 +56,24 @@ class Sucursal extends Sagyc{
 	public function guardar_sucursal(){
 		$x="";
 		$arreglo =array();
-
 		$idsucursal=$_REQUEST['idsucursal'];
+		$matriz=$_REQUEST['matriz'];
+		$arreglo+=array('matriz'=>$matriz);
+
+		if($matriz==1){
+			$sql="select * from sucursal where idsucursal!=$idsucursal and matriz=1";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$matriz=$sth->fetch(PDO::FETCH_OBJ);
+			if ($sth->rowCount()>0){
+				$arreglo =array();
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Solo puede existir una matriz");
+				return json_encode($arreglo);
+			}
+		}
+
+
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
@@ -70,6 +92,13 @@ class Sucursal extends Sagyc{
 		if (isset($_REQUEST['ubicacion'])){
 			$arreglo+=array('ubicacion'=>$_REQUEST['ubicacion']);
 		}
+		if (isset($_REQUEST['estado'])){
+			$arreglo+=array('estado'=>$_REQUEST['estado']);
+		}
+		if (isset($_REQUEST['tipoticket'])){
+			$arreglo+=array('tipoticket'=>$_REQUEST['tipoticket']);
+		}
+
 
 		if($idsucursal==0){
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);

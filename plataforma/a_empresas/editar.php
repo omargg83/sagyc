@@ -10,6 +10,9 @@
 	$estado="";
 	$nombre_sis="";
 	$activo="";
+	$desglose=0;
+	$mensaje="";
+	$logotipo="";
 
 	if($idtienda>0){
 		$pd = $db->tienda($idtienda);
@@ -21,6 +24,9 @@
 		$estado=$pd->estado;
 		$nombre_sis=$pd->nombre_sis;
 		$activo=$pd->activo;
+		$desglose=$pd->desglose;
+		$mensaje=$pd->mensaje;
+		$logotipo=$pd->logotipo;
 	}
 
 ?>
@@ -34,6 +40,17 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
+					<div class="col-xl col-auto">
+						<?php
+							if(strlen($logotipo)>0 and file_exists("../".$db->f_empresas."/".$logotipo)){
+								echo "<img src='".$db->f_empresas."/".$logotipo."' width='100%' class='img-thumbnail'/>";
+							}
+							else{
+								echo "<img src='../img/logo.png' width='100%' class='img-thumbnail'/>";
+							}
+					  ?>
+					</div>
+
 					<div class="col-3">
 						<label>Razón social:</label>
 						<input type="text" class="form-control form-control-sm" name="razon" id="razon" value="<?php echo $razon;?>" placeholder="Razón">
@@ -73,12 +90,34 @@
 						</select>
 					</div>
 				</div>
+
+				<div class='row'>
+					<div class='col-3'>
+						<label>Desglose de iva</label>
+						<select class="form-control form-control-sm" name="desglose" id="desglose"required>
+							<option value='0'<?php if($desglose=='0') echo 'selected'; ?> >NO</option>
+							<option value='1'<?php if($desglose=='1') echo 'selected'; ?> >SI</option>
+						</select>
+					</div>
+					<div class="col-6">
+						<label>Mensaje ticket</label>
+							<input type="text" class="form-control form-control-sm" name="mensaje" id="mensaje" value="<?php echo $mensaje;?>" placeholder="Mensaje del ticket" maxlength='145'>
+					</div>
+
+				</div>
+
 			</div>
 			<div class='card-footer'>
 				<div class="row">
 					<div class="col-sm-12">
 						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
 						<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_empresas/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+						<?php
+						if($idtienda>0){
+						echo"	<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_empresas/form_foto' v_idtienda='$idtienda' omodal='1'><i class='fas fa-camera'></i>Foto</button>";
+						}
+						?>
+
 					</div>
 				</div>
 			</div>

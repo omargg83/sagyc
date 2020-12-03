@@ -1,20 +1,24 @@
 <?php
 	session_name("chingon");
 	@session_start();
-	if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
-	if (isset($_REQUEST['ctrl'])){$ctrl=$_REQUEST['ctrl'];}	else{ $ctrl="";}
+	if (isset($_REQUEST['function'])){$function=clean_var($_REQUEST['function']);}	else{ $function="";}
+	if (isset($_REQUEST['ctrl'])){$ctrl=clean_var($_REQUEST['ctrl']);}	else{ $ctrl="";}
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
 	date_default_timezone_set("America/Mexico_City");
-	$_SESSION['des']=1;
 
 	require_once("init.php");
+
 	class Sagyc{
 		public $nivel_personal;
 		public $nivel_captura;
 		public $limite=300;
 		public $derecho=array();
+
+		public $f_productos="a_archivos/productos/";
+		public $f_usuarios="a_archivos/usuarios/";
+		public $f_empresas="img/logos/";
 
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
@@ -22,6 +26,7 @@
 				$this->Salud = array();
 				$this->dbh = new PDO("mysql:host=".SERVIDOR.";port=".PORT.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
 				$this->dbh->query("SET NAMES 'utf8'");
+
 
 				if(isset($_SESSION['idtienda'])){
 					$sql="SELECT * FROM tienda where idtienda=:idtienda";
@@ -611,11 +616,11 @@
 			$dirint = dir($directory);
 			$x.= "<ul class='nav navbar-nav navbar-right'>";
 				$x.= "<li class='nav-item dropdown'>";
-					$x.= "<a class='nav-link dropdown-toggle text-dark' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-desktop'></i>Fondos</a>";
+					$x.= "<a class='nav-link dropdown-toggle text-dark' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-desktop'></i></a>";
 					$x.= "<div class='dropdown-menu' aria-labelledby='navbarDropdown' style='width: 200px;max-height: 400px !important;overflow: scroll;overflow-x: scroll;overflow-x: hidden;'>";
 					while (($archivo = $dirint->read()) !== false){
 						if ($archivo != "." && $archivo != ".." && $archivo != "" && substr($archivo,-4)==".jpg"){
-							$x.= "<a class='dropdown-item' href='#' id='fondocambia' title='Click para aplicar el fondo' onclick='fondo(\"$directory$archivo\")'><img src='$directory".$archivo."' alt='Fondo' class='rounded' style='width:140px;height:80px'></a>";
+							$x.= "<img src='$directory".$archivo."' is='p-fondo' v_fondo='$directory$archivo'alt='Fondo' class='rounded mt-3 mx-3' style='width:140px;height:80px'>";
 						}
 					}
 					$x.= "</div>";
@@ -680,6 +685,136 @@
 				return "Database access FAILED!".$e->getMessage();
 			}
 
+		}
+
+		public function fija(){
+			$sidebar=$_REQUEST['sidebar'];
+			$_SESSION['sidebar']=$sidebar;
+			$arreglo =array();
+			$arreglo+=array('sidebar'=>$sidebar);
+			return $this->update('usuarios',array('idusuario'=>$_SESSION['idusuario']), $arreglo);
+		}
+		public function recalcular($idproducto=0, $idbodega="", $fecha=""){
+			$existencia=0;
+			/* USO:
+				1. El producto puede ser por ajax o por llamada a funcion
+				2. la bodega puede partir de idbodega o de fecha  tambien es por xajax o llamada a funcion
+				3. La fecha puede ser por ajax o por llamada a funcion
+
+				casos de uso
+				1. recalcular producto: recalcula a partir de la ultima existencia, si no hay, recalcula desde el inicio de los tiempos ya que no ha sido sumado nunca
+					recualcular($idproducto) o $request->  recalcular();
+
+				2. recalcular producto desde inicio de los tiempos -> recalcula todo es para casos de emergencia
+					recalcular ($idproducto,"INICIO","") O $request recalcular()
+
+				3. Recalcular a partir de bodega: se recalcula desde el idbodega selecionado
+					recalcular ($idproducto,$idbodega,"") O $request recalcular()
+
+				4. Recalcular a partir de bodega con fecha: se recalcula desde la fecha anterior a la que se manda. es mas para eliminados
+				 	recalcular($idproducto, "FECHA" ,$bodega->fecha);
+			*/
+
+			if(isset($_REQUEST['fecha'])){
+				$fecha=clean_var($_REQUEST['fecha']);
+			}
+
+			if($idproducto==0){
+				$idproducto=clean_var($_REQUEST['idproducto']);
+			}
+			if(strlen($idbodega)==0){
+				if(isset($_REQUEST['idbodega'])){
+					$idbodega=clean_var($_REQUEST['idbodega']);
+				}
+			}
+
+			//echo "\n Bodega: $idbodega";
+			if($idbodega=="INICIO"){
+				/////////////////////desde inicio de los tiempos
+				//echo "\n INICIO";
+				$sql="select * from bodega where idproducto=$idproducto order by fecha asc";
+			}
+			else if($idbodega>0 or ($idbodega!="INICIO" and strlen($idbodega)>0)){
+
+				////////////////para cuando existe un registro del cual partir de idbodega
+				//echo "\n uno";
+
+				if($idbodega!="FECHA"){
+					//////////// se extrae el actual idbodega para obtener fecha;
+					//echo "\n idbodega $idbodega";
+					$sql="select * from bodega where idproducto=$idproducto and idbodega=$idbodega";
+					//echo "\n $sql";
+					$sth = $this->dbh->prepare($sql);
+					$sth->execute();
+					$reg=$sth->fetch(PDO::FETCH_OBJ);
+				}
+				else{
+					///////////////a partir de la fecha extrae el ultimo para partir de ahi
+					//echo "\n fecha $fecha";
+					$sql="select * from bodega where idproducto=$idproducto and fecha<'$fecha' order by fecha desc limit 1";
+					//echo "\n $sql";
+					$sth = $this->dbh->prepare($sql);
+					$sth->execute();
+					$reg=$sth->fetch(PDO::FETCH_OBJ);
+				}
+
+				$sql="select * from bodega where idproducto=$idproducto and fecha<'$reg->fecha' order by fecha desc limit 1";
+				//echo "\n $sql";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				if($sth->rowCount()>0){
+					$inicio=$sth->fetch(PDO::FETCH_OBJ);
+					$existencia=$inicio->existencia;
+
+					$sql="select * from bodega where idproducto=$idproducto and fecha>'$inicio->fecha' order by fecha asc";
+				}
+				else{
+					$existencia=0;
+					$sql="select * from bodega where idproducto=$idproducto order by fecha asc";
+				}
+				//////comenzara desde el registro idbodega
+				//echo "\n $sql";
+			}
+			else{
+				///////////////////busca el ultimo que este no tenga null para partir desde ahi
+				//echo "\n dos";
+				//echo "\n $idbodega";
+				/////////////////////suma desde el anterior al ultimo insertado
+				$sql="select * from bodega where idproducto=$idproducto and existencia is not null order by fecha desc limit 1 ";
+				//echo "\n $sql";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				if($sth->rowCount()>0){
+					$inicio=$sth->fetch(PDO::FETCH_OBJ);
+					$existencia=$inicio->existencia;
+					$idbodega=$inicio->idbodega;
+					$sql="select * from bodega where idproducto=$idproducto and idbodega>$idbodega";
+				}
+				else{
+					/////////////////////desde el inicio de los tiempos ya que nunca ha sido sumado.
+					$sql="select * from bodega where idproducto=$idproducto order by fecha asc";
+				}
+			}
+
+			//echo "\n $sql";
+			$sth = $this->dbh->query($sql);
+			foreach($sth->fetchAll(PDO::FETCH_OBJ) as $bodega){
+				$existencia=$bodega->cantidad+$existencia;
+				$arreglo=array();
+				$arreglo+=array('existencia'=>$existencia);
+				self::update('bodega',array('idbodega'=>$bodega->idbodega), $arreglo);
+			}
+
+			//echo "\n Existencia: $existencia";
+
+			$arreglo =array();
+			$arreglo+=array('cantidad'=>$existencia);
+			$x=$this->update('productos',array('idproducto'=>$idproducto), $arreglo);
+
+			$arreglo =array();
+			$arreglo+=array('id'=>$idproducto);
+			$arreglo+=array('error'=>0);
+			return json_encode($arreglo);
 		}
 	}
 

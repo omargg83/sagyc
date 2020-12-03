@@ -21,6 +21,8 @@
 	<link rel="stylesheet" href="lib/load/css-loader.css">
 	<link rel="stylesheet" type="text/css" href="lib/modulos.css"/>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="chat/chat.css" />
+	<link href="lib/animate.min.css" rel="stylesheet"/>
 </head>
 
 <?php
@@ -29,37 +31,47 @@
 ?>
 
 <header class="d-block p-2" id='header'>
-	<nav class='barraprincipal navbar navbar-expand-sm fixed-top navbar-light bg-light text-'  style='background-color: #e4e9ee !important; color: white !important;'>
+	<nav class='barraprincipal navbar navbar-expand-md fixed-top navbar-light bg-light' >
 
 		<button class="btn btn-warning btn-sm mr-2" type="button" onclick='fijar()'><i class='fas fa-bars'></i></button>
 
 	  <img src='img/sagyc.png' width='60' height='30' alt=''>
 	  <a class='navbar-brand text-black text-center ml-3' href='#'>
-			<?php echo $_SESSION['n_sistema'];  if($_SESSION['a_sistema']==0){ echo " - SISTEMA INACTIVO";}?>  </a>
+			<?php
+			echo $_SESSION['n_sistema'];
+			echo "<small> - ".$_SESSION['sucursal_nombre']."</small>";
+			if($_SESSION['a_sistema']==0){
+				echo " - SISTEMA INACTIVO";
+			}
+			?>  </a>
 	  <button class='navbar-toggler collapsed' type='button' data-toggle='collapse' data-target='#navbarsExample06' aria-controls='navbarsExample06' aria-expanded='false' aria-label='Toggle navigation'>
 	    <span class='navbar-toggler-icon'></span>
 	  </button>
 	  <div class='navbar-collapse collapse' id='navbarsExample06' style=''>
 
-	    <ul class='navbar-nav mr-auto'>
-
-	    </ul>
-      <ul class='nav navbar-nav navbar-right text-white' id='precios'>
+	    <ul class='navbar-nav mr-auto px-1'></ul>
+			<ul class='nav navbar-nav navbar-right px-1' id='chatx'></ul>
+			<?php
+				if($_SESSION['a_sistema']==1){
+      		echo "<ul class='nav navbar-nav navbar-right px-1' id='fondo'></ul>";
+			 	}
+			?>
+      <ul class='nav navbar-nav navbar-right px-1' id='precios'>
 				<?php
 					if($_SESSION['a_sistema']==1){
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_precios/index' omodal='1'><i class='fas fa-check-circle'></i>Precios</button>";
+						echo "<li class='nav-item'>";
+		          echo "<a class='nav-link pull-left bg-warning rounded' is='b-link' des='a_precios/index' omodal='1'>";
+		            echo "<i class='fas fa-search-dollar'></i>";
+		          echo "</a>";
+		        echo "</li>";
 					}
 				?>
 			</ul>
-			<?php
-				if($_SESSION['a_sistema']==1){
-      	 echo "<ul class='nav navbar-nav navbar-right text-white' id='fondo'></ul>";
-			 	}
-			?>
-      <ul class='nav navbar-nav navbar-right'>
+
+      <ul class='nav navbar-nav navbar-right px-1'>
         <li class='nav-item'>
-          <a class='nav-link pull-left text-black' onclick='salir()'>
-            <i class='fas fa-sign-out-alt text-dark'></i> Salir
+          <a class='nav-link pull-left border border-warning rounded' onclick='salir()'>
+            <i class='fas fa-sign-out-alt text-dark'></i>
           </a>
         </li>
       </ul>
@@ -71,17 +83,30 @@
 	<div class='wrapper' >
 	  <div class='content navbar-default'>
 	    <div class='container-fluid'>
-	      <div class='sidebar sidenav' id='navx'>
 
+					<?php
+						if($_SESSION['sidebar']==1){
+							echo "<div class='sidebar_fija' id='navx'>";
+						}
+						else{
+							echo "<div class='sidebar' id='navx'>";
+						}
+					?>
 
 					<div class="sidebar-header">
 		        <div class="user-pic">
-		          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
+							<?php
+								if(strlen($_SESSION['foto'])>0 and file_exists($db->f_usuarios."/".$_SESSION['foto'])){
+									echo "<img class='img-responsive img-rounded' src='".$db->f_usuarios.$_SESSION['foto']."' alt='User picture'>";
+								}
+								else{
+									echo "<img class='img-responsive img-rounded' src='https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg' alt='User picture'>";
+								}
+							?>
 		        </div>
-		        <div class="user-info">
-		          <span class="user-name"><?php echo "algo"; ?>
-		          </span>
-		          <span class="user-role">Administrator</span>
+		        <div class="user-info" style='width: 80px; white-space: nowrap; text-overflow: ellipsis;overflow: hidden;'>
+		          <span class="user-name" ><?php echo $_SESSION['nombre'] ?></span>
+		          <span class="user-role"><?php echo $_SESSION['sucursal_nombre']; ?></span>
 		          <span class="user-status">
 		            <i class="fa fa-circle"></i>
 		            <span>Online</span>
@@ -98,11 +123,11 @@
 						if(array_key_exists('VENTAREGISTRO', $db->derecho))
 						echo "<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>";
 
-
-
-
 						if(array_key_exists('COMPRAS', $db->derecho))
 						echo "<a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>";
+
+						if(array_key_exists('PRODUCTOS', $db->derecho) and $_SESSION['matriz']==1)
+						echo "<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Catalogo</span></a>";
 
 						if(array_key_exists('INVENTARIO', $db->derecho))
 						echo "<a href='#a_inventario/index' is='menu-link' title='inventario'><i class='fas fa-boxes'></i><span>Inventario</span></a>";
@@ -111,35 +136,47 @@
 						echo "<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>";
 
 						if(array_key_exists('CITAS', $db->derecho))
-						echo "<a href='#a_citas/index' is='menu-link' title='Citas'><i class='far fa-calendar-check'></i><span>Citas</span></a>";
+						echo "<a href='#a_citas/index' is='menu-link' title='Citas'><i class='far fa-calendar-check'></i><span>Citas/Agenda</span></a>";
 
 						if(array_key_exists('PROVEEDORES', $db->derecho))
 						echo "<a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>";
 
-
 						if(array_key_exists('TRASPASOS', $db->derecho))
 						echo "<a href='#a_traspasos/index' is='menu-link' title='Traspasos'><i class='fas fa-arrows-alt-h'></i><span>Traspasos</span></a>";
 
-						if(array_key_exists('DATOSEMP', $db->derecho))
-		        echo "<a href='#a_datosemp/index' is='menu-link' title='Datosemp'><i class='fas fa-wrench'></i><span>Datos Emp.</span></a>";
-
-						if(array_key_exists('USUARIOS', $db->derecho))
-						echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
+						if(array_key_exists('GASTOS', $db->derecho))
+		        echo "<a href='#a_gastos/index' is='menu-link' title='Datosemp'><i class='fas fa-donate'></i><span>Gastos</span></a>";
 
 						if(array_key_exists('REPORTES', $db->derecho) and $_SESSION['a_sistema']==1)
 						echo "<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>";
+
+						if(array_key_exists('USUARIOS', $db->derecho) or $_SESSION['nivel']==66)
+						echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
+
+						if(array_key_exists('DATOSEMP', $db->derecho))
+		        echo "<a href='#a_datosemp/index' is='menu-link' title='Datos de la empresa'><i class='fas fa-wrench'></i><span>Datos Emp.</span></a>";
+
+						if(array_key_exists('SUPERVISOR', $db->derecho))
+		        echo "<a href='#a_supervisor/index' is='menu-link' title='Supervisor'><i class='far fa-eye'></i><span>Supervisor</span></a>";
 					?>
 					</div>
 	      </div>
 			</div>
-	    <div class='fijaproceso main' id='contenido'>
+			<?php
+				if($_SESSION['sidebar']==1){
+					echo "<div class='fijaproceso main_fija' id='contenido'>";
+				}
+				else{
+					echo "<div class='fijaproceso main' id='contenido'>";
+				}
+			?>
 	    </div>
 	  </div>
 	</div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" id="myModal" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog modal-lg" role="document" id='modal_dispo'>
+	<div class="modal-dialog modal-xl" role="document" id='modal_dispo'>
 		<div class="modal-content" id='modal_form'>
 
 		</div>
@@ -159,8 +196,7 @@
 	<script src="lib/jquery/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="lib/jquery/jquery-ui.min.css" />
 
-	<!-- Animation library for notifications   -->
-  <link href="lib/animate.css" rel="stylesheet"/>
+
 
 	<!--   Alertas   -->
 	<script src="lib/swal/dist/sweetalert2.min.js"></script>
@@ -180,6 +216,7 @@
 	<script src="lib/tooltip.js"></script>
 
 	<!--   Propios   -->
+	<script src="chat/chat.js"></script>
 	<script src="sagyc.js"></script>
 	<script src="vainilla.js"></script>
 

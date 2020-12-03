@@ -3,10 +3,10 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
-	echo "<hr>";
+	echo "<br>";
 	echo print_r($_REQUEST);
 	echo "</div>";
 }
@@ -17,7 +17,13 @@ class Categoria extends Sagyc{
 	public function __construct(){
 		parent::__construct();
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('CATEGORIA', $this->derecho)) {
+			////////////////PERMISOS
+			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='CATEGORIA'";
+			$stmt= $this->dbh->query($sql);
 
+			$row =$stmt->fetchObject();
+			$this->nivel_personal=$row->nivel;
+			$this->nivel_captura=$row->captura;
 		}
 		else{
 			include "../error.php";

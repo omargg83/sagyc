@@ -3,10 +3,10 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
-	echo "<hr>";
+	echo "<br>";
 	echo print_r($_REQUEST);
 	echo "</div>";
 }
@@ -16,8 +16,20 @@ class Usuario extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('USUARIOS', $this->derecho)) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('USUARIOS', $this->derecho) or $_SESSION['nivel']==66) {
+			////////////////PERMISOS
+			if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('USUARIOS', $this->derecho)) {
+				$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='USUARIOS'";
+				$stmt= $this->dbh->query($sql);
 
+				$row =$stmt->fetchObject();
+				$this->nivel_personal=$row->nivel;
+				$this->nivel_captura=$row->captura;
+			}
+			if($_SESSION['nivel']==66){
+				$this->nivel_personal=0;
+				$this->nivel_captura=1;
+			}
 		}
 		else{
 			include "../error.php";
@@ -31,18 +43,27 @@ class Usuario extends Sagyc{
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
 	public function usuario_buscar($texto){
-		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda, sucursal.idsucursal, sucursal.nombre as sucursal from usuarios
+		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.correo, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda, usuarios.idsucursal from usuarios
 		left outer join tienda on tienda.idtienda=usuarios.idtienda
-		where usuarios.nombre like '%$texto%' and tienda.idtienda='".$_SESSION['idtienda']."'";
+		where usuarios.nombre like '%$texto%' and tienda.idtienda='".$_SESSION['idtienda']."' order by usuarios.idsucursal";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
   }
-	public function usuario_lista(){
+	public function usuario_lista($pagina){
 		try{
-			$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo,tienda.razon AS tienda FROM usuarios
-			LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
-			where tienda.idtienda='".$_SESSION['idtienda']."'";
+			$pagina=$pagina*$_SESSION['pagina'];
+
+			if($this->nivel_personal==0){
+				$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.idsucursal, usuarios.correo, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo, tienda.razon AS tienda FROM usuarios
+				LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
+				where tienda.idtienda='".$_SESSION['idtienda']."' order by usuarios.idsucursal limit $pagina,".$_SESSION['pagina']."";
+			}
+			else{
+				$sql="SELECT usuarios.idusuario, usuarios.idtienda, usuarios.idsucursal, usuarios.correo, usuarios.nombre, usuarios.USER,	usuarios.pass,	usuarios.nivel,	usuarios.activo, tienda.razon AS tienda FROM usuarios
+				LEFT OUTER JOIN tienda ON tienda.idtienda = usuarios.idtienda
+				where usuarios.idusuario='".$_SESSION['idusuario']."'";
+			}
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -58,6 +79,12 @@ class Usuario extends Sagyc{
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
+  public function caja_lista(){
+		$sql="SELECT * FROM cajas where idsucursal='".$_SESSION['idsucursal']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetchAll(PDO::FETCH_OBJ);
+	}
 	public function guardar_usuario(){
 		$x="";
 		$arreglo =array();
@@ -65,14 +92,17 @@ class Usuario extends Sagyc{
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
+		if (isset($_REQUEST['correo'])){
+			$arreglo+=array('correo'=>$_REQUEST['correo']);
+		}
 		if (isset($_REQUEST['estado'])){
 			$arreglo+=array('activo'=>$_REQUEST['estado']);
 		}
+		if (isset($_REQUEST['correo'])){
+			$arreglo+=array('correo'=>$_REQUEST['correo']);
+		}
 		if (isset($_REQUEST['user'])){
 			$arreglo+=array('user'=>clean_var($_REQUEST['user']));
-		}
-		if (isset($_REQUEST['nivel'])){
-			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
 		}
 		if (isset($_REQUEST['idsucursal'])){
 			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
@@ -80,6 +110,8 @@ class Usuario extends Sagyc{
 
 		if($id==0){
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
+			$arreglo+=array('idfondo'=>"fondo/fondosagyc.jpg");
+			$arreglo+=array('nivel'=>2);
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{
@@ -89,12 +121,22 @@ class Usuario extends Sagyc{
 	}
 	public function password(){
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
-		if (isset($_REQUEST['pass1'])){$pass1=$_REQUEST['pass1'];}
-		if (isset($_REQUEST['pass2'])){$pass2=$_REQUEST['pass2'];}
+		if (isset($_REQUEST['pass1'])){$pass1=strip_tags($_REQUEST['pass1']);}
+		if (isset($_REQUEST['pass2'])){$pass2=strip_tags($_REQUEST['pass2']);}
+
+		$a=self::validar_clave($pass1);
+		if(strlen($a)>0){
+			$arreglo =array();
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>$a);
+			return json_encode($arreglo);
+		}
+
 		if(trim($pass1)==($pass2)){
 			$arreglo=array();
-			$passPOST=md5(trim($pass1));
-			$arreglo=array('pass'=>$passPOST);
+			$pass1=md5("sagyc%chingon$%&/()=".$pass1);
+			$pass1=hash("sha512",$pass1);
+			$arreglo=array('pass'=>$pass1);
 			$x=$this->update('usuarios',array('idusuario'=>$id), $arreglo);
 			return $x;
 		}
@@ -126,30 +168,23 @@ class Usuario extends Sagyc{
 		$x.= "<option value='COMPRAS'>Compras</option>";
 		$x.= "<option value='TRASPASOS'>Traspasos</option>";
 
+		$x.= "<optgroup label='Gastos'>";
+		$x.= "<option value='GASTOS'>Gastos</option>";
+
 		$x.= "<optgroup label='Empresa'>";
 		$x.= "<option value='DATOSEMP'>Datos</option>";
 		$x.= "<option value='SUCURSAL'>Sucursal</option>";
 		$x.= "<option value='REPORTES'>Reportes</option>";
 		$x.= "<option value='USUARIOS'>Usuarios</option>";
+
+		$x.= "<optgroup label='Supervisor'>";
+		$x.= "<option value='SUPERVISOR'>Supervisor</option>";
 		return $x;
 	}
 
 	public function nivel(){
-		$x="";
-		$x.="<option value='0' >0-Administrador</option>";
-		$x.="<option value='1' >1-Subsecretarío</option>";
-		$x.="<option value='2' >2-Dirección</option>";
-		$x.="<option value='3' >3-Subdirector</option>";
-		$x.="<option value='4' >4-Coordinador Administrativo</option>";
-		$x.="<option value='5' >5-Jefe Depto.</option>";
-		$x.="<option value='6' >6-Coordinador</option>";
-		$x.="<option value='7' >7-Secretaria</option>";
-		$x.="<option value='8' >8-Chofer</option>";
-		$x.="<option value='9' >9-Personal</option>";
-		$x.="<option value='10' >10-Informatica</option>";
-		$x.="<option value='11' >11-Administrador del sistema</option>";
-		$x.="<option value='12' >12-Oficialia</option>";
-		return $x;
+		echo "<option value='0' >Administrador</option>";
+		echo "<option value='1' >Personal</option>";
 	}
 	public function guardar_permiso(){
 		$x="";
@@ -205,26 +240,143 @@ class Usuario extends Sagyc{
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'USUARIOS'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'VENTA'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'VENTAREGISTRO'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'PRODUCTOS'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'INVENTARIO'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'CLIENTES'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'CITAS'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'PROVEEDORES'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'COMPRAS'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'TRASPASOS'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'DATOSEMP'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'SUCURSAL'));
-		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>0,'nivel'=>0,'modulo'=>'REPORTES'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'USUARIOS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'VENTA'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'VENTAREGISTRO'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'PRODUCTOS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'INVENTARIO'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'GASTOS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'CLIENTES'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'CITAS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'PROVEEDORES'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'COMPRAS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'TRASPASOS'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'DATOSEMP'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'SUCURSAL'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'REPORTES'));
+		$x=$this->insert('usuarios_permiso', array('idusuario'=>$id,'captura'=>1,'nivel'=>0,'modulo'=>'SUPERVISOR'));
 
 		$arreglo =array();
 		$arreglo+=array('id'=>$id);
 		$arreglo+=array('error'=>0);
 		return json_encode($arreglo);
 	}
+	public function foto(){
+		$x="";
+		$arreglo =array();
+		$idusuario=$_REQUEST['idusuario'];
 
+		$extension = '';
+		$ruta = '../'.$this->f_usuarios;
+		$archivo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($archivo!=""){
+			$extension = $info['extension'];
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$_SESSION['foto']=$nombreFile;
+				$arreglo+=array('archivo'=>$nombreFile);
+			}
+			else{
+				echo "fail";
+				exit;
+			}
+		}
+
+		$sql="update chat_conectados set foto='$nombreFile' where idpersona='".$_SESSION['idusuario']."'";
+		$this->dbh->query($sql);
+
+		return $this->update('usuarios',array('idusuario'=>$idusuario), $arreglo);
+	}
+
+	public function validar_clave($clave){
+		$x="";
+		if(strlen($clave) < 6){
+		  $x= "La clave debe tener al menos 6 caracteres";
+		}
+		if(strlen($clave) > 16){
+		  $x=  "La clave no puede tener más de 16 caracteres";
+		}
+		if (!preg_match('`[a-z]`',$clave)){
+		  $x=  "La clave debe tener al menos una letra minúscula";
+		}
+		if (!preg_match('`[A-Z]`',$clave)){
+		  $x=  "La clave debe tener al menos una letra mayúscula";
+		}
+		if (!preg_match('`[0-9]`',$clave)){
+		  $x=  "La clave debe tener al menos un caracter numérico";
+		}
+		return $x;
+	}
+	public function sucursal($id){
+		try{
+			$sql="select * from sucursal where idsucursal=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function tienda($id){
+		$sql="select * from tienda where idtienda=:idtienda";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idtienda",$id);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+
+	public function cambio_user($id){
+		try{
+
+			$sql="SELECT * FROM usuarios where idusuario=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function cambiar_user(){
+
+		$id=clean_var($_REQUEST['id']);
+		$CLAVE=self::cambio_user($id);
+
+		$_SESSION['autoriza']=1;
+		$_SESSION['nombre']=$CLAVE->nombre;
+
+		$_SESSION['nick']=$CLAVE->user;
+		$_SESSION['idusuario']=$CLAVE->idusuario;
+		$_SESSION['idtienda']=$CLAVE->idtienda;
+		$_SESSION['idsucursal']=$CLAVE->idsucursal;
+		$_SESSION['sidebar']=$CLAVE->sidebar;
+		$_SESSION['idcaja']=$CLAVE->idcaja;
+		$_SESSION['foto']=$CLAVE->archivo;
+
+		$sucursal=self::sucursal($CLAVE->idsucursal);
+		$_SESSION['sucursal_nombre']=$sucursal->nombre;
+		$_SESSION['matriz']=$sucursal->matriz;
+
+		if($_SESSION['a_sistema']==1){
+			$_SESSION['idfondo']=$CLAVE->idfondo;
+		}
+		else{
+			$_SESSION['idfondo']="";
+		}
+
+		$arr=array();
+		$arr=array('acceso'=>1);
+		return json_encode($arr);
+
+	}
 }
 
 $db = new Usuario();

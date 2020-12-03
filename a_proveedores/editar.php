@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	if (isset($_REQUEST['idproveedor'])){$idproveedor=$_REQUEST['idproveedor'];} else{ $idproveedor=0;}
+	if (isset($_REQUEST['idproveedor'])){$idproveedor=clean_var($_REQUEST['idproveedor']);} else{ $idproveedor=0;}
 	$nombre="";
 	$emailp="";
 	$telp="";
@@ -25,21 +25,21 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Nombre Proveedor:</label>
 							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required maxlength="100">
 					</div>
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Email:</label>
 							<input type="text" class="form-control form-control-sm" name="emailp" id="emailp" value="<?php echo $emailp;?>" placeholder="Email" maxlength="100">
 					</div>
 
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Telefonos:</label>
 							<input type="text" class="form-control form-control-sm" name="telp" id="telp" value="<?php echo $telp;?>" placeholder="Telefonos" maxlength="45">
 					</div>
 
-					<div class="col-3">
+					<div class="col-xl col-auto">
 						<label>Dirección:</label>
 							<input type="text" class="form-control form-control-sm" name="dirp" id="dirp" value="<?php echo $dirp;?>" placeholder="Dirección" maxlength="150">
 					</div>
@@ -47,10 +47,16 @@
 			</div>
 			<div class='card-footer'>
 				<div class="row">
-					<div class="col-sm-12">
-
-						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
-						<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link'  des='a_proveedores/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+					<div class="col-xl col-auto">
+						<div class="btn-group">
+							<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
+							<?php
+								if($idproveedor>0){
+									echo "<button type='button' class='btn btn-danger btn-sm' is='b-link' db='a_proveedores/db_' des='a_proveedores/lista' fun='borrar_proveedor' dix='trabajo' v_idproveedor='$idproveedor' id='eliminar' tp='¿Desea eliminar el proveedor seleccionado?'><i class='far fa-trash-alt'></i>Eliminar</button>";
+								}
+							?>
+							<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link'  des='a_proveedores/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+					</div>
 
 					</div>
 				</div>
