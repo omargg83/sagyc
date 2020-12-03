@@ -156,7 +156,7 @@ a.more-link {
   </head>
   <body>
     <h1>PAGINA NO ENCONTRADA</h1>
-    
+
     <section class="error-container">
       <span class="four"><span class="screen-reader-text">4</span></span>
       <span class="zero"><span class="screen-reader-text">0</span></span>
