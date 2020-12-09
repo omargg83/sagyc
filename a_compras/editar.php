@@ -23,16 +23,16 @@ else{
 			<input type="hidden" name="idcompra" id="idcompra" value="<?php echo $idcompra; ?>" class="form-control" readonly>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-xl col-auto">
+					<div class="col-12 col-xl col-auto">
 						<label >Número:</label>
 						<input type="text" class="form-control" name="numero" id="numero" value="<?php echo $numero ;?>" placeholder="Número" readonly>
 						<small>Número interno</small>
 					</div>
-					<div class="col-xl col-auto">
+					<div class="col-12 col-xl col-auto">
 						<label >Nombre:</label>
 						<input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $nombre ;?>" placeholder="Nombre">
 					</div>
-					<div class="col-xl col-auto">
+					<div class="col-12 col-xl col-auto">
 						<label >Proveedor:</label>
 						<?php
 						echo "<select class='form-control' name='idproveedor' id='idproveedor'>";
@@ -48,7 +48,7 @@ else{
 						?>
 					</div>
 
-					<div class="col-xl col-auto">
+					<div class="col-12 col-xl col-auto">
 						<label >Estado:</label>
 						<input type="text" class="form-control" name="estado" id="estado" value="<?php echo $estado ;?>" readonly>
 					</div>
@@ -57,17 +57,14 @@ else{
 			</div>
 			<div class='card-footer'>
 				<div class="row">
-					<div class="col-xl col-auto">
-						<div class="btn-group">
-
+					<div class="col-12 col-xl col-auto">
+						<div class="btn-group flex-wrap">
 						<?php
 							if($estado=="Activa"){
 								echo "<button class='btn btn-warning btn-sm' type='submit'><i class='far fa-save'></i>Guardar</button>";
 							}
 							if($idcompra>0 and $estado=="Activa"){
-
 								echo "<button type='button' class='btn btn-danger btn-sm' is='b-link' db='a_compras/db_' des='a_compras/lista' fun='borrar_compra' dix='trabajo' v_idcompra='$idcompra' id='eliminar' tp='¿Desea eliminar la compra seleccionada?'><i class='far fa-trash-alt'></i>Eliminar</button>";
-
 
 								echo "<button type='button' class='btn btn-warning btn-sm' id='producto_add' is='b-link' v_idcompra='$idcompra' des='a_compras/form_producto' omodal='1' title='Agregar Producto'><i class='fab fa-product-hunt'></i>+ Producto</button>";
 

@@ -6,6 +6,7 @@
 	if(isset($_REQUEST['buscar'])){
 		$texto=$_REQUEST['buscar'];
 		$pd = $db->clientes_buscar($texto);
+		$texto=1;
 	}
 	else{
 		if(isset($_REQUEST['pag'])){
@@ -18,23 +19,23 @@
 
 <div class='tabla_css' id='tabla_css'>
 	<div class='row titulo-row'>
-		<div class='col-xl col-auto'>
+		<div class='col-12 col-xl col-auto'>
 			LISTA DE CLIENTES
 		</div>
 	</div>
 	<div class='row header-row'>
-		<div class='col-xl col-auto'>#</div>
-		<div class='col-xl col-auto'>RFC</div>
-		<div class='col-xl col-auto'>Razon Social</div>
-		<div class='col-xl col-auto'>Nombre</div>
-		<div class='col-xl col-auto'>Correo</div>
-		<div class='col-xl col-auto'>Telefono</div>
+		<div class='col-12 col-xl col-auto'>#</div>
+		<div class='col-12 col-xl col-auto'>RFC</div>
+		<div class='col-12 col-xl col-auto'>Razon Social</div>
+		<div class='col-12 col-xl col-auto'>Nombre</div>
+		<div class='col-12 col-xl col-auto'>Correo</div>
+		<div class='col-12 col-xl col-auto'>Telefono</div>
 	</div>
 
 		<?php
 			foreach($pd as $key){
 				echo "<div class='row body-row' draggable='true'>";
-						echo "<div class='col-xl col-auto'>";
+						echo "<div class='col-12 col-xl col-auto text-center'>";
 							echo "<div class='btn-group'>";
 							if($db->nivel_captura==1){
 								echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_cliente/editar' dix='trabajo' v_id='$key->idcliente'><i class='fas fa-pencil-alt'></i></button>";
@@ -43,11 +44,11 @@
 						echo "</div>";
 					echo "</div>";
 
-					echo "<div class='col-xl col-auto'>".$key->rfc."</div>";
-					echo "<div class='col-xl col-auto'>".$key->razon_social."</div>";
-					echo "<div class='col-xl col-auto'>".$key->nombre."</div>";
-					echo "<div class='col-xl col-auto'>".$key->correo."</div>";
-					echo "<div class='col-xl col-auto'>".$key->telefono."</div>";
+					echo "<div class='col-12 col-xl col-auto text-center'>".$key->rfc."</div>";
+					echo "<div class='col-12 col-xl col-auto text-center'>".$key->razon_social."</div>";
+					echo "<div class='col-12 col-xl col-auto text-center'>".$key->nombre."</div>";
+					echo "<div class='col-12 col-xl col-auto text-center'>".$key->correo."</div>";
+					echo "<div class='col-12 col-xl col-auto text-center'>".$key->telefono."</div>";
 				echo "</div>";
 			}
 		?>
@@ -61,16 +62,7 @@
 		$contar=$sth->fetch(PDO::FETCH_OBJ);
 		$paginas=ceil($contar->total/$_SESSION['pagina']);
 		$pagx=$paginas-1;
-		echo "<br>";
-		echo "<nav aria-label='Page navigation text-center'>";
-			echo "<ul class='pagination'>";
-				echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_cliente/lista' dix='trabajo'>Primera</a></li>";
-				for($i=0;$i<$paginas;$i++){
-					$b=$i+1;
-					echo "<li class='page-item"; if($pag==$i){ echo " active";} echo "'><a class='page-link' is='b-link' title='Editar' des='a_cliente/lista' dix='trabajo' v_pag='$i'>$b</a></li>";
-				}
-				echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_cliente/lista' dix='trabajo' v_pag='$pagx'>Ultima</a></li>";
-			echo "</ul>";
-		echo "</nav>";
+
+		echo $db->paginar($paginas,$pag,$pagx,"a_cliente/lista","trabajo");
 	}
 ?>

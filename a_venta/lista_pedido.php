@@ -13,10 +13,7 @@
     $sth = $db->dbh->prepare($sql);
     $sth->execute();
     $sumas=$sth->fetch(PDO::FETCH_OBJ);
-
-
     $estado_compra=$venta->estado;
-
 		$sumcant=$sumas->cantidad;
 		$sumtotmay=$sumas->total_mayoreo;
   }
@@ -41,106 +38,28 @@
 				echo "<div class='row body-row' draggable='true'>";
 					echo "<div class='col-12'>";
 						echo "<div class='btn-group mr-3'>";
-							if($estado_compra=="Activa"){
-							//	echo "<button class='btn btn-warning btn-sm' id='del_$key->idbodega' type='button' is='is-borraprod' v_idbodega='$key->idbodega' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-								echo "<button class='btn btn-warning btn-sm' id='del_$key->idbodega' type='button' is='is-borraprod' v_idbodega='$key->idbodega' v_idproducto='$key->idproducto' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+							if($estado_compra=="Activa" ){
+								echo "<button class='btn btn-warning btn-sm' id='del_$key->idbodega' type='button' is='is-borraprod' v_idbodega='$key->idbodega'  title='Borrar'><i class='far fa-trash-alt'></i></button>";
 							}
+							if($estado_compra=="Editar" and $key->v_cantidad>0){
+								echo "<button class='btn btn-warning btn-sm' id='can_$key->idbodega' type='button' is='is-cancelaprod' v_idbodega='$key->idbodega'  title='Borrar'><i class='far fa-trash-alt'></i></button>";
+							}
+
 						echo "</div>";
-						echo $key->codigo." - ";
 						echo $key->nombre;
+						echo "<br>".$key->observaciones;
 					echo "</div>";
 
 					echo "<div class='col-4 text-center'>";
 						echo number_format($key->v_cantidad);
 					echo "</div>";
 
-
 					//////////// comparacion de esquemas de descuento /////////////////////////////
-					if ( $key->esquema==0) {
 
-							echo "<div class='col-4 text-right'>";
-								echo number_format($key->v_precio_normal,2);
-								$total=$key->v_precio_normal;
-
-							echo "</div>";
-
-					}
-
-					if ( $key->esquema==2) {
-
-						if ($key->v_cantidad < $key->mayoreo_cantidad) {
-							echo "<div class='col-4 text-right'>";
-								echo number_format($key->v_precio_normal,2);
-								$total=$key->v_precio_normal;
-							echo "</div>";
-						}
-						else if ($key->v_cantidad >= $key->mayoreo_cantidad and $key->v_cantidad < $key->distri_cantidad) {
-							echo "<div class='col-4 text-right'>";
-								echo number_format($key->v_precio_mayoreo,2);
-								$total=$key->v_precio_mayoreo;
-							echo "</div>";
-						}
-
-						else if ($key->v_cantidad >= $key->distri_cantidad) {
-							echo "<div class='col-4 text-right'>";
-								echo number_format($key->v_precio_distribuidor,2);
-								$total=$key->v_precio_distribuidor;
-							echo "</div>";
-						}
-
-
-					}
-
-
-					else if ( $key->esquema==1) {
-
-
-					if ($sumas->total_mayoreo < $key->monto_mayor and $sumcant < $key->cantidad_mayoreo){
 					echo "<div class='col-4 text-right'>";
 						echo number_format($key->v_precio_normal,2);
 						$total=$key->v_precio_normal;
 					echo "</div>";
-					}
-					else if ($sumas->total_distribuidor >= $key->monto_distribuidor) { //primero que nada checo que se alcance el monto para distribuidor antes de mayoreo porque si no no funciona
-						echo "<div class='col-4 text-right'>";
-							echo number_format($key->v_precio_distribuidor,2);
-							$total=$key->v_precio_distribuidor;
-						echo "</div>";
-					}
-					else if ($sumcant >= $key->cantidad_mayoreo or $sumas->total_mayoreo >= $key->monto_mayor) {
-						echo "<div class='col-4 text-right'>";
-							echo number_format($key->v_precio_mayoreo,2);
-							$total=$key->v_precio_mayoreo;
-						echo "</div>";
-					}
-
-					////////////// Actualiza el nuevo costo cuando las sumas de los productos alcanzan precio mayoreo o distribuidor
-						$sql="update bodega set v_precio='$total' where idbodega='$key->idbodega' ";
-						$sth = $db->dbh->prepare($sql);
-						$sth->execute();
-						$sth->fetch(PDO::FETCH_OBJ);
-
-					/////////////// actualiza el costo total de la venta cuando las sumas de los productos alcanzan precio mayoreo o distribuidor
-
-						$sql="select sum(v_precio * v_cantidad) as total from bodega where idventa='$idventa' ";
-						$sth = $db->dbh->prepare($sql);
-						$sth->execute();
-						$rex=$sth->fetch(PDO::FETCH_OBJ);
-
-						$totalt=$rex->total;
-						$subtotalt=$totalt/1.16;
-						$ivat=$totalt-$subtotalt;
-
-						$sql="update venta set total='$rex->total',subtotal='$subtotalt', iva='$ivat' where idventa='$idventa' ";
-						$sth = $db->dbh->prepare($sql);
-						$sth->execute();
-						$sth->fetch(PDO::FETCH_OBJ);
-
-						///////////////////////////////////////
-
-				}
-
-					///////////////////////// fin comparacion esquemas
 
 
 					echo "<div class='col-4 text-right'>";

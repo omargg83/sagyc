@@ -1,5 +1,5 @@
 <?php
-	session_name("chingon");
+	session_name("pastes_fidel");
 	@session_start();
 	if (isset($_REQUEST['function'])){$function=clean_var($_REQUEST['function']);}	else{ $function="";}
 	if (isset($_REQUEST['ctrl'])){$ctrl=clean_var($_REQUEST['ctrl']);}	else{ $ctrl="";}
@@ -19,6 +19,7 @@
 		public $f_productos="a_archivos/productos/";
 		public $f_usuarios="a_archivos/usuarios/";
 		public $f_empresas="img/logos/";
+		public $f_categoria="a_archivos/categorias/";
 
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
@@ -614,20 +615,19 @@
 			$x="";
 			$directory="fondo/";
 			$dirint = dir($directory);
-			$x.= "<ul class='nav navbar-nav navbar-right'>";
-				$x.= "<li class='nav-item dropdown'>";
-					$x.= "<a class='nav-link dropdown-toggle text-dark' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-desktop'></i></a>";
-					$x.= "<div class='dropdown-menu' aria-labelledby='navbarDropdown' style='width: 200px;max-height: 400px !important;overflow: scroll;overflow-x: scroll;overflow-x: hidden;'>";
+			echo "<ul class='nav navbar-nav navbar-right'>";
+				echo "<li class='nav-item dropdown'>";
+					echo "<a class='nav-link dropdown-toggle text-dark' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-desktop text-secondary'></i></a>";
+					echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown' style='width: 200px;max-height: 400px !important;overflow: scroll;overflow-x: scroll;overflow-x: hidden;'>";
 					while (($archivo = $dirint->read()) !== false){
 						if ($archivo != "." && $archivo != ".." && $archivo != "" && substr($archivo,-4)==".jpg"){
-							$x.= "<img src='$directory".$archivo."' is='p-fondo' v_fondo='$directory$archivo'alt='Fondo' class='rounded mt-3 mx-3' style='width:140px;height:80px'>";
+							echo "<img src='$directory".$archivo."' is='p-fondo' v_fondo='$directory$archivo'alt='Fondo' class='rounded mt-3 mx-3' style='width:140px;height:80px'>";
 						}
 					}
-					$x.= "</div>";
-				$x.= "</li>";
-			$x.= "</ul>";
+					echo "</div>";
+				echo "</li>";
+			echo "</ul>";
 			$dirint->close();
-			return $x;
 		}
 		public function fondo(){
 			if (isset($_REQUEST['imagen'])){$imagen=$_REQUEST['imagen'];}
@@ -816,7 +816,26 @@
 			$arreglo+=array('error'=>0);
 			return json_encode($arreglo);
 		}
+
+		public function paginar($paginas,$pag,$pagx,$des,$div){
+			echo "<br>";
+			echo "<nav aria-label='Page navigation text-center'>";
+			  echo "<ul class='pagination justify-content-center'>";
+			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='$des' dix='$div'>Primera</a></li>";
+					$max=$pag+4;
+					$min=$pag-4;
+					for($i=0;$i<$paginas;$i++){
+						if($min<=$i and $i<=$max){
+							$b=$i+1;
+							echo "<li class='page-item"; if($pag==$i){ echo " active";} echo "'><a class='page-link' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$i'>$b</a></li>";
+						}
+					}
+			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$pagx'>Ultima</a></li>";
+			  echo "</ul>";
+			echo "</nav>";
+		}
 	}
+
 
 	if(strlen($ctrl)>0){
 		$db = new Sagyc();

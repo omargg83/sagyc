@@ -23,17 +23,17 @@
 			</div>
 		</div>
 		<div class='row header-row'>
-			<div class='col-xl col-auto'>#</div>
-			<div class='col-xl col-auto'>Código</div>
-			<div class='col-xl col-auto'>Nombre</div>
-			<div class='col-xl col-auto'>Existencia</div>
-			<div class='col-xl col-auto'>Precio de venta</div>
+			<div class='col-12 col-xl col-auto'>#</div>
+			<div class='col-12 col-xl col-auto'>Código</div>
+			<div class='col-12 col-xl col-auto'>Nombre</div>
+			<div class='col-12 col-xl col-auto'>Existencia</div>
+			<div class='col-12 col-xl col-auto'>Precio de venta</div>
 		</div>
 
 			<?php
 				foreach($pd as $key){
 					echo "<div class='row body-row' >";
-						echo "<div class='col-xl col-auto'>";
+						echo "<div class='col-12 col-xl col-auto text-center'>";
 							echo "<div class='btn-group'>";
 
 							echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_inventario/editar' dix='trabajo' v_idproducto='$key->idproducto'><i class='fas fa-pencil-alt'></i></button>";
@@ -72,13 +72,13 @@
 							echo "</div>";
 						echo "</div>";
 
-						echo "<div class='col-xl col-auto'>";
+						echo "<div class='col-12 col-xl col-auto text-center'>";
 							echo $key->codigo;
 						echo "</div>";
 
-						echo "<div class='col-xl col-auto'>".$key->nombre."</div>";
+						echo "<div class='col-12 col-xl col-auto text-center'>".$key->nombre."</div>";
 
-						echo "<div class='col-xl col-auto text-center'>";
+						echo "<div class='col-12 col-xl col-auto text-center'>";
 
 							if($_SESSION['nivel']==66){
 								echo "Sum:".$exist;
@@ -107,7 +107,7 @@
 							}
 						echo "</div>";
 
-						echo "<div class='col-xl col-auto text-center' >".moneda($key->precio)."</div>";
+						echo "<div class='col-12 col-xl col-auto text-center' >".moneda($key->precio)."</div>";
 					echo '</div>';
 				}
 			?>
@@ -122,16 +122,7 @@
 		$contar=$sth->fetch(PDO::FETCH_OBJ);
 		$paginas=ceil($contar->total/$_SESSION['pagina']);
 		$pagx=$paginas-1;
-		echo "<br>";
-		echo "<nav aria-label='Page navigation text-center'>";
-		  echo "<ul class='pagination'>";
-		    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_inventario/lista' dix='trabajo'>Primera</a></li>";
-				for($i=0;$i<$paginas;$i++){
-					$b=$i+1;
-					echo "<li class='page-item"; if($pag==$i){ echo " active";} echo "'><a class='page-link' is='b-link' title='Editar' des='a_inventario/lista' dix='trabajo' v_pag='$i'>$b</a></li>";
-				}
-		    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_inventario/lista' dix='trabajo' v_pag='$pagx'>Ultima</a></li>";
-		  echo "</ul>";
-		echo "</nav>";
+
+		echo $db->paginar($paginas,$pag,$pagx,"a_inventario/lista","trabajo");
 	}
 ?>

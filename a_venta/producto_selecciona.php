@@ -40,7 +40,7 @@
 
 		echo "<div class='modal-body' style='max-height:580px;overflow: auto;'>";
 			echo "<div class='row'>";
-				echo "<div class='col-4'>";
+				echo "<div class='col-2'>";
 					if(strlen($producto->archivo)>0 and file_exists("../".$db->f_productos."/".$producto->archivo)){
 						echo "<img src='".$db->f_productos."/".$producto->archivo."' width='100%' class='img-thumbnail'/>";
 					}
@@ -49,85 +49,56 @@
 					}
 
 				echo "</div>";
-				echo "<div class='col-8'>";
-					echo "<input type='text' class='form-control form-control-sm' name='nombre' id='nombre' value='".$producto->nombre."' readonly>";
-					echo "<small>";
-						if ($producto->esquema==0){
-							echo "Este producto no tiene ningun esquema de descuento";
-						}
-						else if ($producto->esquema==1){
-							echo "Esquema Nala";
-						}
-						else if ($producto->esquema==2){
-							echo "Esquema por Cantidad";
-						}
-					echo "</small>";
-					echo "<hr>";
-					echo $producto->descripcion;
-					echo "<hr>";
+				echo "<div class='col-10'>";
+					echo "<div class='row'>";
+						echo "<div class='col-12'>";
+							echo "<input type='text' class='form-control' name='nombre' id='nombre' value='".$producto->nombre."' readonly>";
+							echo "<br>";
+							echo $producto->descripcion;
+							echo "<hr>";
+						echo "</div>";
+					echo "</div>";
+
+					echo "<div class='row'>";
+
+						echo "<div class='col-sm-6 col-md-12 col-lg-3 col-xl-3'>";
+							echo "<label><b>Cantidad</b></label>";
+							echo "<input type='number' min=0 max=9999 class='form-control' is='f-cantidad' name='cantidad' id='cantidad' value='1' required>";
+						echo "</div>";
+
+						echo "<div class='col-sm-6 col-md-12 col-lg-3 col-xl-3'>";
+							echo "<label><b>Precio a aplicar x Unidad</b></label>";
+							echo "<input type='text' class='form-control' name='precio' id='precio' value='".$producto->precio."' readonly>";
+						echo "</div>";
+
+						echo "<div class='col-sm-6 col-md-12 col-lg-3 col-xl-3'>";
+							echo "<label><b>Existencia</b>:</label>";
+							echo "<input type='text' class='form-control' name='existencia' id='existencia' value='$exist' readonly>";
+						echo "</div>";
+
+						echo "<div class='col-sm-6 col-md-12 col-lg-3 col-xl-3'>";
+							echo "<label>Total</label>";
+							echo "<input type='text' class='form-control form-control-sm' name='normal' id='normal' value='".$producto->precio."' readonly>";
+						echo "</div>";
+
+					echo "</div>";
+
+
 				echo "</div>";
+
 			echo "</div>";
 
-			echo "<div class='row'>";
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label><b>Cantidad</b></label>";
-					echo "<input type='number' min=0 max=9999 class='form-control' is='f-cantidad' name='cantidad' id='cantidad' value='0' required>";
-				echo "</div>";
-
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label><b>Precio a aplicar x Unidad</b></label>";
-					echo "<input type='text' class='form-control' name='precio' id='precio' value='".$producto->precio."' readonly>";
-				echo "</div>";
-
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label><b>Existencia</b>:</label>";
-					echo "<input type='text' class='form-control' name='existencia' id='existencia' value='$exist' readonly>";
-				echo "</div>";
-
-			echo "</div>";
-
-			echo "<hr>";
-				//////////////////////arreglar esto
-			echo "<div class='row'>";
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label>Precio normal</label>";
-					echo "<input type='text' class='form-control form-control-sm' name='precio_normal' id='precio_normal' value='$producto->precio' readonly>";
-				echo "</div>";
-
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label>Precio Mayoreo</label>";
-					echo "<input type='text' class='form-control form-control-sm' name='precio_mayoreo' id='precio_mayoreo' value='$producto->precio_mayoreo' readonly>";
-				echo "</div>";
-
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label>Precio Ditribuidor</label>";
-					echo "<input type='text' class='form-control form-control-sm' name='precio_distribuidor' id='precio_distribuidor' value='$producto->precio_distri' readonly>";
-				echo "</div>";
-			echo "</div>";
-
-			echo "<div class='row'>";
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label>Total normal</label>";
-					echo "<input type='text' class='form-control form-control-sm' name='normal' id='normal' value='".$producto->precio."' readonly>";
-				echo "</div>";
-
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label>Total Mayoreo</label>";
-					echo "<input type='text' class='form-control form-control-sm' name='mayoreo' id='mayoreo' value='".$producto->precio_mayoreo."' readonly>";
-				echo "</div>";
-
-				echo "<div class='col-sm-12 col-md-12 col-lg-4 col-xl-4'>";
-					echo "<label>Total Ditribuidor</label>";
-					echo "<input type='text' class='form-control form-control-sm' name='distribuidor' id='distribuidor' value='".$producto->precio_distri."' readonly>";
-				echo "</div>";
-			echo "</div>";
-
-			echo "<hr>";
+		echo "</div>";
+		echo "<div class='modal-footer'>";
 			echo "<div class='row'>";
 				echo "<div class='col-12'>";
-						echo "<button class='btn btn-warning btn-sm' type='submit' ><i class='fas fa-cart-plus'></i>Agregar</button>";
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' cmodal='1' ><i class='fas fa-sign-out-alt'></i>Cancelar</button>";
+					echo "<div class='btn-group'>";
+							echo "<button class='btn btn-warning btn-xs' type='submit' ><i class='fas fa-cart-plus'></i>Agregar</button>";
+							echo "<button class='btn btn-warning btn-xs' type='button' is='b-link' cmodal='1' ><i class='fas fa-sign-out-alt'></i>Cancelar</button>";
+					echo "</div>";
 				echo "</div>";
-			echo "</div>";
+			echo "</di	v>";
+		echo "</div>";
+
 	echo "</form>";
 ?>

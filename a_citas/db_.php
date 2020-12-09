@@ -18,7 +18,6 @@ class Pedidos extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-	
 	}
 	public function busca_cliente($texto){
 		try{

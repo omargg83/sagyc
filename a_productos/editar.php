@@ -17,6 +17,7 @@
 	$color="";
 	$archivo="";
 	$cate=$db->categoria();
+
 	if($idcatalogo>0){
 		$pd = $db->producto_edit($idcatalogo);
 		$codigo=$pd->codigo;
@@ -27,7 +28,7 @@
 		$descripcion=$pd->descripcion;
 		$tipo=$pd->tipo;
 		$activo_catalogo=$pd->activo_catalogo;
-		$categoria=$pd->categoria;
+		$categoria=$pd->idcategoria;
 		$color=$pd->color;
 		$archivo=$pd->archivo;
 	}
@@ -44,7 +45,7 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-xl col-auto">
+					<div class="col-xs col-auto">
 						<?php
 							if(strlen($archivo)>0 and file_exists("../".$db->f_productos."/".$archivo)){
 								echo "<img src='".$db->f_productos."/".$archivo."' width='100%' class='img-thumbnail'/>";
@@ -77,8 +78,8 @@
 							</div>
 						</div>
 						<div class='row'>
-							<div class="col-xl col-auto">
-								<label>Activo</label>
+							<div class="col-12 col-xl col-auto">
+								<label>Activo </label>
 								<select class="form-control form-control-sm" name="activo_catalogo" id="activo_catalogo"  >
 									<option value="0"<?php if($activo_catalogo=="0") echo "selected"; ?> > Inactivo</option>
 									<option value="1"<?php if($activo_catalogo=="1") echo "selected"; ?> > Activo</option>
@@ -87,21 +88,21 @@
 						</div>
 						<hr>
 						<div class='row'>
-							<div class="col-xl col-auto">
+							<div class="col-12 col-xl col-auto">
 								<label>Código</label><br>
 								<input type="text" class="form-control form-control-sm" id="codigo" name='codigo' placeholder="Codigo" value="<?php echo $codigo; ?>">
 							</div>
 						</div>
 						<div class='row'>
-							<div class="col-xl col-auto">
+							<div class="col-12 col-xl col-auto">
 								<label>Nombre</label><br>
 								<input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Nombre" value="<?php echo $nombre; ?>" required>
 							</div>
 						</div>
 						<div class='row'>
-							<div class='col-xl col-auto'>
+							<div class='col-12 col-xl col-auto'>
 								<label>categoría</label>
-								<select class='form-control form-control-sm' name='categoria' id='categoria'>
+								<select class='form-control form-control-sm' name='idcategoria' id='idcategoria'>
 									<?php
 									foreach($cate as $key){
 										echo  "<option value='".$key->idcat."' "; if($categoria==$key->idcat){ echo " selected";} echo ">".$key->nombre."</option>";
@@ -110,7 +111,7 @@
 							</div>
 						</div>
 						<div class='row'>
-							<div class="col-xl col-auto">
+							<div class="col-12 col-xl col-auto">
 								<label>Descripción</label>
 								<textarea class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" rows='5'><?php echo $descripcion; ?></textarea>
 							</div>
@@ -127,7 +128,7 @@
 												echo "<button type='submit' class='btn btn-warning btn-sm'><i class='far fa-save'></i>Guardar</button>";
 													if($idcatalogo>0){
 														echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_productos/form_foto' v_idcatalogo='$idcatalogo' omodal='1'><i class='fas fa-camera'></i>Foto</button>";
-														
+
 														echo "<button type='button' class='btn btn-danger btn-sm' is='b-link' db='a_productos/db_' des='a_productos/lista' fun='borrar_producto' dix='trabajo' v_idcatalogo='$idcatalogo' id='eliminar' tp='¿Desea eliminar el Producto seleccionado?'><i class='far fa-trash-alt'></i>Eliminar</button>";
 													}
 											}

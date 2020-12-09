@@ -16,7 +16,19 @@ class Categoria extends Sagyc{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-	
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('INVENTARIO', $this->derecho)) {
+			////////////////PERMISOS
+			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='INVENTARIO'";
+			$stmt= $this->dbh->query($sql);
+
+			$row =$stmt->fetchObject();
+			$this->nivel_personal=$row->nivel;
+			$this->nivel_captura=$row->captura;
+		}
+		else{
+			include "../error.php";
+			die();
+		}
 	}
 	public function categoria_lista(){
 		try{
@@ -43,7 +55,7 @@ class Categoria extends Sagyc{
 	}
 	public function categoria($id){
 		try{
-		  $sql="select * from categorias where idcat=:id";
+		  $sql="select * from categorias where idcategoria=:id";
 		  $sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":id",$id);
 		  $sth->execute();
@@ -56,23 +68,61 @@ class Categoria extends Sagyc{
 	public function guardar_categoria(){
 		$x="";
 		$arreglo =array();
-		$idcat=$_REQUEST['idcat'];
+		$idcategoria=$_REQUEST['idcategoria'];
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
 
-		if($idcat==0){
+		if($idcategoria==0){
 			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$x=$this->insert('categorias', $arreglo);
 		}
 		else{
-			$x=$this->update('categorias',array('idcat'=>$idcat), $arreglo);
+			$x=$this->update('categorias',array('idcategoria'=>$idcategoria), $arreglo);
 		}
 		return $x;
 	}
 	public function borrar_categoria(){
-		if (isset($_REQUEST['id'])){ $id=$_REQUEST['id']; }
-		return $this->borrar('categorias',"id",$id);
+		if (isset($_REQUEST['idcategoria'])){ $idcategoria=$_REQUEST['idcategoria']; }
+		return $this->borrar('categorias',"idcategoria",$id);
+	}
+	public function foto_cat(){
+		$x="";
+		$arreglo =array();
+		$idcategoria=$_REQUEST['idcategoria'];
+
+		$sql="select * from categorias where idcategoria=$idcategoria";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$prod=$sth->fetch(PDO::FETCH_OBJ);
+
+		if(strlen($prod->archivo)>0){
+			$ruta = '../'.$this->f_categoria.$prod->archivo;
+			if (file_exists($ruta)){
+				unlink($ruta);
+			}
+		}
+		$extension = '';
+		$ruta = '../'.$this->f_categoria;
+		$archivo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($archivo!=""){
+			$extension = $info['extension'];
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$arreglo+=array('archivo'=>$nombreFile);
+			}
+			else{
+				echo "fail";
+				exit;
+			}
+		}
+		return $this->update('categorias',array('idcategoria'=>$idcategoria), $arreglo);
+
 	}
 }
 

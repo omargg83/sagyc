@@ -8,7 +8,7 @@ if($server==2){
   define("MYSQLUSER", "root");
   define("MYSQLPASS", "root");
   define("SERVIDOR", "localhost");
-  define("BDD", "sagycrmr_nala");
+  define("BDD", "sagycrmr_sagyc");
   define("PORT", "3306");
 }
 else if($server==3){
@@ -19,12 +19,5 @@ else if($server==3){
   define("BDD", "sagycrmr_sagyc");
   define("PORT", "3306");
 }
-else if($server==4){
-  //////////localhost 2
-  define("MYSQLUSER", "root");
-  define("MYSQLPASS", "root");
-  define("SERVIDOR", "localhost");
-  define("BDD", "sagycrmr_nala");
-  define("PORT", "8889");
-}
+
 ?>

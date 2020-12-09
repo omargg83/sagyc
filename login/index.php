@@ -1,5 +1,5 @@
 <?php
-  session_name("chingon");
+  session_name("pastes_fidel");
   @session_start();
   if(isset($_SESSION['idusuario']) and strlen($_SESSION['idusuario'])>0){
     header("location: /");

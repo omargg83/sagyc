@@ -316,6 +316,9 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['precio'])){
 				$arreglo += array('c_precio'=>$_REQUEST['precio']);
 			}
+			if (isset($_REQUEST['observaciones'])){
+				$arreglo += array('observaciones'=>$_REQUEST['observaciones']);
+			}
 			if (isset($_REQUEST['idcompra'])){
 				if($_REQUEST['idcompra']>0){
 					$arreglo += array('idcompra'=>$_REQUEST['idcompra']);
@@ -324,6 +327,63 @@ class Productos extends Sagyc{
 					$arreglo += array('idcompra'=>null);
 				}
 			}
+
+			$x="";
+			if($id==0){
+				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
+				$arreglo+=array('fechaalta'=>date("Y-m-d H:i:s"));
+				$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
+				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
+				$x=$this->insert('bodega', $arreglo);
+			}
+			else{
+				$arreglo+=array('fechamod'=>date("Y-m-d H:i:s"));
+				$x=$this->update('bodega',array('id'=>$id), $arreglo);
+			}
+			$ped=json_decode($x);
+			if($ped->error==0){
+
+				parent::recalcular($idproducto);
+
+				$arreglo =array();
+				$arreglo+=array('id'=>$idproducto);
+				$arreglo+=array('error'=>0);
+				$arreglo+=array('terror'=>0);
+				$arreglo+=array('param1'=>"");
+				$arreglo+=array('param2'=>"");
+				$arreglo+=array('param3'=>"");
+				return json_encode($arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function existencia_quita(){
+		try{
+
+			if($_REQUEST['cantidad']<1){
+				$arreglo =array();
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Error de cantidad, favor de verificar");
+				return json_encode($arreglo);
+			}
+
+			$id=$_REQUEST['id'];
+			$idproducto=$_REQUEST['idproducto'];
+			$arreglo =array();
+			$arreglo = array('idproducto'=>$idproducto);
+
+			if (isset($_REQUEST['cantidad'])){
+				$cantidad=$_REQUEST['cantidad']*-1;
+				$arreglo += array('cantidad'=>$cantidad);
+			}
+
+			if (isset($_REQUEST['observaciones'])){
+				$arreglo += array('observaciones'=>$_REQUEST['observaciones']);
+			}
+
 
 			$x="";
 			if($id==0){
@@ -370,19 +430,24 @@ class Productos extends Sagyc{
 		}
 	}
 	public function borrar_ingreso(){
+
 		$idbodega=$_REQUEST['idbodega'];
-		$idproducto=$_REQUEST['idproducto'];
 
 		$sql="SELECT * from bodega where idbodega=:id";
 		$sth = $this->dbh->prepare($sql);
 		$sth->bindValue(":id",$idbodega);
 		$sth->execute();
-		$res=$sth->fetch(PDO::FETCH_OBJ);
+		$bodega=$sth->fetch(PDO::FETCH_OBJ);
 
-		$x=$this->borrar('bodega',"idbodega",$idbodega);
+		$x=$this->borrar('bodega',"idbodega",$bodega->idbodega);
+
+		$ped=json_decode($x);
+		if($ped->error==0){
+			parent::recalcular($bodega->idproducto, "FECHA" ,$bodega->fecha);
+		}
 
 		$arreglo =array();
-		$arreglo+=array('id'=>$idproducto);
+		$arreglo+=array('id'=>$bodega->idproducto);
 		$arreglo+=array('error'=>0);
 		$arreglo+=array('terror'=>0);
 		return json_encode($arreglo);
@@ -444,7 +509,7 @@ class Productos extends Sagyc{
 		$sheeti = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 		$sheeti->setName('logo');
 		$sheeti->setDescription('description');
-		$sheeti->setPath('../img/logoimp.jpg');
+		$sheeti->setPath('../img/pies.png');
 		$sheeti->setHeight(90);
 		$sheeti->setCoordinates("G1");
 		$sheeti->setOffsetX(20);
@@ -462,7 +527,7 @@ class Productos extends Sagyc{
 		LEFT OUTER JOIN productos_catalogo ON productos_catalogo.idcatalogo = productos.idcatalogo
 		LEFT OUTER JOIN sucursal ON sucursal.idsucursal = productos.idsucursal
 		LEFT OUTER JOIN bodega ON bodega.idproducto = productos.idproducto
-		LEFT OUTER JOIN categorias ON categorias.idcat =productos_catalogo.categoria
+		LEFT OUTER JOIN categorias ON categorias.idcategoria =productos_catalogo.idcategoria
 		where productos.idsucursal='".$_SESSION['idsucursal']."' group by productos.idproducto ";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
@@ -474,8 +539,8 @@ class Productos extends Sagyc{
 		$sheet->getStyle('A7:N7')->getFont()->getColor()->setARGB('fffffc'); // CAMBIAR COLOR DE LA FUENTE
 		$sheet->getStyle('A1:F1')->getFont()->setSize(18); //Tamaño fuente
 		$sheet->getStyle('A2')->getFont()->setSize(18); //Tamaño fuente
-		$sheet->setCellValue('A2', 'Visitanos en www.sagyc.com.mx');
-		$sheet->getCell('A2')->getHyperlink()->setUrl('https://www.sagyc.com.mx');
+	//	$sheet->setCellValue('A2', 'Visitanos en www.sagyc.com.mx');
+	//	$sheet->getCell('A2')->getHyperlink()->setUrl('https://www.sagyc.com.mx');
 
 			$sheet->getStyle('A1')
 		->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER); //ALINEACION DE FUENTE
@@ -708,18 +773,27 @@ class Productos extends Sagyc{
 	}
 	public function bodega_guardar(){
 		$idbodega=$_REQUEST['idbodega'];
-		$idproducto=$_REQUEST['idproducto'];
+
+		$sql="SELECT * from bodega where idbodega=:id";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":id",$idbodega);
+		$sth->execute();
+		$bodega=$sth->fetch(PDO::FETCH_OBJ);
+
 		$arreglo =array();
 		$fecha=clean_var($_REQUEST['fecha']);
 		$hora=clean_var($_REQUEST['hora']);
 		$fecha=$fecha." ".$hora;
 		$arreglo+=array('fecha'=>$fecha);
-		$this->update('bodega',array('idbodega'=>$idbodega), $arreglo);
+		$x=$this->update('bodega',array('idbodega'=>$bodega->idbodega), $arreglo);
 
-		self::recalcular($idproducto,$idbodega);
-		
+		$ped=json_decode($x);
+		if($ped->error==0){
+			parent::recalcular($bodega->idproducto, "FECHA" ,$bodega->fecha);
+		}
+
 		$arreglo =array();
-		$arreglo+=array('id'=>$idproducto);
+		$arreglo+=array('id'=>$bodega->idproducto);
 		$arreglo+=array('error'=>0);
 		return json_encode($arreglo);
 	}

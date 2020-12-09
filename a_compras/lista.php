@@ -6,6 +6,7 @@
 	if(isset($_REQUEST['buscar'])){
 		$texto=$_REQUEST['buscar'];
 		$pd = $db->compras_buscar($texto);
+		$texto=1;
 	}
 	else{
 		if(isset($_REQUEST['pag'])){
@@ -18,23 +19,23 @@
 ?>
 	<div class='tabla_css' id='tabla_css'>
 		<div class='row titulo-row'>
-			<div class='col-xl col-auto'>
+			<div class='col-12 col-xl col-auto'>
 				LISTA DE COMPRAS
 			</div>
 		</div>
 		<div class='row header-row'>
-			<div class='col-xl col-auto'>#</div>
-			<div class='col-xl col-auto'>Fecha</div>
-			<div class='col-xl col-auto'>Numero</div>
-			<div class='col-xl col-auto'>Nombre</div>
-			<div class='col-xl col-auto'>Proveedor</div>
-			<div class='col-xl col-auto'>Estado</div>
+			<div class='col-12 col-xl col-auto'>#</div>
+			<div class='col-12 col-xl col-auto'>Fecha</div>
+			<div class='col-12 col-xl col-auto'>Numero</div>
+			<div class='col-12 col-xl col-auto'>Nombre</div>
+			<div class='col-12 col-xl col-auto'>Proveedor</div>
+			<div class='col-12 col-xl col-auto'>Estado</div>
 		</div>
 
 			<?php
 				foreach($pd as $key){
 					echo "<div class='row body-row' draggable='true'>";
-						echo "<div class='col-xl col-auto'>";
+						echo "<div class='col-12 col-xl col-auto	text-center'>";
 
 							echo "<div class='btn-group'>";
 
@@ -47,11 +48,11 @@
 
 						echo "</div>";
 
-						echo "<div class='col-xl col-auto text-center'>".fecha($key->fecha)."</div>";
-						echo "<div class='col-xl col-auto text-center'>".$key->numero."</div>";
-						echo "<div class='col-xl col-auto text-center'>".$key->nombre."</div>";
-						echo "<div class='col-xl col-auto text-center'>".$key->idproveedor."</div>";
-						echo "<div class='col-xl col-auto text-center'>".$key->estado."</div>";
+						echo "<div class='col-12 col-xl col-auto text-center'>".fecha($key->fecha)."</div>";
+						echo "<div class='col-12 col-xl col-auto text-center'>".$key->numero."</div>";
+						echo "<div class='col-12 col-xl col-auto text-center'>".$key->nombre."</div>";
+						echo "<div class='col-12 col-xl col-auto text-center'>".$key->idproveedor."</div>";
+						echo "<div class='col-12 col-xl col-auto text-center'>".$key->estado."</div>";
 
 					echo "</div>";
 				}
@@ -66,16 +67,8 @@
 			$contar=$sth->fetch(PDO::FETCH_OBJ);
 			$paginas=ceil($contar->total/$_SESSION['pagina']);
 			$pagx=$paginas-1;
-			echo "<br>";
-			echo "<nav aria-label='Page navigation text-center'>";
-			  echo "<ul class='pagination'>";
-			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_compras/lista' dix='trabajo'>Primera</a></li>";
-					for($i=0;$i<$paginas;$i++){
-						$b=$i+1;
-						echo "<li class='page-item"; if($pag==$i){ echo " active";} echo "'><a class='page-link' is='b-link' title='Editar' des='a_compras/lista' dix='trabajo' v_pag='$i'>$b</a></li>";
-					}
-			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_compras/lista' dix='trabajo' v_pag='$pagx'>Ultima</a></li>";
-			  echo "</ul>";
-			echo "</nav>";
+
+			echo $db->paginar($paginas,$pag,$pagx,"a_compras/lista","trabajo");
+
 		}
 	?>

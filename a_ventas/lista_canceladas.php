@@ -3,24 +3,18 @@
 
 	$pag=0;
 	$texto="";
-	if(isset($_REQUEST['buscar'])){
-		$texto=$_REQUEST['buscar'];
-		$pd = $db->ventas_buscar($texto);
-		$texto=1;
+
+	if(isset($_REQUEST['pag'])){
+		$pag=$_REQUEST['pag'];
 	}
-	else{
-		if(isset($_REQUEST['pag'])){
-			$pag=$_REQUEST['pag'];
-		}
-		$pd = $db->ventas_lista($pag);
-	}
+	$pd = $db->ventas_canceladas($pag);
 
 	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
 	<div class='tabla_css' id='tabla_css'>
 		<div class='row titulo-row'>
 			<div class='col-12'>
-				LISTA DE VENTAS ABIERTAS
+				LISTA DE VENTAS EFECTUADAS
 			</div>
 		</div>
 		<div class='row header-row'>
@@ -38,11 +32,7 @@
 					<div class='row body-row' draggable='true'>
 						<div class='col-2'>
 							<div class="btn-group">
-								<?php
-									if($db->nivel_captura==1){
-										echo "<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  v_idventa='$key->idventa' v_general='1'><i class='fas fa-pencil-alt'></i></button>";
-									}
-								?>
+								<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo' title='Ver detalle' v_idventa='<?php echo $key->idventa; ?> ' ><i class='far fa-eye'></i></button>
 							</div>
 						</div>
 						<div class='col-2'><?php echo $key->numero; ?></div>
@@ -65,14 +55,13 @@
 	if(strlen($texto)==0){
 		$sql="select count(venta.idventa) as total from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
-		where venta.idsucursal='".$_SESSION['idsucursal']."' and (venta.estado='Activa' or venta.estado='Editar') order by venta.numero desc";
-
+		where venta.idsucursal='".$_SESSION['idsucursal']."' and venta.estado='Cancelada' order by venta.numero desc";
 		$sth = $db->dbh->query($sql);
 		$contar=$sth->fetch(PDO::FETCH_OBJ);
 		$paginas=ceil($contar->total/$_SESSION['pagina']);
 		$pagx=$paginas-1;
 
-		echo $db->paginar($paginas,$pag,$pagx,"a_ventas/lista","trabajo");
-
+		echo $db->paginar($paginas,$pag,$pagx,"a_ventas/lista_canceladas","trabajo");
+		
 	}
 ?>

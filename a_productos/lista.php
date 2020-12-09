@@ -6,6 +6,7 @@
 	if(isset($_REQUEST['buscar'])){
 		$texto=$_REQUEST['buscar'];
 		$pd = $db->producto_buscar($texto);
+		$texto=1;
 	}
 	else{
 		if(isset($_REQUEST['pag'])){
@@ -25,16 +26,16 @@
 		</div>
 	</div>
 	<div class='row header-row'>
-		<div class='col-xl col-auto'>#</div>
-		<div class='col-xl col-auto'>ID</div>
-		<div class='col-xl col-auto'>Codigo</div>
-		<div class='col-xl col-auto'>Nombre</div>
+		<div class='col-12 col-xl col-auto'>#</div>
+		<div class='col-12 col-xl col-auto'>ID</div>
+		<div class='col-12 col-xl col-auto'>Codigo</div>
+		<div class='col-12 col-xl col-auto'>Nombre</div>
 	</div>
 
 		<?php
 			foreach($pd as $key){
 				echo "<div class='row body-row' draggable='true'>";
-					echo "<div class='col-xl col-auto text-center'>";
+					echo "<div class='col-12 col-xl col-auto text-center'>";
 						echo "<div class='btn-group'>";
 
 						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_productos/editar' dix='trabajo' v_idcatalogo='$key->idcatalogo'><i class='fas fa-pencil-alt'></i></button>";
@@ -49,13 +50,13 @@
 						echo $key->idcatalogo;
 					echo "</div>"; */
 
-					echo "<div class='col-xl col-auto text-center'>";
+					echo "<div class='col-12 col-xl col-auto text-center'>";
 						if($key->tipo==0) echo "Servicio";
 						if($key->tipo==3) echo "Producto";
 					echo "</div>";
 
-					echo "<div class='col-xl col-auto text-center'>".$key->codigo."</div>";
-					echo "<div class='col-xl col-auto text-left'>".$key->nombre."</div>";
+					echo "<div class='col-12 col-xl col-auto text-center'>".$key->codigo."</div>";
+					echo "<div class='col-12 col-xl col-auto text-center'>".$key->nombre."</div>";
 				echo '</div>';
 			}
 		?>
@@ -72,16 +73,8 @@
 			$contar=$sth->fetch(PDO::FETCH_OBJ);
 			$paginas=ceil($contar->total/$_SESSION['pagina']);
 			$pagx=$paginas-1;
-			echo "<br>";
-			echo "<nav aria-label='Page navigation text-center'>";
-			  echo "<ul class='pagination'>";
-			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_productos/lista' dix='trabajo'>Primera</a></li>";
-					for($i=0;$i<$paginas;$i++){
-						$b=$i+1;
-						echo "<li class='page-item"; if($pag==$i){ echo " active";} echo "'><a class='page-link' is='b-link' title='Editar' des='a_productos/lista' dix='trabajo' v_pag='$i'>$b</a></li>";
-					}
-			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='a_productos/lista' dix='trabajo' v_pag='$pagx'>Ultima</a></li>";
-			  echo "</ul>";
-			echo "</nav>";
+
+			echo $db->paginar($paginas,$pag,$pagx,"a_productos/lista","trabajo");
+
 		}
 	?>

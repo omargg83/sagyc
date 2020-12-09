@@ -30,6 +30,21 @@ class Traspaso extends Sagyc{
 			die();
 		}
 	}
+
+	public function sucursal_info(){
+		$sql="select * from sucursal where idsucursal='".$_SESSION['idsucursal']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+
+	public function tienda_info(){
+		$sql="select * from tienda where idtienda='".$_SESSION['idtienda']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+
 	public function traspaso($idtraspaso){
 		try{
 			$sql="SELECT * FROM traspasos where idtraspaso=:id";
@@ -199,7 +214,7 @@ class Traspaso extends Sagyc{
 		$sth->execute();
 		$bodega=$sth->fetch(PDO::FETCH_OBJ);
 
-		$x=$this->borrar('bodega',"idbodega",$idbodega);
+		$x=$this->borrar('bodega',"idbodega",$bodega->idbodega);
 
 		$ped=json_decode($x);
 		if($ped->error==0){

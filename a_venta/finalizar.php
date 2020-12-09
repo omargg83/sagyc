@@ -39,10 +39,10 @@ $total=round($total,2);
           <option value="Efectivo">Efectivo</option>
           <option value="Debito">Tarjeta de debito</option>
           <option value="T.Credito">Tarjeta de Credito</option>
-          <option value="Transferencia">Transferencia Electronica</option>
+  <!--        <option value="Transferencia">Transferencia Electronica</option>
           <option value="Deposito">Deposito</option>
           <option value="Vale">Vale</option>
-          <option value="Cupon">Cupón</option>
+          <option value="Cupon">Cupón</option> -->
         </select>
       </div>
 

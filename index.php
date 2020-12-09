@@ -31,7 +31,15 @@
 ?>
 
 <header class="d-block p-2" id='header'>
-	<nav class='barraprincipal navbar navbar-expand-md fixed-top navbar-light bg-light' >
+	<?php
+		if(SERVER=="LOCALHOST"){
+			echo "<nav class='barraprincipal navbar navbar-expand-md fixed-top navbar-dark bg-dark' >";
+		}
+		else{
+			echo "<nav class='barraprincipal navbar navbar-expand-md fixed-top navbar-light bg-light' >";
+
+		}
+	?>
 
 		<button class="btn btn-warning btn-sm mr-2" type="button" onclick='fijar()'><i class='fas fa-bars'></i></button>
 
@@ -71,7 +79,7 @@
       <ul class='nav navbar-nav navbar-right px-1'>
         <li class='nav-item'>
           <a class='nav-link pull-left border border-warning rounded' onclick='salir()'>
-            <i class='fas fa-sign-out-alt text-dark'></i>
+            <i class='fas fa-sign-out-alt text-red'></i>
           </a>
         </li>
       </ul>
@@ -134,6 +142,7 @@
 
 						if(array_key_exists('CLIENTES', $db->derecho))
 						echo "<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>";
+
 
 						if(array_key_exists('CITAS', $db->derecho))
 						echo "<a href='#a_citas/index' is='menu-link' title='Citas'><i class='far fa-calendar-check'></i><span>Citas/Agenda</span></a>";
