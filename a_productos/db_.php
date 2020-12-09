@@ -156,8 +156,8 @@ class Productos extends Sagyc{
 			if (isset($_REQUEST['activo_catalogo'])){
 				$arreglo += array('activo_catalogo'=>$_REQUEST['activo_catalogo']);
 			}
-			if (isset($_REQUEST['categoria'])){
-				$arreglo += array('categoria'=>$_REQUEST['idcategoria']);
+			if (isset($_REQUEST['idcategoria'])){
+				$arreglo += array('idcategoria'=>$_REQUEST['idcategoria']);
 			}
 
 			if (isset($_REQUEST['tipo'])){

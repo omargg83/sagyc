@@ -9,7 +9,7 @@
       echo "<div class='row'>";
 			foreach($categoria as $key){
 				echo "<div class='col-3'>";
-          echo "<button type='button' class='btn btn-warning btn-sm mb-4' id='categorias' is='p-categoria' title='Editar' v_idcategoria='$key->idcat'>";
+          echo "<button type='button' class='btn btn-warning btn-sm mb-4' id='categorias' is='p-categoria' title='Editar' v_idcategoria='$key->idcategoria'>";
             if(strlen($key->archivo)>0 and file_exists("../".$db->f_categoria."/".$key->archivo)){
               echo "<img src='".$db->f_categoria."/".$key->archivo."' width='100px' height='100px' />";
             }

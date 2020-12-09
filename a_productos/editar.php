@@ -105,7 +105,7 @@
 								<select class='form-control form-control-sm' name='idcategoria' id='idcategoria'>
 									<?php
 									foreach($cate as $key){
-										echo  "<option value='".$key->idcat."' "; if($categoria==$key->idcat){ echo " selected";} echo ">".$key->nombre."</option>";
+										echo  "<option value='".$key->idcategoria."' "; if($categoria==$key->idcategoria){ echo " selected";} echo ">".$key->nombre."</option>";
 									}?>
 								</select>
 							</div>

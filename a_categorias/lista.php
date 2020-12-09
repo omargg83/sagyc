@@ -32,7 +32,7 @@
 					echo "<div class='col-2'>";
 						echo "<div class='btn-group'>";
 
-						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_categorias/editar' dix='trabajo' v_idcategoria='$key->idcat'><i class='fas fa-pencil-alt'></i></button>";
+						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_categorias/editar' dix='trabajo' v_idcategoria='$key->idcategoria'><i class='fas fa-pencil-alt'></i></button>";
 
 						echo "</div>";
 					echo "</div>";
