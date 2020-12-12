@@ -513,7 +513,7 @@ class Productos extends Sagyc{
 		$sheeti = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 		$sheeti->setName('logo');
 		$sheeti->setDescription('description');
-		$sheeti->setPath('../img/pies.png');
+		$sheeti->setPath('../img/logoimp.jpg');
 		$sheeti->setHeight(90);
 		$sheeti->setCoordinates("G1");
 		$sheeti->setOffsetX(20);
