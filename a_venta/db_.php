@@ -17,7 +17,11 @@ class Venta extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('VENTA', $this->derecho)) {
+		if($_SESSION['nivel']==66){
+			$this->nivel_personal=0;
+			$this->nivel_captura=1;
+		}
+		else if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('VENTA', $this->derecho)) {
 			////////////////PERMISOS
 			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='VENTA'";
 			$stmt= $this->dbh->query($sql);
@@ -56,6 +60,7 @@ class Venta extends Sagyc{
 		$cantidad="0";
 		$precio="0";
 		$tipo="0";
+		$comanda="";
 		$idventa=$_REQUEST['idventa'];
 		$idcliente=$_REQUEST['idcliente'];
 		$idproducto=$_REQUEST['idproducto'];
@@ -149,6 +154,7 @@ class Venta extends Sagyc{
 					$numero=$venta->numero;
 					$date=$venta->fecha;
 					$estado=$venta->estado;
+					$comanda=$venta->comanda;
 				}
 
 				///////////////////////////recalcula esquemas
@@ -200,6 +206,7 @@ class Venta extends Sagyc{
 					$arreglo+=array('numero'=>$numero);
 					$arreglo+=array('estado'=>$estado);
 					$arreglo+=array('total'=>$total);
+					$arreglo+=array('comanda'=>$comanda);
 					$fecha1 = date ( "Y-m-d" , strtotime($date) );
 					$arreglo+=array('fecha'=>$fecha1);
 					return json_encode($arreglo);
@@ -276,7 +283,7 @@ class Venta extends Sagyc{
 			$idventa=$_REQUEST['idventa'];
 			$idcliente=$_REQUEST['idcliente'];
 			if($idventa==0){
-				$sql = "SELECT MAX(numero) FROM venta where idsucursal='".$_SESSION['idtienda']."'";
+				$sql = "SELECT MAX(numero) FROM venta where idsucursal='".$_SESSION['idsucursal']."'";
 				$statement = $this->dbh->prepare($sql);
 				$statement->execute();
 				$numero=$statement->fetchColumn()+1;
@@ -291,13 +298,35 @@ class Venta extends Sagyc{
 				$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$x=$this->insert('venta', $arreglo);
+				$ped=json_decode($x);
+				if($ped->error==0){
+					$idventa=$ped->id;
+				}
 			}
 			else{
 				$arreglo=array();
 				$arreglo+=array('idcliente'=>$idcliente);
 				$x=$this->update('venta',array('idventa'=>$idventa), $arreglo);
 			}
-			return $x;
+
+			$sql="select * from venta where idventa='$idventa'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$venta=$sth->fetch(PDO::FETCH_OBJ);
+			$numero=$venta->numero;
+			$date=$venta->fecha;
+			$estado=$venta->estado;
+			$comanda=$venta->comanda;
+
+			$arreglo =array();
+			$arreglo+=array('idventa'=>$idventa);
+			$arreglo+=array('error'=>0);
+			$arreglo+=array('numero'=>$numero);
+			$arreglo+=array('estado'=>$estado);
+			$arreglo+=array('comanda'=>$comanda);
+			$fecha1 = date ( "Y-m-d" , strtotime($date) );
+			$arreglo+=array('fecha'=>$fecha1);
+			return json_encode($arreglo);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED! ".$e->getMessage();
@@ -535,6 +564,63 @@ class Venta extends Sagyc{
 	}
 
 
+	public function agregar_comanda(){
+		try{
+			$idventa=clean_var($_REQUEST['idventa']);
+			$comanda=clean_var($_REQUEST['comanda']);
+			$idcliente=clean_var($_REQUEST['idcliente']);
+
+			if($idventa==0){
+				$sql = "SELECT MAX(numero) FROM venta where idsucursal='".$_SESSION['idsucursal']."'";
+				$statement = $this->dbh->prepare($sql);
+				$statement->execute();
+				$numero=$statement->fetchColumn()+1;
+
+				$arreglo=array();
+				$arreglo+=array('idcliente'=>$idcliente);
+				$arreglo+=array('estado'=>"Activa");
+				$arreglo+=array('numero'=>$numero);
+
+				$date=date("Y-m-d H:i:s");
+				$arreglo+=array('fecha'=>$date);
+				$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
+				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
+				$arreglo+=array('comanda'=>$comanda);
+
+				$x=$this->insert('venta', $arreglo);
+				$ped=json_decode($x);
+				if($ped->error==0){
+					$idventa=$ped->id;
+				}
+			}
+			else{
+				$arreglo=array();
+				$arreglo+=array('comanda'=>$comanda);
+				$x=$this->update('venta',array('idventa'=>$idventa), $arreglo);
+			}
+
+			$sql="select * from venta where idventa='$idventa'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$venta=$sth->fetch(PDO::FETCH_OBJ);
+			$numero=$venta->numero;
+			$date=$venta->fecha;
+			$estado=$venta->estado;
+
+			$arreglo =array();
+			$arreglo+=array('idventa'=>$idventa);
+			$arreglo+=array('error'=>0);
+			$arreglo+=array('numero'=>$numero);
+			$arreglo+=array('estado'=>$estado);
+			$arreglo+=array('comanda'=>$comanda);
+			$fecha1 = date ( "Y-m-d" , strtotime($date) );
+			$arreglo+=array('fecha'=>$fecha1);
+			return json_encode($arreglo);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED! ".$e->getMessage();
+		}
+	}
 }
 
 $db = new Venta();

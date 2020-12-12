@@ -1,22 +1,20 @@
 <?php
 	require_once("db_.php");
-	$db = new Gastos();
-	$idgastos=$_REQUEST['idgastos'];
+	if (isset($_REQUEST['idgastos'])){$idgastos=clean_var($_REQUEST['idgastos']);} else{ $idgastos=0;}
+	$fecha=date("d-m-Y");
+	$gasto="";
+	$descripcion="";
+	$costo="0";
+
 	if($idgastos>0){
-		$pers = $db->gastos_edit($idgastos);
-		$fecha=fecha($pers['fecha']);
-		$gasto=$pers['gasto'];
-		$descripcion=$pers['descripcion'];
-		$costo=$pers['costo'];
+		$pd = $db->gastos_edit($idgastos);
+		$fecha=fecha($pd->fecha);
+		$gasto=$pd->gasto;
+		$descripcion=$pd->descripcion;
+		$costo=$pd->costo;
+	}
 
 
-	}
-	else{
-		$fecha=date("d-m-Y");
-		$gasto="";
-		$descripcion="";
-		$costo="0";
-	}
 ?>
 <div class="container">
 	<form is="f-submit" id="form_editar" db="a_gastos/db_" fun="guardar_gastos" lug="a_gastos/editar" desid='idgastos'>

@@ -8,17 +8,20 @@
 	else{
 		$pd = $db->categoria_lista();
 	}
-	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 
-	if($_SESSION['a_sistema']==1){
-		echo "<br><button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_categorias/editar' dix='trabajo' v_idcat='0'><i class='fas fa-pencil-alt'></i>Nueva</button></hr>";
-	}
-	echo "<hr>";
 ?>
 
+<div class='container'>
 <div class='tabla_css' id='tabla_css'>
 	<div class='row titulo-row'>
-		<div class='col-xl col-auto'>
+		<div class='col-2 text-left'>
+			<?php
+			if($_SESSION['a_sistema']==1){
+				echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_categorias/editar' dix='trabajo' v_idcat='0'><i class='fas fa-pencil-alt'></i>Nueva</button>";
+			}
+			?>
+		</div>
+		<div class='col-10'>
 			LISTA DE CATEGORÍAS
 		</div>
 	</div>

@@ -1,7 +1,7 @@
 <?php
 	require_once("db_.php");
 ?>
-<nav class='navbar navbar-expand-lg navbar-light bg-light'>
+<nav class='navbar navbar-expand-lg navbar-sagyc'>
 	<a class='navbar-brand' ><i class='fas fa-user-check'></i>Usuarios</a>
 	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
 		<span class='navbar-toggler-icon'></span>
@@ -25,7 +25,7 @@
 					echo "</li>";
 				}
 				?>
-				
+
 				<li class='nav-item active'>
 					<a class='nav-link barranav' title='Mostrar todo' is='a-link' id='lista_comision' des='a_usuarios/lista' dix='trabajo'><i class='fas fa-list-ul'></i><span>Lista</span></a>
 				</li>

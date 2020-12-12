@@ -16,7 +16,11 @@ class Traspaso extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('TRASPASOS', $this->derecho)) {
+		if($_SESSION['nivel']==66){
+			$this->nivel_personal=0;
+			$this->nivel_captura=1;
+		}
+		else if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('TRASPASOS', $this->derecho)) {
 			////////////////PERMISOS
 			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='TRASPASOS'";
 			$stmt= $this->dbh->query($sql);

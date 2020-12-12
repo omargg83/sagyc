@@ -1,8 +1,8 @@
 <?php
 	require_once("db_.php");
 ?>
-<nav class='navbar navbar-expand-sm navbar-light bg-light '>
-	<a class='navbar-brand' ><i class='fas fa-user-check'></i> Ventas</a>
+<nav class='navbar navbar-expand-md navbar-sagyc'>
+	<a class='navbar-brand' ><i class='fas fa-cash-register'></i> Ventas</a>
 	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
 		<span class='navbar-toggler-icon'></span>
 	  </button>

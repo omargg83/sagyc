@@ -13,7 +13,9 @@
 			</form>
     </div>
     <div clas='row' id='lista_clientesx'>
-
+      <?php
+        include "cliente_lista.php";
+       ?>
     </div>
   </div>
   <div class="modal-footer">

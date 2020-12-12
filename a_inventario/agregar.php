@@ -31,12 +31,12 @@
 		echo "</div>";
 	echo "</div>";
 	echo "<br>";
-	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
+	echo "<div class='container'>";
 ?>
 
 	<div class='tabla_css' id='tabla_css'>
 	  <div class='row titulo-row'>
-	    <div class='col-xl col-auto'>
+	    <div class='col-12'>
 	      ASIGNAR PRODUCTO A LA SUCURSAL
 	    </div>
 	  </div>

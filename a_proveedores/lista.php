@@ -14,27 +14,26 @@
 		}
 		$pd = $db->provedores_lista($pag);
 	}
-	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
 
+<div class='container'>
 
 <div class='tabla_css' id='tabla_css'>
 	<div class='row titulo-row'>
-		<div class='col-12 col-xl col-auto'>
+		<div class='col-12'>
 			LISTA DE PROVEEDORES
 		</div>
 	</div>
 	<div class='row header-row'>
-		<div class='col-12 col-xl col-auto'>#</div>
-		<div class='col-12 col-xl col-auto'>NOMBRE</div>
-		<div class='col-12 col-xl col-auto'>EMAIL</div>
-		<div class='col-12 col-xl col-auto'>TELEFONO</div>
+		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>#</div>
+		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>NOMBRE</div>
+		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>EMAIL</div>
+		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>TELEFONO</div>
 	</div>
-
 		<?php
 			foreach($pd as $key){
 				echo "<div class='row body-row' draggable='true'>";
-					echo "<div class='col-12 col-xl col-auto text-center'>";
+					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>";
 						echo "<div class='btn-group'>";
 
 						if($db->nivel_captura==1){
@@ -43,9 +42,9 @@
 						echo "</div>";
 					echo "</div>";
 
-					echo "<div class='col-12 col-xl col-auto text-center'>".$key->nombre."</div>";
-					echo "<div class='col-12 col-xl col-auto text-center'>".$key->emailp."</div>";
-					echo "<div class='col-12 col-xl col-auto text-center'>".$key->telp."</div>";
+					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>".$key->nombre."</div>";
+					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->emailp."</div>";
+					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->telp."</div>";
 				echo "</div>";
 			}
 		?>

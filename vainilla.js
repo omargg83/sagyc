@@ -175,23 +175,21 @@ $(document).on('click',"[is*='p-fondo']",function(e){
 
 function fijar(){
   let sidebar;
-  if(document.querySelector('.sidebar')){
-    document.getElementById("navx").classList.remove('sidebar');
-    document.getElementById("navx").classList.add('sidebar_fija');
 
+  if (document.querySelector(".sidebar_fija")) {
+    document.getElementById("navx").classList.remove('sidebar_fija');
+    document.getElementById("contenido").classList.add('main');
+    document.getElementById("contenido").classList.remove('main_fija');
+    sidebar=0;
+  }
+  else{
+    console.log("no existe");
+    document.getElementById("navx").classList.add('sidebar_fija');
     document.getElementById("contenido").classList.remove('main');
     document.getElementById("contenido").classList.add('main_fija');
     sidebar=1;
   }
-  else{
-    document.getElementById("navx").classList.remove('sidebar_fija');
-    document.getElementById("navx").classList.add('sidebar');
 
-    document.getElementById("contenido").classList.remove('main_fija');
-    document.getElementById("contenido").classList.add('main');
-    sidebar=0;
-  }
-  console.log("entra");
   var formData = new FormData();
   formData.append("function","fija");
   formData.append("ctrl", "control");
@@ -199,7 +197,7 @@ function fijar(){
   let xhr = new XMLHttpRequest();
   xhr.open('POST',db_inicial);
   xhr.addEventListener('load',(data)=>{
-    console.log(data.target.response);
+
   });
   xhr.onerror =  ()=>{
   };
@@ -260,11 +258,10 @@ $(document).on('submit',"[is*='is-selecciona']",function(e){
       document.getElementById("idventa").value=datos.idventa;
       document.getElementById("numero").value=datos.numero;
       document.getElementById("fecha").value=datos.fecha;
-      document.getElementById("estado").value=datos.estado;
-      //document.getElementById("total").value=datos.total;
-
+      document.getElementById("comanda").value=datos.comanda;
+      document.getElementById("div_comanda").innerHTML=datos.comanda;
+      document.getElementById("div_numero").innerHTML=datos.numero;
       lista(datos.idventa);
-      document.getElementById("resultadosx").innerHTML ="";
     }
     else{
       cargando(false);
@@ -362,7 +359,25 @@ $(document).on('click',"[is*='is-cliente']",function(e){
   let xhr = new XMLHttpRequest();
   xhr.open('POST',"a_venta/db_.php");
   xhr.addEventListener('load',(data)=>{
-    cliente_datos(idcliente);
+    var datos = JSON.parse(data.target.response);
+    if(datos.error==0){
+      document.getElementById("idventa").value=datos.idventa;
+      document.getElementById("numero").value=datos.numero;
+      document.getElementById("fecha").value=datos.fecha;
+      document.getElementById("comanda").value=datos.comanda;
+      document.getElementById("div_comanda").innerHTML=datos.comanda;
+      document.getElementById("div_numero").innerHTML=datos.numero;
+      cliente_datos(idcliente, datos.idventa);
+    }
+    else{
+      Swal.fire({
+        type: 'error',
+        title: "Error: "+datos.terror,
+        showConfirmButton: false,
+        timer: 1000
+      });
+      return;
+    }
     $('#myModal').modal('hide');
     cargando(false);
   });
@@ -487,7 +502,43 @@ $(document).on('submit',"[is*='f-comanda']",function(e){
   e.preventDefault();
 
   let idventa=document.getElementById("idventa").value;
-  alert("entra");
+  let idcliente=document.getElementById("idcliente").value;
+  let comanda=document.getElementById("comanda_txt").value;
+
+  let formData = new FormData();
+  formData.append("idventa", idventa);
+  formData.append("idcliente", idcliente);
+  formData.append("comanda", comanda);
+  formData.append("function", "agregar_comanda");
+
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST',"a_venta/db_.php");
+  xhr.addEventListener('load',(data)=>{
+    var datos = JSON.parse(data.target.response);
+    if(datos.error==0){
+      document.getElementById("idventa").value=datos.idventa;
+      document.getElementById("numero").value=datos.numero;
+      document.getElementById("fecha").value=datos.fecha;
+      document.getElementById("comanda").value=datos.comanda;
+      document.getElementById("div_comanda").innerHTML=datos.comanda;
+      document.getElementById("div_numero").innerHTML=datos.numero;
+      $('#myModal').modal('hide');
+    }
+    else{
+      Swal.fire({
+        type: 'error',
+        title: "Error: "+datos.terror,
+        showConfirmButton: false,
+        timer: 1000
+      });
+      return;
+    }
+    cargando(false);
+  });
+  xhr.onerror =  ()=>{
+    cargando(false);
+  };
+  xhr.send(formData);
 });
 
 
@@ -562,9 +613,10 @@ function datos_compra(idventa){
   };
   xhr.send(formData);
 }
-function cliente_datos(idcliente){
+function cliente_datos(idcliente, idventa){
   var formData = new FormData();
   formData.append("idcliente", idcliente);
+  formData.append("idventa", idventa);
 
   let xhr = new XMLHttpRequest();
   xhr.open('POST',"a_venta/cliente_datos.php");

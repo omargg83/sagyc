@@ -16,7 +16,11 @@ class Categoria extends Sagyc{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('INVENTARIO', $this->derecho)) {
+		if($_SESSION['nivel']==66){
+			$this->nivel_personal=0;
+			$this->nivel_captura=1;
+		}
+		else if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('INVENTARIO', $this->derecho)) {
 			////////////////PERMISOS
 			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='INVENTARIO'";
 			$stmt= $this->dbh->query($sql);

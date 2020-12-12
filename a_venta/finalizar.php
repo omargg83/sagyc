@@ -23,7 +23,6 @@ $total=round($total,2);
 
 <form id="form_finalizar" is='is-totalv' db="a_venta/db_" fun="finalizar_venta" des='a_venta/venta' desid='idventa' dix='trabajo' cmodal='2'>
 
-
   <div class="modal-header">
     <h5 class="modal-title">Finalizar venta</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -39,10 +38,6 @@ $total=round($total,2);
           <option value="Efectivo">Efectivo</option>
           <option value="Debito">Tarjeta de debito</option>
           <option value="T.Credito">Tarjeta de Credito</option>
-  <!--        <option value="Transferencia">Transferencia Electronica</option>
-          <option value="Deposito">Deposito</option>
-          <option value="Vale">Vale</option>
-          <option value="Cupon">Cupón</option> -->
         </select>
       </div>
 

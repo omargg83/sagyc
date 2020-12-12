@@ -1,7 +1,11 @@
 <?php
 	require_once("db_.php");
-
-  $texto=$_REQUEST['texto'];
+	if(isset($_REQUEST['texto'])){
+		$texto=$_REQUEST['texto'];
+	}
+	else{
+		$texto="";
+	}
 
   $sql="SELECT * from clientes where nombre like '%$texto%' limit 100";
   $sth = $db->dbh->prepare($sql);

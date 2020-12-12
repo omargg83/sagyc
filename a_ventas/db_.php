@@ -18,7 +18,11 @@ class Venta extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('VENTAREGISTRO', $this->derecho)) {
+		if($_SESSION['nivel']==66){
+			$this->nivel_personal=0;
+			$this->nivel_captura=1;
+		}
+		else if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('VENTAREGISTRO', $this->derecho)) {
 			////////////////PERMISOS
 			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='VENTAREGISTRO'";
 			$stmt= $this->dbh->query($sql);
@@ -35,7 +39,7 @@ class Venta extends Sagyc{
 
 	public function ventas_lista($pagina){
 		$pagina=$pagina*$_SESSION['pagina'];
-		$sql="select venta.idventa, venta.numero, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
+		$sql="select venta.idventa, venta.numero, venta.comanda, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
 		where venta.idsucursal='".$_SESSION['idsucursal']."' and (venta.estado='Activa' or venta.estado='Editar') order by venta.numero desc limit $pagina,".$_SESSION['pagina']."";
 		$sth = $this->dbh->prepare($sql);
@@ -44,7 +48,7 @@ class Venta extends Sagyc{
 	}
 	public function ventas_pagadas($pagina){
 		$pagina=$pagina*$_SESSION['pagina'];
-		$sql="select venta.idventa, venta.numero, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
+		$sql="select venta.idventa, venta.numero, venta.comanda, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
 		where venta.idsucursal='".$_SESSION['idsucursal']."' and venta.estado='Pagada' order by venta.numero desc limit $pagina,".$_SESSION['pagina']."";
 		$sth = $this->dbh->prepare($sql);
@@ -52,9 +56,9 @@ class Venta extends Sagyc{
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function ventas_buscar($texto){
-		$sql="select venta.idventa, venta.numero, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
+		$sql="select venta.idventa, venta.numero, venta.comanda, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
-		where venta.idsucursal='".$_SESSION['idsucursal']."' and (venta.numero like '%$texto%' or clientes.nombre like '%$texto%') order by venta.numero desc limit 100";
+		where venta.idsucursal='".$_SESSION['idsucursal']."' and (venta.numero like '%$texto%' or clientes.nombre like '%$texto%' or venta.comanda like '%$texto%') order by venta.numero desc limit 100";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -62,7 +66,7 @@ class Venta extends Sagyc{
 
 	public function ventas_canceladas($pagina){
 		$pagina=$pagina*$_SESSION['pagina'];
-		$sql="select venta.idventa, venta.numero, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
+		$sql="select venta.idventa, venta.numero, venta.comanda, venta.idsucursal, clientes.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado from venta
 		left outer join clientes on clientes.idcliente=venta.idcliente
 		where venta.idsucursal='".$_SESSION['idsucursal']."' and venta.estado='Cancelada' order by venta.numero desc limit $pagina,".$_SESSION['pagina']."";
 		$sth = $this->dbh->prepare($sql);
@@ -180,7 +184,7 @@ class Venta extends Sagyc{
 			$sql="select venta.idventa, venta.idtienda, venta.iddescuento, venta.factura, clientes.nombre, et_tienda.nombre, venta.total, venta.fecha, venta.gtotal, venta.estado, et_descuento.nombre as descuento from venta
 			left outer join clientes on clientes.idcliente=venta.idcliente
 			left outer join et_descuento on et_descuento.iddescuento=venta.iddescuento
-			left outer join et_tienda on et_tienda.id=venta.idtienda where venta.idtienda='".$_SESSION['idtienda']."' and (venta.idventa like '%$texto%' or clientes.nombre like '%$texto%' or venta.estado like '%$texto%' or venta.total like '%$texto%') order by venta.fecha desc";
+			left outer join et_tienda on et_tienda.id=venta.idtienda where venta.idtienda='".$_SESSION['idtienda']."' and (venta.idventa like '%$texto%' or clientes.nombre like '%$texto%' or venta.estado like '%$texto%' or venta.total like '%$texto%' or venta.comanda like '%$texto%') order by venta.fecha desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll();

@@ -16,26 +16,27 @@
 	}
 	$sucursal=$db->sucursal();
 
-	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
+
+<div class='container'>
 
 <div class='tabla_css' id='tabla_css'>
 	<div class='row titulo-row'>
-		<div class='col-xl col-auto'>
+		<div class='col-12'>
 			LISTA DE PRODUCTOS
 		</div>
 	</div>
 	<div class='row header-row'>
-		<div class='col-12 col-xl col-auto'>#</div>
-		<div class='col-12 col-xl col-auto'>ID</div>
-		<div class='col-12 col-xl col-auto'>Codigo</div>
-		<div class='col-12 col-xl col-auto'>Nombre</div>
+		<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>#</div>
+		<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>ID</div>
+		<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>Codigo</div>
+		<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>Nombre</div>
 	</div>
 
 		<?php
 			foreach($pd as $key){
 				echo "<div class='row body-row' draggable='true'>";
-					echo "<div class='col-12 col-xl col-auto text-center'>";
+					echo "<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>";
 						echo "<div class='btn-group'>";
 
 						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_productos/editar' dix='trabajo' v_idcatalogo='$key->idcatalogo'><i class='fas fa-pencil-alt'></i></button>";
@@ -46,17 +47,13 @@
 						echo "</div>";
 					echo "</div>";
 
-			/*		echo "<div class='col-2'>";
-						echo $key->idcatalogo;
-					echo "</div>"; */
-
-					echo "<div class='col-12 col-xl col-auto text-center'>";
+					echo "<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>";
 						if($key->tipo==0) echo "Servicio";
 						if($key->tipo==3) echo "Producto";
 					echo "</div>";
 
-					echo "<div class='col-12 col-xl col-auto text-center'>".$key->codigo."</div>";
-					echo "<div class='col-12 col-xl col-auto text-center'>".$key->nombre."</div>";
+					echo "<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>".$key->codigo."</div>";
+					echo "<div class='col-6 col-sm-6 col-md-3 col-lg-4 col-xl-3'>".$key->nombre."</div>";
 				echo '</div>';
 			}
 		?>
@@ -73,8 +70,6 @@
 			$contar=$sth->fetch(PDO::FETCH_OBJ);
 			$paginas=ceil($contar->total/$_SESSION['pagina']);
 			$pagx=$paginas-1;
-
 			echo $db->paginar($paginas,$pag,$pagx,"a_productos/lista","trabajo");
-
 		}
 	?>

@@ -15,7 +15,11 @@ class Gastos extends Sagyc{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('GASTOS', $this->derecho)) {
+		if($_SESSION['nivel']==66){
+			$this->nivel_personal=0;
+			$this->nivel_captura=1;
+		}
+		else if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('GASTOS', $this->derecho)) {
 			////////////////PERMISOS
 			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='GASTOS'";
 			$stmt= $this->dbh->query($sql);
@@ -30,9 +34,10 @@ class Gastos extends Sagyc{
 		}
 	}
 
-	public function gastos_lista(){
+	public function gastos_lista($pagina){
 		try{
-			$sql="SELECT * FROM gastos where idtienda='".$_SESSION['idtienda']."' and idsucursal= '".$_SESSION['idsucursal']."'";
+			$pagina=$pagina*$_SESSION['pagina'];
+			$sql="SELECT * FROM gastos where idtienda='".$_SESSION['idtienda']."' and idsucursal= '".$_SESSION['idsucursal']."' limit $pagina,".$_SESSION['pagina']."";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -41,7 +46,6 @@ class Gastos extends Sagyc{
 			return "Database access FAILED! ".$e->getMessage();
 		}
 	}
-
 	public function gastos_buscar($texto){
 		try{
 			$sql="SELECT * FROM gastos where gastos.gasto like '%$texto%' and idtienda='".$_SESSION['idtienda']."' and idsucursal= '".$_SESSION['idsucursal']."'";
@@ -60,8 +64,8 @@ class Gastos extends Sagyc{
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":idgastos",$idgastos);
 			$sth->execute();
-			$res=$sth->fetch();
-			return $res;
+			$sth->execute();
+ 		 return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED! ".$e->getMessage();
@@ -98,7 +102,7 @@ class Gastos extends Sagyc{
 	}
 
 	public function borrar_gasto(){
-		if (isset($_REQUEST['id'])){ $idgastos=$_REQUEST['id']; }
+		if (isset($_REQUEST['idgastos'])){ $idgastos=$_REQUEST['idgastos']; }
 		return $this->borrar('gastos',"idgastos",$idgastos);
 	}
 

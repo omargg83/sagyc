@@ -24,7 +24,6 @@
 		$pedido = $db->ventas_pedido($idventa);
 		echo "<div class='tabla_css col-12' id='tabla_css' style='min-height:200px'>";
 			echo "<div class='row header-row'>";
-				echo "<div class='col-12'>DESCRIPCION</div>";
 				echo "<div class='col-4'>#</div>";
 				echo "<div class='col-4'>$</div>";
 				echo "<div class='col-4'>G$</div>";

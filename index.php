@@ -31,27 +31,15 @@
 ?>
 
 <header class="d-block p-2" id='header'>
-	<?php
-		if(SERVER=="LOCALHOST"){
-			echo "<nav class='barraprincipal navbar navbar-expand-md fixed-top navbar-dark bg-dark' >";
-		}
-		else{
-			echo "<nav class='barraprincipal navbar navbar-expand-md fixed-top navbar-light bg-light' >";
+	<nav class='barraprincipal navbar navbar-expand-md fixed-top navbar-light bg-light' >
 
-		}
-	?>
 
 		<button class="btn btn-warning btn-sm mr-2" type="button" onclick='fijar()'><i class='fas fa-bars'></i></button>
 
 	  <img src='img/sagyc.png' width='60' height='30' alt=''>
-	  <a class='navbar-brand text-black text-center ml-3' href='#'>
-			<?php
-			echo $_SESSION['n_sistema'];
-			echo "<small> - ".$_SESSION['sucursal_nombre']."</small>";
-			if($_SESSION['a_sistema']==0){
-				echo " - SISTEMA INACTIVO";
-			}
-			?>  </a>
+	  <a class='navbar-brand text-black text-center ml-3' href='#'><?php
+				echo trim($_SESSION['n_sistema']);
+			?></a>
 	  <button class='navbar-toggler collapsed' type='button' data-toggle='collapse' data-target='#navbarsExample06' aria-controls='navbarsExample06' aria-expanded='false' aria-label='Toggle navigation'>
 	    <span class='navbar-toggler-icon'></span>
 	  </button>
@@ -93,15 +81,68 @@
 	    <div class='container-fluid'>
 
 					<?php
-						if($_SESSION['sidebar']==1){
-							echo "<div class='sidebar_fija' id='navx'>";
-						}
-						else{
-							echo "<div class='sidebar' id='navx'>";
-						}
-					?>
 
+
+							echo "<div class='sidebar";
+							if($_SESSION['sidebar']==1){
+								echo " sidebar_fija";
+							}
+							echo "' id='navx'>";
+
+					?>
 					<div class="sidebar-header">
+						<?php
+						echo "<div class='text-center' style='font-size:14px; width:100%'><b>".$_SESSION['sucursal_nombre']."</b></div>";
+						?>
+      		</div>
+					<div class="sidebar-body">
+	        	<a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
+						<?php
+							if((array_key_exists('VENTA', $db->derecho) and $_SESSION['a_sistema']==1) or $_SESSION['nivel']==66)
+							echo "<a href='#a_venta/venta' id='ventax' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>";
+
+							if(array_key_exists('VENTAREGISTRO', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>";
+
+							if(array_key_exists('COMPRAS', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>";
+
+							if((array_key_exists('PRODUCTOS', $db->derecho) and $_SESSION['matriz']==1) or $_SESSION['nivel']==66)
+							echo "<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Catalogo</span></a>";
+
+							if(array_key_exists('INVENTARIO', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_inventario/index' is='menu-link' title='inventario'><i class='fas fa-boxes'></i><span>Inventario</span></a>";
+
+							if(array_key_exists('CLIENTES', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>";
+
+							if(array_key_exists('CITAS', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_citas/index' is='menu-link' title='Citas'><i class='far fa-calendar-check'></i><span>Citas/Agenda</span></a>";
+
+							if(array_key_exists('PROVEEDORES', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>";
+
+							if(array_key_exists('TRASPASOS', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_traspasos/index' is='menu-link' title='Traspasos'><i class='fas fa-arrows-alt-h'></i><span>Traspasos</span></a>";
+
+							if(array_key_exists('GASTOS', $db->derecho) or $_SESSION['nivel']==66)
+			        echo "<a href='#a_gastos/index' is='menu-link' title='Datosemp'><i class='fas fa-donate'></i><span>Gastos</span></a>";
+
+							if(array_key_exists('REPORTES', $db->derecho) and $_SESSION['a_sistema']==1)
+							echo "<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>";
+
+							if(array_key_exists('USUARIOS', $db->derecho) or $_SESSION['nivel']==66)
+							echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
+
+							if(array_key_exists('DATOSEMP', $db->derecho) or $_SESSION['nivel']==66)
+			        echo "<a href='#a_datosemp/index' is='menu-link' title='Datos de la empresa'><i class='fas fa-wrench'></i><span>Datos Emp.</span></a>";
+
+							if(array_key_exists('SUPERVISOR', $db->derecho) or $_SESSION['nivel']==66)
+			       echo "<a href='#a_supervisor/index' is='menu-link' title='Supervisor'><i class='far fa-eye'></i><span>Supervisor</span></a>";
+						?>
+					</div>
+
+					<div class="sidebar-footer">
 		        <div class="user-pic">
 							<?php
 								if(strlen($_SESSION['foto'])>0 and file_exists($db->f_usuarios."/".$_SESSION['foto'])){
@@ -114,61 +155,12 @@
 		        </div>
 		        <div class="user-info" style='width: 80px; white-space: nowrap; text-overflow: ellipsis;overflow: hidden;'>
 		          <span class="user-name" ><?php echo $_SESSION['nombre'] ?></span>
-		          <span class="user-role"><?php echo $_SESSION['sucursal_nombre']; ?></span>
 		          <span class="user-status">
 		            <i class="fa fa-circle"></i>
 		            <span>Online</span>
 		          </span>
 		        </div>
       		</div>
-
-					<div class="sidebar-body">
-	        	<a href='#dash/index' is='menu-link' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
-					<?php
-						if(array_key_exists('VENTA', $db->derecho) and $_SESSION['a_sistema']==1)
-						echo "<a href='#a_venta/venta' id='ventax' is='menu-link' title='Pedidos'><i class='fas fa-cash-register'></i><span>+ Venta</span></a>";
-
-						if(array_key_exists('VENTAREGISTRO', $db->derecho))
-						echo "<a href='#a_ventas/index' id='ventas' is='menu-link' title='Pedidos'><i class='fas fa-shopping-basket'></i><span>Ventas</span></a>";
-
-						if(array_key_exists('COMPRAS', $db->derecho))
-						echo "<a href='#a_compras/index' is='menu-link' title='Compras'><i class='fas fa-shopping-bag'></i><span>Compras</span></a>";
-
-						if(array_key_exists('PRODUCTOS', $db->derecho) and $_SESSION['matriz']==1)
-						echo "<a href='#a_productos/index' is='menu-link' title='Productos'><i class='fab fa-product-hunt'></i><span>Catalogo</span></a>";
-
-						if(array_key_exists('INVENTARIO', $db->derecho))
-						echo "<a href='#a_inventario/index' is='menu-link' title='inventario'><i class='fas fa-boxes'></i><span>Inventario</span></a>";
-
-						if(array_key_exists('CLIENTES', $db->derecho))
-						echo "<a href='#a_cliente/index' is='menu-link' title='Clientes'><i class='fas fa-user-tag'></i><span>Clientes</span></a>";
-
-
-						if(array_key_exists('CITAS', $db->derecho))
-						echo "<a href='#a_citas/index' is='menu-link' title='Citas'><i class='far fa-calendar-check'></i><span>Citas/Agenda</span></a>";
-
-						if(array_key_exists('PROVEEDORES', $db->derecho))
-						echo "<a href='#a_proveedores/index' is='menu-link' title='Proveedores'><i class='fas fa-people-carry'></i><span>Proveedores</span></a>";
-
-						if(array_key_exists('TRASPASOS', $db->derecho))
-						echo "<a href='#a_traspasos/index' is='menu-link' title='Traspasos'><i class='fas fa-arrows-alt-h'></i><span>Traspasos</span></a>";
-
-						if(array_key_exists('GASTOS', $db->derecho))
-		        echo "<a href='#a_gastos/index' is='menu-link' title='Datosemp'><i class='fas fa-donate'></i><span>Gastos</span></a>";
-
-						if(array_key_exists('REPORTES', $db->derecho) and $_SESSION['a_sistema']==1)
-						echo "<a href='#a_reporte/index' is='menu-link' title='Reportes'><i class='far fa-chart-bar'></i> <span>Reportes</span></a>";
-
-						if(array_key_exists('USUARIOS', $db->derecho) or $_SESSION['nivel']==66)
-						echo "<a href='#a_usuarios/index' is='menu-link' title='Usuarios'><i class='fas fa-users'></i> <span>Usuarios</span></a>";
-
-						if(array_key_exists('DATOSEMP', $db->derecho))
-		        echo "<a href='#a_datosemp/index' is='menu-link' title='Datos de la empresa'><i class='fas fa-wrench'></i><span>Datos Emp.</span></a>";
-
-						if(array_key_exists('SUPERVISOR', $db->derecho))
-		        echo "<a href='#a_supervisor/index' is='menu-link' title='Supervisor'><i class='far fa-eye'></i><span>Supervisor</span></a>";
-					?>
-					</div>
 	      </div>
 			</div>
 			<?php

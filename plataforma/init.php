@@ -1,7 +1,6 @@
 <?php
 $server=3;
 $_SESSION['des']=0;
-
 if($server==2){
   //////////localhost
   define("MYSQLUSER", "root");
@@ -9,6 +8,7 @@ if($server==2){
   define("SERVIDOR", "localhost");
   define("BDD", "sagycrmr_sagyc");
   define("PORT", "3306");
+  define("SERVER", "LOCALHOST");
   $_SESSION['des']=1;
 }
 else if($server==3){
@@ -18,6 +18,7 @@ else if($server==3){
   define("SERVIDOR", "sagyc.com.mx");
   define("BDD", "sagycrmr_sagyc");
   define("PORT", "3306");
+  define("SERVER", "NUBE");
   $_SESSION['des']=0;
 }
 ?>

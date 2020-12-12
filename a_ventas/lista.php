@@ -15,8 +15,8 @@
 		$pd = $db->ventas_lista($pag);
 	}
 
-	echo "<div class='container-fluid' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
+<div class='container'>
 	<div class='tabla_css' id='tabla_css'>
 		<div class='row titulo-row'>
 			<div class='col-12'>
@@ -24,19 +24,19 @@
 			</div>
 		</div>
 		<div class='row header-row'>
-			<div class='col-2'>#</div>
-			<div class='col-2'>Numero</div>
-			<div class='col-2'>Fecha</div>
-			<div class='col-2'>Cliente</div>
-			<div class='col-2'>Total</div>
-			<div class='col-2'>Estado</div>
+			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>#</div>
+			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Numero</div>
+			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Comanda</div>
+			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Fecha</div>
+			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Cliente</div>
+			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Total</div>
 		</div>
 
 			<?php
 				foreach($pd as $key){
 			?>
 					<div class='row body-row' draggable='true'>
-						<div class='col-2'>
+						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2' >
 							<div class="btn-group">
 								<?php
 									if($db->nivel_captura==1){
@@ -45,12 +45,12 @@
 								?>
 							</div>
 						</div>
-						<div class='col-2'><?php echo $key->numero; ?></div>
-						<div class='col-2'><?php echo fecha($key->fecha); ?></div>
-						<div class='col-2'><?php echo $key->nombre; ?></div>
+						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center' data-titulo='Numero'><?php echo $key->numero; ?></div>
+						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center' data-titulo='Comanda'><?php echo $key->comanda; ?></div>
+						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2' data-titulo='Fecha'><?php echo fecha($key->fecha,2); ?></div>
+						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2' data-titulo='Cliente'><?php echo $key->nombre; ?></div>
+						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2' align="center" data-titulo='Total'><?php echo moneda($key->total); ?></div>
 
-						<div class='col-2' align="center">$ <?php echo number_format($key->total,2); ?></div>
-						<div class='col-2'><?php echo $key->estado; ?></div>
 
 					</div>
 			<?php

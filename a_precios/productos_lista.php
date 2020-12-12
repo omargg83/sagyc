@@ -29,12 +29,12 @@
 	echo "<div class='container'>";
 	echo "<div class='tabla_css' id='tabla_css'>";
 		echo "<div class='row header-row'>";
-			echo "<div class='col-12 col-xl col-auto'><i class='far fa-lightbulb' title='Estatus'></i> Estatus</div>";
-			echo "<div class='col-12 col-xl col-auto'><i class='fas fa-cubes' title='Stock'></i> Stock</div>";
-			echo "<div class='col-12 col-xl col-auto'><i class='far fa-file-alt' title='Descripción'></i> Descripción</div>";
-			echo "<div class='col-12 col-xl col-auto'><i class='fas fa-dollar-sign' title='Precio' ></i> Precio</div>";
-//			echo "<div class='col-12 col-xl col-auto'><i class='fas fa-dollar-sign' title='Precio Mayoreo' >M</i></div>";
-//			echo "<div class='col-12 col-xl col-auto'><i class='fas fa-dollar-sign' title='Precio Distribuidor' >D</i></div>";
+			echo "<div class=' col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'><i class='far fa-lightbulb' title='Estatus'></i> Estatus</div>";
+			echo "<div class=' col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'><i class='fas fa-cubes' title='Stock'></i> Stock</div>";
+			echo "<div class=' col-sm-6 '><i class='far fa-file-alt' title='Descripción'></i> Descripción</div>";
+			echo "<div class=' col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'><i class='fas fa-dollar-sign' title='Precio' ></i> Precio</div>";
+//			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'><i class='fas fa-dollar-sign' title='Precio Mayoreo' >M</i></div>";
+//			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'><i class='fas fa-dollar-sign' title='Precio Distribuidor' >D</i></div>";
 		echo "</div>";
 
 	  if(count($res)>0){
@@ -45,7 +45,7 @@
 				$cantidad=$sth->fetch(PDO::FETCH_OBJ);
 
 	      echo "<div class='row body-row' is='b-card' draggable='true'>";
-	      echo  "<div class='col-12 col-xl col-auto text-center'>";
+	      echo  "<div class=' col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
 		      echo  "<div class='btn-group'>";
 					if($cantidad->total>0 and $key->activo_producto==1 ){
 						echo "<button type='button'  id='0' des='' dix='0' v_idproducto='0' class='btn btn-warning btn-sm' title='Producto en existencia' omodal='1'><i class='far fa-thumbs-up'></i></button>";
@@ -63,25 +63,25 @@
 		    echo  "</div>";
 	      echo  "</div>";
 
-				echo  "<div class='col-12 col-xl col-auto text-center'>";
+				echo  "<div class=' col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
 					echo $cantidad->total;
 	      echo  "</div>";
 
-	      echo  "<div class='col-12 col-xl col-auto text-center'>";
+	      echo  "<div class=' col-md-6 text-center'>";
 				echo  $key->codigo;
 				echo "<br>";
 	      echo  $key->nombre;
 	      echo  "</div>";
 
-				echo  "<div class='col-12 col-xl col-auto text-center'>";
+				echo  "<div class=' col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
 	        echo 	moneda($key->precio);
 	      echo  "</div>";
 /*
-				echo  "<div class='col-12 col-xl col-auto text-center'>";
+				echo  "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
 					echo 	moneda($key->precio_mayoreo);
 				echo  "</div>";
 
-				echo  "<div class='col-12 col-xl col-auto text-center'>";
+				echo  "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
 					echo 	moneda($key->precio_distri);
 				echo  "</div>";
 */

@@ -3,7 +3,7 @@
   $idcategoria=$_REQUEST['idcategoria'];
   $idventa=$_REQUEST['idventa'];
   $productos=$db->productos_lista($idcategoria);
-
+	echo "<div class='container'>";
   echo "<div class='tabla_css' id='tabla_css'>";
 
     foreach ($productos as $key) {
@@ -21,4 +21,5 @@
 
 	echo "<hr>";
 	echo "<button type='button' is='b-link' des='a_venta/lista_categoria' dix='resultadosx'  class='btn btn-warning btn-sm'><i class='fas fa-undo'></i>Regresar</button>";
+	echo "</div>";
 ?>

@@ -13,13 +13,12 @@
   echo "<div class='card-body'>";
 		if($idproducto>0){
 			echo "<div class='row'>";
-				echo "<div class='col-12 col-xl col-auto'>";
+				echo "<div class='col-12'>";
 						echo "<div class='btn-group'>";
 						if($tipo==3){
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_inventario/form_agrega' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-plus'></i>existencias</button>";
-								if($db->nivel_personal==0){ // si su nivel es administrador podra restar existencias, si no alv
+
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_inventario/form_quita' omodal='1' v_id='0' v_idproducto='$idproducto' ><i class='fas fa-minus'></i>existencias</button>";
-							  }
 						}
 						echo "</div>";
 				echo "</div>";
@@ -29,20 +28,20 @@
     echo "<div class='tabla_css' id='tabla_css'>";
   		echo "<div class='row header-row'>";
 				if($_SESSION['nivel']==66){
-	  			echo "<div class='col-12 col-xl col-auto'>-</div>";
+	  			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>-</div>";
 				}
-  			echo "<div class='col-12 col-xl col-auto'>Fecha</div>";
-  			echo "<div class='col-12 col-xl col-auto'>Tipo</div>";
-  			echo "<div class='col-12 col-xl col-auto'>Descripción</div>";
-  			echo "<div class='col-12 col-xl col-auto'>Cantidad</div>";
-  			echo "<div class='col-12 col-xl col-auto'>Existencia</div>";
+  			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Fecha</div>";
+  			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Tipo</div>";
+  			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Descripción</div>";
+  			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Cantidad</div>";
+  			echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Existencia</div>";
   		echo "</div>";
 
       $total=0;
 			$contar=0;
       foreach($row as $key){
         echo "<div class='row body-row' draggable='true'>";
-					echo "<div class='col-12 col-xl col-auto text-center'>";
+					echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 '>";
 						echo "<div class='btn-group'>";
 
 							if($_SESSION['nivel']==66){
@@ -56,10 +55,10 @@
 						echo "</div>";
 
 					echo "</div>";
-          echo "<div class='col-12 col-xl col-auto text-center'>";
+          echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 '>";
             echo fecha($key->fecha,2);
           echo "</div>";
-          echo "<div class='col-12 col-xl col-auto text-center'>";
+          echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 '>";
             if($key->cantidad<0 and strlen($key->idcompra)==0 and strlen($key->idpadre)==0 and strlen($key->idventa)==0){
               echo "Descuento";
             }
@@ -83,7 +82,7 @@
 						echo $usuario->nombre;
           echo "</div>";
 
-          echo "<div class='col-12 col-xl col-auto text-center'>";
+          echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
 
             if(strlen($key->idtraspaso)>0){
               $sql="select * from traspasos where idtraspaso=$key->idtraspaso";
@@ -117,12 +116,10 @@
 							echo "<br>".$traspaso->nombre;
 						}
           echo "</div>";
-
-          echo "<div class='col-12 col-xl col-auto text-center'>";
+          echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
             echo $key->cantidad;
           echo "</div>";
-
-          echo "<div class='col-12 col-xl col-auto text-center'>";
+          echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
             echo $key->existencia;
           echo "</div>";
 

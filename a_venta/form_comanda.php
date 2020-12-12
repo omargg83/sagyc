@@ -16,7 +16,7 @@
 
       <div class='col-12'>
         <label>Comanda</label>
-        <input type='text' name='comanda' id='comanda'  placeholder='Comanda' value='' class='form-control' required >
+        <input type='text' name='comanda_txt' id='comanda_txt'  placeholder='Comanda' value='' class='form-control' required >
       </div>
     </div>
   </div>

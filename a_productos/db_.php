@@ -22,7 +22,11 @@ class Productos extends Sagyc{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('PRODUCTOS', $this->derecho)) {
+		if($_SESSION['nivel']==66){
+			$this->nivel_personal=0;
+			$this->nivel_captura=1;
+		}
+		else if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('PRODUCTOS', $this->derecho)) {
 
 			////////////////PERMISOS
 			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='PRODUCTOS'";
@@ -299,7 +303,7 @@ class Productos extends Sagyc{
 		tienda.razon,
 		categorias.nombre as nombrecat
 		from productos_catalogo
-		LEFT OUTER JOIN categorias ON categorias.idcat =productos_catalogo.categoria
+		LEFT OUTER JOIN categorias ON categorias.idcategoria =productos_catalogo.idcategoria
 		LEFT OUTER JOIN tienda ON tienda.idtienda =productos_catalogo.idtienda
 		where productos_catalogo.idtienda='".$_SESSION['idtienda']."' and productos_catalogo.activo_catalogo=1 order by productos_catalogo.nombre asc, productos_catalogo.idcatalogo asc";
 

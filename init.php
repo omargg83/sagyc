@@ -10,6 +10,8 @@ if($server==2){
   define("SERVIDOR", "localhost");
   define("BDD", "sagycrmr_sagyc");
   define("PORT", "3306");
+  define("SERVER", "LOCALHOST");
+  $_SESSION['des']=1;
 }
 else if($server==3){
   //////////localhost
@@ -18,6 +20,8 @@ else if($server==3){
   define("SERVIDOR", "sagyc.com.mx");
   define("BDD", "sagycrmr_sagyc");
   define("PORT", "3306");
+  define("SERVER", "NUBE");
+  $_SESSION['des']=0;
 }
 
 ?>
