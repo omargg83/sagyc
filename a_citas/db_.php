@@ -18,12 +18,34 @@ class Pedidos extends Sagyc{
 
 	public function __construct(){
 		parent::__construct();
+
+		if($_SESSION['nivel']==66){
+			$this->nivel_personal=0;
+			$this->nivel_captura=1;
+		}
+		else if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1 and array_key_exists('CITAS', $this->derecho)) {
+			////////////////PERMISOS
+			$sql="SELECT nivel,captura FROM usuarios_permiso where idusuario='".$_SESSION['idusuario']."' and modulo='CITAS'";
+			$stmt= $this->dbh->query($sql);
+
+			$row =$stmt->fetchObject();
+			$this->nivel_personal=$row->nivel;
+			$this->nivel_captura=$row->captura;
+		}
+		else{
+			include "../error.php";
+			die();
+		}
+
+
 	}
+
+
 	public function busca_cliente($texto){
 		try{
 
 
-			$sql="SELECT * from clientes where nombre like '%$texto%' limit 100";
+			$sql="SELECT * from clientes where idtienda='".$_SESSION['idtienda']."' and nombre like '%$texto%' limit 100";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			echo "<table class='table table-sm'>";
@@ -86,10 +108,10 @@ class Pedidos extends Sagyc{
 				$texto=trim(htmlspecialchars($_REQUEST['buscar']));
 				$sql="SELECT * from pedidos
 				left outer join clientes on clientes.id=citas.idcliente
-				where citas.idcitas like '%$texto%' or citas.estatus like '%$texto%' or clientes.nombre like '%$texto' order by citas.idcitas desc limit 100";
+				where citas.idsucursal='".$_SESSION['idsucursal']."' and (citas.idcitas like '%$texto%' or citas.estatus like '%$texto%' or clientes.nombre like '%$texto') order by citas.idcitas desc limit 100";
 			}
 			else{
-				$sql="SELECT * from citas order by citas.idcitas desc";
+				$sql="SELECT * from citas where idsucursal='".$_SESSION['idsucursal']."' order by citas.idcitas desc";
 			}
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
@@ -152,6 +174,7 @@ class Pedidos extends Sagyc{
 
 			$x="";
 			if($id==0){
+				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 				$x=$this->insert('citas', $arreglo);
 			}
 			else{
@@ -308,7 +331,7 @@ class Pedidos extends Sagyc{
 			$inicio=$inicio." 00:00:00";
 			$fin=$fin." 23:59:59";
 			$sql="SELECT * from citas left outer join clientes on clientes.idcliente=citas.idcliente
-			where citas.fecha between '$inicio' and '$fin' order by citas.idcitas desc";
+			where citas.idsucursal='".$_SESSION['idsucursal']."' and citas.fecha between '$inicio' and '$fin' order by citas.idcitas desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
