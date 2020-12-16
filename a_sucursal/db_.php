@@ -65,7 +65,7 @@ class Sucursal extends Sagyc{
 		$arreglo+=array('matriz'=>$matriz);
 
 		if($matriz==1){
-			$sql="select * from sucursal where idsucursal!=$idsucursal and matriz=1";
+			$sql="select * from sucursal where idsucursal!=$idsucursal and idtienda='".$_SESSION['idtienda']."' and matriz=1";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			$matriz=$sth->fetch(PDO::FETCH_OBJ);

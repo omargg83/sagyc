@@ -50,7 +50,7 @@ class Productos extends Sagyc{
 	public function productos_lista($pagina){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
-			$sql="SELECT * from productos_catalogo where activo_catalogo=1 order by nombre asc, idcatalogo asc limit $pagina,".$_SESSION['pagina']."";
+			$sql="SELECT * from productos_catalogo where idtienda='".$_SESSION['idtienda']."' order by nombre asc, idcatalogo asc limit $pagina,".$_SESSION['pagina']."";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
