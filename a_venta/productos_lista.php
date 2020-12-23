@@ -21,27 +21,32 @@
   $sth->execute();
   $res=$sth->fetchAll(PDO::FETCH_OBJ);
 
-	echo "<div class='container'>";
-	echo "<div class='tabla_css' id='tabla_css'>";
-		echo "<div class='row header-row'>";
-			echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>DESCRIPCION</div>";
-		echo "</div>";
 
+	echo "<div class='sagyc_productos'>";
 	  if(count($res)>0){
 	    foreach ($res as $key) {
-	      echo "<div class='row body-row' is='b-card' draggable='true'>";
-					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>";
-						if($estado_compra=="Activa" and $_SESSION['a_sistema']==1){
-							echo "<div class='btn-group mr-1'>";
-								if($db->nivel_captura==1){
-									echo "<button type='button' is='b-link' id='sel_producto_$key->idproducto' des='a_venta/producto_selecciona' dix='resultadosx' v_idproducto='$key->idproducto' v_idventa='$idventa' class='btn btn-warning btn-sm' title='Seleccionar producto' omodal='1'><i class='fas fa-plus'></i></button>";
-								}
 
-							echo  "</div>";
+			if($estado_compra=="Activa" and $_SESSION['a_sistema']==1){
+				if($db->nivel_captura==1){
+					echo "<button class='sagyc_item' type='button' is='b-link' id='sel_producto_$key->idproducto' 
+					des='a_venta/producto_selecciona' dix='resultadosx' v_idproducto='$key->idproducto' v_idventa='$idventa' 
+					class='btn btn-warning btn-sm' title='Seleccionar producto' omodal='1'";
+						if(strlen($key->archivo)>0 and file_exists("../".$db->f_productos."/".$key->archivo)){
+						echo "style='background-image: url(\"".$db->f_productos."/".$key->archivo."\")'";
 						}
-		      	echo  $key->nombre;
-		      echo  "</div>";
-	      echo  "</div>";
+						else{
+						echo "style='background-image: url(\"img/unnamed.png'\") ";
+						}
+						echo ">";
+						echo "<span>";
+						echo  trim($key->nombre);          
+						echo "</span>";
+					echo "</button>";
+	  
+					//echo "<button type='button' is='b-link' id='sel_producto_$key->idproducto' des='a_venta/producto_selecciona' dix='resultadosx' v_idproducto='$key->idproducto' v_idventa='$idventa' class='btn btn-warning btn-sm' title='Seleccionar producto' omodal='1'><i class='fas fa-plus'></i></button>";
+				}
+			}
+		      	
 	    }
 	  }
 		echo "</div>";

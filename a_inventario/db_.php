@@ -40,6 +40,22 @@ class Productos extends Sagyc{
 		}
 		$this->doc="a_archivos/productos/";
 	}
+
+	public function sucursal_info(){
+		$idsucursal=$_REQUEST['idsucursal'];
+		$sql="select * from sucursal where idsucursal='".$_SESSION['idsucursal']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+
+	public function tienda_info(){
+		$sql="select * from tienda where idtienda='".$_SESSION['idtienda']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
+
 	public function usuario($id){
 		$sql="select * from usuarios where idusuario='$id'";
 		$sth = $this->dbh->prepare($sql);
@@ -513,7 +529,7 @@ class Productos extends Sagyc{
 		$sheeti = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 		$sheeti->setName('logo');
 		$sheeti->setDescription('description');
-		$sheeti->setPath('../img/logoimp.jpg');
+		$sheeti->setPath('../img/pies.png');
 		$sheeti->setHeight(90);
 		$sheeti->setCoordinates("G1");
 		$sheeti->setOffsetX(20);

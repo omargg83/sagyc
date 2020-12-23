@@ -6,7 +6,7 @@ if($server==2){
   define("MYSQLUSER", "root");
   define("MYSQLPASS", "root");
   define("SERVIDOR", "localhost");
-  define("BDD", "sagycrmr_sagyc");
+  define("BDD", "sagycrmr_pastes_fidel");
   define("PORT", "3306");
   define("SERVER", "LOCALHOST");
   $_SESSION['des']=1;
@@ -16,7 +16,7 @@ else if($server==3){
   define("MYSQLUSER", "sagyccom_esponda");
   define("MYSQLPASS", "esponda123$");
   define("SERVIDOR", "sagyc.com.mx");
-  define("BDD", "sagycrmr_sagyc");
+  define("BDD", "sagycrmr_pastes_fidel");
   define("PORT", "3306");
   define("SERVER", "NUBE");
   $_SESSION['des']=0;

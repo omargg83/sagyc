@@ -54,7 +54,34 @@
 		};
 		xhr.send(formData);
 	}
+	function fijar(){
+	  let sidebar;
 
+	  if (document.querySelector(".sidebar_fija")) {
+	    document.getElementById("navx").classList.remove('sidebar_fija');
+	    document.getElementById("contenido").classList.remove('main_fija');
+	    sidebar=0;
+	  }
+	  else{
+	    console.log("no existe");
+	    document.getElementById("navx").classList.add('sidebar_fija');
+	    document.getElementById("contenido").classList.add('main_fija');
+	    sidebar=1;
+	  }
+
+	  var formData = new FormData();
+	  formData.append("function","fija");
+	  formData.append("ctrl", "control");
+	  formData.append("sidebar", sidebar);
+	  let xhr = new XMLHttpRequest();
+	  xhr.open('POST',db_inicial);
+	  xhr.addEventListener('load',(data)=>{
+
+	  });
+	  xhr.onerror =  ()=>{
+	  };
+	  xhr.send(formData);
+	}
 	function fechas () {
 		$.datepicker.regional['es'] = {
 			 closeText: 'Cerrar',
@@ -566,3 +593,48 @@
 				return false;
 		}
 	}
+
+const menuIconEl = $('.menu-icon');
+const sidenavEl = $('.sidenav');
+const sidenavCloseEl = $('.sidenav__close-icon');
+
+// Add and remove provided class names
+function toggleClassName(el, className) {
+	if (el.hasClass(className)) {
+		el.removeClass(className);
+	} else {
+		el.addClass(className);
+	}
+}
+
+// Open the side nav on click
+menuIconEl.on('click', function () {
+	toggleClassName(sidenavEl, 'active');
+});
+
+// Close the side nav on click
+sidenavCloseEl.on('click', function () {
+	toggleClassName(sidenavEl, 'active');
+});
+
+$(".sidebar-dropdown > a").click(function () {
+	$(".sidebar-submenu").slideUp(200);
+	if (
+		$(this)
+			.parent()
+			.hasClass("active")
+	) {
+		$(".sidebar-dropdown").removeClass("active");
+		$(this)
+			.parent()
+			.removeClass("active");
+	} else {
+		$(".sidebar-dropdown").removeClass("active");
+		$(this)
+			.next(".sidebar-submenu")
+			.slideDown(200);
+		$(this)
+			.parent()
+			.addClass("active");
+	}
+});

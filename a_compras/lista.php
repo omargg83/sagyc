@@ -17,25 +17,25 @@
 
 	?>
 <div class='container'>
-	<div class='tabla_css' id='tabla_css'>
-		<div class='row titulo-row'>
-			<div class='col-12'>
+	<div class='tabla_v' id='tabla_css'>
+		<div class='title-row'>
+			<div>
 				LISTA DE COMPRAS
 			</div>
 		</div>
-		<div class='row header-row'>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>#</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Fecha</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Numero</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Nombre</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Proveedor</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Estado</div>
+		<div class='header-row'>
+			<div class='cell'>#</div>
+			<div class='cell'>Fecha</div>
+			<div class='cell'>Numero</div>
+			<div class='cell'>Nombre</div>
+			<div class='cell'>Proveedor</div>
+			<div class='cell'>Estado</div>
 		</div>
 
 			<?php
 				foreach($pd as $key){
-					echo "<div class='row body-row' draggable='true'>";
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>";
+					echo "<div class='body-row' draggable='true'>";
+						echo "<div class='cell'>";
 
 							echo "<div class='btn-group'>";
 							if($db->nivel_captura==1){
@@ -45,11 +45,11 @@
 
 						echo "</div>";
 
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".fecha($key->fecha)."</div>";
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->numero."</div>";
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->nombre."</div>";
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->idproveedor."</div>";
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->estado."</div>";
+						echo "<div class='cell' data-titulo='Fecha'>".fecha($key->fecha)."</div>";
+						echo "<div class='cell' data-titulo='Número'>".$key->numero."</div>";
+						echo "<div class='cell' data-titulo='Nombre'>".$key->nombre."</div>";
+						echo "<div class='cell' data-titulo='Proveedor'>".$key->idproveedor."</div>";
+						echo "<div class='cell' data-titulo='Estado'>".$key->estado."</div>";
 
 					echo "</div>";
 				}

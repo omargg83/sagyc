@@ -13,25 +13,26 @@
 		$pd = $db->gastos_lista($pag);
 	}
 ?>
+
 <div class='container'>
-<div class='tabla_css' id='tabla_css'>
-	<div class='row titulo-row'>
-		<div class='col-12'>
+	<div class='tabla_v' id='tabla_css'>
+		<div class='title-row'>
+			<div>
 			LISTA DE GASTOS
 		</div>
 	</div>
-	<div class='row header-row'>
-		<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>#</div>
-		<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Fecha</div>
-		<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Gasto</div>
-		<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Descripción</div>
-		<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Costo</div>
+	<div class='header-row'>
+		<div class='cell'>#</div>
+		<div class='cell'>Fecha</div>
+		<div class='cell'>Gasto</div>
+		<div class='cell'>Descripción</div>
+		<div class='cell'>Costo</div>
 	</div>
 
 		<?php
 			foreach($pd as $key){
-				echo "<div class='row body-row' draggable='true'>";
-					echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-center'>";
+				echo "<div class='body-row' draggable='true'>";
+					echo "<div class='cell'>";
 						echo "<div class='btn-group'>";
 
 						echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_gastos/editar' dix='trabajo' v_idgastos='$key->idgastos'><i class='fas fa-pencil-alt'></i></button>";
@@ -41,10 +42,10 @@
 						echo "</div>";
 					echo "</div>";
 
-					echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 '>".$key->fecha."</div>";
-					echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 '>".$key->gasto."</div>";
-					echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 '>".$key->descripcion."</div>";
-					echo "<div class='col-12 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-right'>".moneda($key->costo)."</div>";
+					echo "<div class='cell'>".$key->fecha."</div>";
+					echo "<div class='cell'>".$key->gasto."</div>";
+					echo "<div class='cell'>".$key->descripcion."</div>";
+					echo "<div class='cell text-right'>".moneda($key->costo)."</div>";
 				echo "</div>";
 			}
 		?>

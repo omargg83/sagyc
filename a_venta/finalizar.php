@@ -12,7 +12,7 @@ else{
   echo "<div class='card-body'>";
   echo "</div>";
   echo "<div class='card-footer'>";
-  echo "<button type='button' class='btn btn-warning btn-sm' data-dismiss='modal'><i class='fas fa-sign-out-alt'></i>Cancelar</button>";
+  echo "<button type='button' class='btn btn-warning btn-sm' cmodal='1' is='b-link'><i class='fas fa-sign-out-alt'></i>Cancelar</button>";
   echo "</div>";
   echo "</div>";
   exit();
@@ -61,6 +61,6 @@ $total=round($total,2);
 
   <div class="modal-footer">
     <button type="submit" class="btn btn-warning btn-sm"><i class="fas fa-cash-register"></i>Finalizar</button>
-    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Cancelar</button>
+    <button type="button" class="btn btn-warning btn-sm" is='b-link' cmodal='1'><i class="fas fa-sign-out-alt"></i>Cerrar</button>
   </div>
 </form>

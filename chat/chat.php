@@ -57,18 +57,14 @@ class Chat extends Sagyc{
 		}
 		public function inicia(){
 			$_SESSION["carga"]=1;
-			echo  "<li class='nav-item dropdown'>";
-				echo  "<a class='nav-link dropdown-toggle' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-				  <i class='fab fa-rocketchat fa-spin' style='color:#07009e !important;'></i>";
-				echo  "</a>";
-
+			/*echo  "<li class='nav-item dropdown'>";
 				echo  "<div id='myUL' class='dropdown-menu' aria-labelledby='navbarDropdown' style='width:200px;max-height:400px !important; overflow: scroll; overflow-x: hidden;'>";
 				echo "<div class='row'><div class='col-12'><input type='text' id='myInput' placeholder='Buscar..' title='Buscar' class='form-control' autocomplete='off'></div></div>";
-					echo "<div id='conecta_x'>";
+					echo "<div id='conecta_x'>";*/
 						echo self::conectados();
-					echo  "</div>";
+					/*echo  "</div>";
 				echo  "</div>";
-			echo  "</li>";
+			echo  "</li>";*/
 		}
 		public function conectados(){
 			$this->conectado();

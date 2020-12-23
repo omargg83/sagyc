@@ -39,8 +39,6 @@ class Pedidos extends Sagyc{
 
 
 	}
-
-
 	public function busca_cliente($texto){
 		try{
 
@@ -108,7 +106,7 @@ class Pedidos extends Sagyc{
 				$texto=trim(htmlspecialchars($_REQUEST['buscar']));
 				$sql="SELECT * from pedidos
 				left outer join clientes on clientes.id=citas.idcliente
-				where citas.idsucursal='".$_SESSION['idsucursal']."' and (citas.idcitas like '%$texto%' or citas.estatus like '%$texto%' or clientes.nombre like '%$texto') order by citas.idcitas desc limit 100";
+			where citas.idsucursal='".$_SESSION['idsucursal']."' and (citas.idcitas like '%$texto%' or citas.estatus like '%$texto%' or clientes.nombre like '%$texto') order by citas.idcitas desc limit 100";
 			}
 			else{
 				$sql="SELECT * from citas where idsucursal='".$_SESSION['idsucursal']."' order by citas.idcitas desc";

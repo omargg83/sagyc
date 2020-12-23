@@ -19,7 +19,7 @@
 			<div class="input-group mb-3">
 			<input type="text" class="form-control" name="texto_cita" id='texto_cita' placeholder='buscar cita' aria-label="buscar producto" aria-describedby="basic-addon2" >
 			<div class="input-group-append">
-				<button class="btn btn-warning btn-sm" type="submit"><i class='fas fa-search'></i>Buscar</button>
+				<button class="btn btn-warning" type="submit"><i class='fas fa-search'></i>Buscar</button>
 			</div>
 		</div>
 	</div>
@@ -28,7 +28,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Cerrar</button>
+	<button type='button' is='b-link' class='btn btn-warning btn-sm' cmodal=1><i class="fas fa-sign-out-alt"></i>Cancelar</button>
 </div>
 
 </form>

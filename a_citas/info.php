@@ -66,9 +66,9 @@
 
 			<?php }	?>
      </div>
-     <div class="modal-footer">
+      <div class="modal-footer">
 
-			<?php	echo "<button type='button' class='btn btn-outline-primary btn-sm' id='edit_comision' is='b-link' title='Editar' des='a_citas/editar' dix='trabajo' v_idcita='$resp->idcitas' data-dismiss='modal'><i class='fas fa-pencil-alt'></i>Editar</button>";?>
-       	<button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal"><i class='fas fa-undo-alt'></i>Cerrar</button>
-     </div>
+        <?php	echo "<button type='button' class='btn btn-outline-primary btn-sm' id='edit_comision' is='b-link' title='Editar' des='a_citas/editar' dix='trabajo' v_idcita='$resp->idcitas' data-dismiss='modal'><i class='fas fa-pencil-alt'></i>Editar</button>";?>
+          <button type='button' is='b-link' class='btn btn-outline-primary btn-sm' cmodal=1><i class="fas fa-sign-out-alt"></i>Cerrar</button>
+      </div>
    </div>

@@ -1,38 +1,39 @@
 <?php
 	require_once("db_.php");
 ?>
-<nav class='navbar navbar-expand-lg navbar-sagyc'>
-	<a class='navbar-brand' ><i class='fas fa-cash-register'></i> Ventas</a>
-	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
-		<span class='navbar-toggler-icon'></span>
-	  </button>
-		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-			<ul class='navbar-nav mr-auto'>
+<nav class='navbar navbar-expand-lg navbar-sagyc navbar-light  '>
+	<div class='container-fluid'>
+		<a class='navbar-brand' ><i class='fas fa-cash-register'></i> Ventas</a>
 
+			<button class='navbar-toggler navbar-toggler-right' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
+				<span class='navbar-toggler-icon'></span>
+		  </button>
+
+			  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 				<form  class='form-inline my-2 my-lg-0' is="b-submit" id="form_lista" des="a_ventas/lista" dix='trabajo'>
-					<div class="input-group  mr-sm-2">
-						<input type="text" class="form-control form-control-sm" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2"  name='buscar' id='buscar'>
-						<div class="input-group-append">
-							<button class="btn btn-warning btn-sm" type="submit" ><i class='fas fa-search'></i></button>
-						</div>
+					<div id="search-wrapper">
+						<input type="search" id="buscar" name='buscar' placeholder="Buscar" />
+						<i class="fa fa-search"></i>
 					</div>
 				</form>
+				<ul class='navbar-nav mr-auto'>
 
-				<?php
-					if($_SESSION['a_sistema']==1){
-						if($db->nivel_captura==1){
-							echo "<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' is='a-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  ><i class='fas fa-plus'></i><span>Nueva</span></a></li>";
+					<?php
+						if($_SESSION['a_sistema']==1){
+							if($db->nivel_captura==1){
+								echo "<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' is='a-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  ><i class='fas fa-plus'></i><span>Nueva</span></a></li>";
+							}
 						}
-					}
-				?>
+					?>
 
-				<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' is='a-link' des='a_ventas/lista' dix='trabajo' ><i class="far fa-folder-open"></i><span>Abiertas</span></a></li>
+					<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' is='a-link' des='a_ventas/lista' dix='trabajo' ><i class="far fa-folder-open"></i><span>Abiertas</span></a></li>
 
-				<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision2' is='a-link' des='a_ventas/lista_pagadas' dix='trabajo' ><i class="far fa-check-square"></i><span>Efectuadas</span></a></li>
+					<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision2' is='a-link' des='a_ventas/lista_pagadas' dix='trabajo' ><i class="far fa-check-square"></i><span>Efectuadas</span></a></li>
 
-				<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_cacel' is='a-link' des='a_ventas/lista_canceladas' dix='trabajo' ><i class="fas fa-ban"></i><span>Canceladas</span></a></li>
+					<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_cacel' is='a-link' des='a_ventas/lista_canceladas' dix='trabajo' ><i class="fas fa-ban"></i><span>Canceladas</span></a></li>
 
-			</ul>
+				</ul>
+		  </div>
 	  </div>
 	</nav>
 

@@ -615,18 +615,12 @@
 			$x="";
 			$directory="fondo/";
 			$dirint = dir($directory);
-			echo "<ul class='nav navbar-nav navbar-right'>";
-				echo "<li class='nav-item dropdown'>";
-					echo "<a class='nav-link dropdown-toggle text-dark' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-desktop text-secondary'></i></a>";
-					echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown' style='width: 200px;max-height: 400px !important;overflow: scroll;overflow-x: scroll;overflow-x: hidden;'>";
-					while (($archivo = $dirint->read()) !== false){
-						if ($archivo != "." && $archivo != ".." && $archivo != "" && substr($archivo,-4)==".jpg"){
-							echo "<img src='$directory".$archivo."' is='p-fondo' v_fondo='$directory$archivo'alt='Fondo' class='rounded mt-3 mx-3' style='width:140px;height:80px'>";
-						}
-					}
-					echo "</div>";
-				echo "</li>";
-			echo "</ul>";
+
+			while (($archivo = $dirint->read()) !== false){
+				if ($archivo != "." && $archivo != ".." && $archivo != "" && substr($archivo,-4)==".jpg"){
+					echo "<img src='$directory".$archivo."' is='p-fondo' v_fondo='$directory$archivo' alt='Fondo'  style='width:100%;height:80px'>";
+				}
+			}
 			$dirint->close();
 		}
 		public function fondo(){
@@ -818,21 +812,38 @@
 		}
 
 		public function paginar($paginas,$pag,$pagx,$des,$div){
-			echo "<br>";
-			echo "<nav aria-label='Page navigation text-center'>";
-			  echo "<ul class='pagination justify-content-center'>";
-			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='$des' dix='$div'>Primera</a></li>";
+			echo "<div class='pag_sagyc'>";
+			  
+			    echo "<a is='b-link' title='Editar' des='$des' dix='$div'><i class='fas fa-angle-double-left'></i></a>";
 					$max=$pag+4;
 					$min=$pag-4;
+
+					$pre=0;
+					$pos=0;
 					for($i=0;$i<$paginas;$i++){
-						if($min<=$i and $i<=$max){
-							$b=$i+1;
-							echo "<li class='page-item"; if($pag==$i){ echo " active";} echo "'><a class='page-link' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$i'>$b</a></li>";
-						}
+						////////para las anteriores a la selecionada
+						$ant=$pag-1;
+						$desp=$pag+1;
+
+						$b=$i+1;
+						
+							if($i==0 or $i==($paginas-1) or $ant==$i or $desp==$i or $pag==$i or $paginas<7){
+								echo "<a class='"; if($pag==$i){ echo " active";} echo "' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$i'>$b</a>";
+							}
+							else{
+								if(($pre==0) or ($pos==0 and $pre==1 and $i>$pag)){
+									echo "<a>...</a>";
+									if($pre==0)
+									$pre=1;
+									if ($pos==0 and $pre==1 and $i>$pag){
+										$pos=1;
+									}
+								}
+							}
+
 					}
-			    echo "<li class='page-item'><a class='page-link' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$pagx'>Ultima</a></li>";
-			  echo "</ul>";
-			echo "</nav>";
+			    echo "<a class='paginacion-item' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$pagx'><i class='fas fa-angle-double-right'></i></a>";
+			echo "</div>";
 		}
 	}
 

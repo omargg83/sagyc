@@ -45,7 +45,7 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-xs col-auto">
+					<div class="col-3">
 						<?php
 							if(strlen($archivo)>0 and file_exists("../".$db->f_productos."/".$archivo)){
 								echo "<img src='".$db->f_productos."/".$archivo."' width='100%' class='img-thumbnail'/>";
@@ -55,9 +55,9 @@
 							}
 					 ?>
 					</div>
-					<div class="col-xl col-auto">
+					<div class="col-9">
 						<div class='row'>
-								<div class="col-xl col-auto">
+								<div class="col-12">
 									<label>Tipo de producto</label>
 									<?php
 									if($idcatalogo==0){
@@ -78,7 +78,7 @@
 							</div>
 						</div>
 						<div class='row'>
-							<div class="col-12 col-xl col-auto">
+							<div class="col-12">
 								<label>Activo </label>
 								<select class="form-control form-control-sm" name="activo_catalogo" id="activo_catalogo"  >
 									<option value="0"<?php if($activo_catalogo=="0") echo "selected"; ?> > Inactivo</option>
@@ -88,19 +88,19 @@
 						</div>
 						<hr>
 						<div class='row'>
-							<div class="col-12 col-xl col-auto">
+							<div class="col-12">
 								<label>Código</label><br>
 								<input type="text" class="form-control form-control-sm" id="codigo" name='codigo' placeholder="Codigo" value="<?php echo $codigo; ?>">
 							</div>
 						</div>
 						<div class='row'>
-							<div class="col-12 col-xl col-auto">
+							<div class="col-12">
 								<label>Nombre</label><br>
 								<input type="text" class="form-control form-control-sm" id="nombre" name='nombre' placeholder="Nombre" value="<?php echo $nombre; ?>" required>
 							</div>
 						</div>
 						<div class='row'>
-							<div class='col-12 col-xl col-auto'>
+							<div class='col-12 '>
 								<label>categoría</label>
 								<select class='form-control form-control-sm' name='idcategoria' id='idcategoria'>
 									<?php
@@ -111,7 +111,7 @@
 							</div>
 						</div>
 						<div class='row'>
-							<div class="col-12 col-xl col-auto">
+							<div class="col-12 ">
 								<label>Descripción</label>
 								<textarea class="form-control form-control-sm" id="descripcion" name='descripcion' placeholder="Descripción" rows='5'><?php echo $descripcion; ?></textarea>
 							</div>
@@ -119,7 +119,7 @@
 
 						<hr>
 						<div class='row'>
-							<div class="col-xl col-auto">
+							<div class="">
 								<div class="btn-group">
 									<?php
 									if($_SESSION['a_sistema']==1){

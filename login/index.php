@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="../lib/boostrap/css/bootstrap.min.css">
  	<link rel="stylesheet" href="../lib/swal/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="../lib/load/css-loader.css">
+  <link rel="stylesheet" href="../lib/fontawesome-free-5.12.1-web/css/all.css">
  	<link rel="stylesheet" href="login.css">
  </head>
  <?php

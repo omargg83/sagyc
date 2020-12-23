@@ -10,37 +10,37 @@
 	$pd = $db->ventas_canceladas($pag);
 
 ?>
-<div class='container' >
-	<div class='tabla_css' id='tabla_css'>
-		<div class='row titulo-row'>
-			<div class='col-12'>
+<div class='container'>
+	<div class='tabla_v' id='tabla_css'>
+		<div class='title-row'>
+			<div>
 				LISTA DE VENTAS EFECTUADAS
 			</div>
 		</div>
-		<div class='row header-row'>
-			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>#</div>
-			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Numero</div>
-			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Comanda</div>
-			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Fecha</div>
-			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Cliente</div>
-			<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>Total</div>
+		<div class='header-row'>
+			<div class='cell'>#</div>
+			<div class='cell'>Numero</div>
+			<div class='cell'>Comanda</div>
+			<div class='cell'>Fecha</div>
+			<div class='cell'>Cliente</div>
+			<div class='cell'>Total</div>
 		</div>
 
 			<?php
 				foreach($pd as $key){
 			?>
-					<div class='row body-row' draggable='true'>
-						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'>
+					<div class='body-row' draggable='true'>
+						<div class='cell'>
 							<div class="btn-group">
 								<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo' title='Ver detalle' v_idventa='<?php echo $key->idventa; ?> ' ><i class='far fa-eye'></i></button>
 							</div>
 						</div>
-						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center'><?php echo $key->numero; ?></div>
-						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center'><?php echo $key->comanda; ?></div>
-						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'><?php echo fecha($key->fecha,2); ?></div>
-						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2'><?php echo $key->nombre; ?></div>
+						<div class='cell text-center' data-titulo='Numero'><?php echo $key->numero; ?></div>
+						<div class='cell text-center' data-titulo='Comanda'><?php echo $key->comanda; ?></div>
+						<div class='cell' data-titulo='Fecha'><?php echo fecha($key->fecha,2); ?></div>
+						<div class='cell' data-titulo='Cliente'><?php echo $key->nombre; ?></div>
 
-						<div class='col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2' align="center"><?php echo moneda($key->total); ?></div>
+						<div class='cell' data-titulo='Total' align="center"><?php echo moneda($key->total); ?></div>
 
 
 					</div>

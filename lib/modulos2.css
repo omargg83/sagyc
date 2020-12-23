@@ -1,0 +1,185 @@
+
+.principal_menu{
+  background-color: var(--menu-bg-color);
+  color:black !important;
+
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
+}
+
+.page-item.active .page-link {
+    background-color: #fff4dc !important;
+    border-color: #fff4dc !important;
+    color:black!important;
+}
+
+
+.fijaproceso{
+  margin-left: 1px; /* Same as the width of the sidenav */
+	padding: 10px;
+	padding-top:0px;
+	overflow: auto;
+	position: fixed;
+	z-index: 1;
+	top: 70px;
+	bottom: 0px;
+	left: 12px;
+	right: 0px;
+	transition: left .5s;
+}
+
+.main_fija {
+	left: 160px;
+  transition: left .5s;
+}
+
+
+.barraprincipal{
+  -webkit-box-shadow: 0px 2px 7px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 2px 7px -1px rgba(0,0,0,0.75);
+  box-shadow: 0px 2px 7px -1px rgba(0,0,0,0.75);
+}
+
+/*Comienza la SIDEBAR*/
+/*//////////////////////////////////////////////////////////////////////////*/
+.sidebar{
+	font-family: 'Roboto', sans-serif;
+	font-size: 15px;
+	position: fixed;
+	z-index: 10;
+	top: 61px;
+	background-color: var(--main-bg-color);
+	color: var(--sidebar-color-font);
+	overflow-x: hidden;
+	left: 0;
+	height: 100%;
+	transition: 0.2s all;
+	-webkit-box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.75);
+  overflow: hidden;
+  padding-top: 10px;
+  width: 57px;
+  transition: width 1s;
+}
+.sidebar_fija{
+  width: 200px;
+  transition: width 1s;
+}
+.sidebar a, .dropdown-btn {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  position: relative;
+  width: 200px;
+  display: table;
+  color: var(--sidebar-color-font);
+  border-collapse: collapse;
+  border-spacing: 0;
+	padding: 6px 8px 6px 16px;
+	text-decoration: none;
+	border: none;
+	background: none;
+	text-align: left;
+	cursor: pointer;
+	outline: none;
+	border-left: 6px solid var(--main-bg-color);
+}
+.sidebar a:hover{
+	text-decoration: none;
+}
+/* On mouse-over */
+.sidebar a:hover, .dropdown-btn:hover {
+	border-left: 6px solid #b9bbba;
+  background-color: #fff4dc;
+  transition: width 2s, height 4s;
+}
+.sidebar i{
+  margin-left: 16px;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  /*color:var(--icon-fontawesome);*/
+  color: #212529;
+	width: 25px;
+}
+.sidebar:hover{
+  width: 200px;
+}
+
+/* Main content */
+@media (max-width: 576px) {
+  .sidebar_fija{
+    width: 57px;
+    transition: width 1s;
+  }
+  .main_fija {
+    left: 12px;
+    transition: left 1s;
+  }
+}
+
+
+
+/* Add an active class to the active dropdown button */
+.activeside {
+	background-color: #ece2c6 !important;
+}
+.activeside i{
+	color: black !important;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+
+	background-color: #262626;
+	padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+	float: right;
+	padding-right: 8px;
+}
+
+
+
+@media (max-width: 576px) {
+	.fijaproceso{
+		padding-left: 50px;
+		/*width: 98%;*/
+	}
+  .nav span{
+    display:none;
+  }
+}
+@media (min-width: 576px) and (max-width: 1199.98px) {
+	.fijaproceso{
+		margin-left: 1px; /* Same as the width of the sidenav */
+		padding-left: 50px; /* Same as the width of the sidenav */
+	}
+}
+@media (min-width: 1200px) {
+	.fijaproceso{
+		margin-left: 1px; /* Same as the width of the sidenav */
+		padding-left: 50px;
+	}
+}
+
+/***************************        imagenes              **********************/
+
+
+.dash_icon{
+  background-color: white;
+  border-radius: 10px;
+  opacity: .8;
+  padding: 5px;
+
+  font-family: 'Roboto', sans-serif;
+}
+.dash_icon:hover{
+  border-radius: 10px;
+  opacity: 1;
+  -webkit-box-shadow: 0px 2px 7px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 2px 7px -1px rgba(0,0,0,0.75);
+  box-shadow: 0px 2px 7px -1px rgba(0,0,0,0.75);
+}

@@ -1,10 +1,17 @@
   <form id="form_login">
-    <div class="input-group mb-3">
-    <input type="text" id="userAcceso"  name="userAcceso" class="form-control" placeholder="Usuario" required autofocus>
+
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text" id="addon-wrapping"><i class="far fa-user"></i></span>
+      <input type="text" class="form-control" id="userAcceso"  name="userAcceso" placeholder="Usuario" aria-label="Username" aria-describedby="addon-wrapping" required autofocus>
     </div>
-    <div class="input-group mb-3">
-    <input type="password" id="passAcceso" name="passAcceso" class="form-control" placeholder="Contraseña" required autocomplete="on">
+
+    <div class="input-group flex-nowrap mb-3">
+      <span class="input-group-text" id="addon-wrapping"><i class="fas fa-key"></i></span>
+      <input type="password" class="form-control" id="passAcceso"  name="passAcceso" placeholder="Contraseña" aria-label="Username" aria-describedby="addon-wrapping" required autofocus>
     </div>
-    <button class="btn btn-warning btn-block" type="submit">Ingresar</button>
-    <a class="btn btn-warning btn-block" type='button' id='recuperar'>Recuperar</a>
+
+    <div class="d-grid gap-2">
+      <button class="btn btn-warning btn-block" type="submit">Ingresar</button>
+      <button class="btn btn-warning btn-block" type='button' id='recuperar'>Recuperar</>
+    </div>
   </form>

@@ -15,7 +15,7 @@
 
 	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 		echo "<div class='row'>";
-			echo "<div class='col-xl col-auto'>";
+			echo "<div class='col-12'>";
 				echo "<label>Buscar</label>";
 				echo "<form is='b-submit' id='form_bagrega' des='a_inventario/agregar' dix='trabajo' >";
 					echo "<div clas='row'>";
@@ -34,40 +34,37 @@
 	echo "<div class='container'>";
 ?>
 
-	<div class='tabla_css' id='tabla_css'>
-	  <div class='row titulo-row'>
-	    <div class='col-12'>
+	<div class='tabla_v' id='tabla_css'>
+		<div class='title-row'>
+			<div>
 	      ASIGNAR PRODUCTO A LA SUCURSAL
 	    </div>
 	  </div>
-	  <div class='row header-row'>
-	    <div class='col-xl col-auto'>#</div>
-	    <div class='col-xl col-auto'>Tipo</div>
-	    <div class='col-xl col-auto'>Codigo</div>
-	    <div class='col-xl col-auto'>Nombre</div>
+	  <div class='header-row'>
+	    <div class='cell'>#</div>
+	    <div class='cell'>Tipo</div>
+	    <div class='cell'>Codigo</div>
+	    <div class='cell'>Nombre</div>
 	  </div>
 
 	    <?php
 	      foreach($pd as $key){
-	        echo "<div class='row body-row' draggable='true'>";
-	          echo "<div class='col-xl col-auto'>";
+	        echo "<div class='body-row' draggable='true'>";
+	          echo "<div class='cell'>";
 	            echo "<div class='btn-group'>";
-
-
-								if($db->nivel_captura==1){
-										echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_inventario/db_' des='a_inventario/lista' fun='asignar_sucursal' dix='trabajo' v_idcatalogo='$key->idcatalogo' id='asignar' tp='¿Desea agregar el Producto seleccionado a la sucursal?'><i class='fas fa-cloud-download-alt'></i></button>";
-								}
-
+					if($db->nivel_captura==1){
+							echo "<button type='button' class='btn btn-warning btn-sm' is='b-link' db='a_inventario/db_' des='a_inventario/lista' fun='asignar_sucursal' dix='trabajo' v_idcatalogo='$key->idcatalogo' id='asignar' tp='¿Desea agregar el Producto seleccionado a la sucursal?'><i class='fas fa-cloud-download-alt'></i></button>";
+					}
 	            echo "</div>";
 	          echo "</div>";
 
-	          echo "<div class='col-xl col-auto text-center'>";
+	          echo "<div class='cell'>";
 	            if($key->tipo==0) echo "Servicio";
 	            if($key->tipo==3) echo "Producto";
 	          echo "</div>";
 
-	          echo "<div class='col-xl col-auto text-center'>".$key->codigo."</div>";
-	          echo "<div class='col-xl col-auto text-center'>".$key->nombre."</div>";
+	          echo "<div class='cell'>".$key->codigo."</div>";
+	          echo "<div class='cell'>".$key->nombre."</div>";
 
 	        echo '</div>';
 	      }

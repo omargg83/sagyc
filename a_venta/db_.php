@@ -541,7 +541,7 @@ class Venta extends Sagyc{
 	}
 	public function categoria_lista(){
 		try{
-			$sql="SELECT * FROM categorias where idtienda='".$_SESSION['idtienda']."'";
+			$sql="SELECT * FROM categorias where idtienda='".$_SESSION['idtienda']."' order by nombre asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -553,7 +553,7 @@ class Venta extends Sagyc{
 	public function productos_lista($idcategoria){
 		try{
 			$sql="SELECT * from productos left outer join productos_catalogo on productos_catalogo.idcatalogo=productos.idcatalogo
-			where productos_catalogo.idcategoria=$idcategoria";
+			where productos_catalogo.idcategoria=$idcategoria order by productos_catalogo.nombre asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);

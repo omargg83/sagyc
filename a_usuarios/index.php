@@ -1,22 +1,24 @@
 <?php
 	require_once("db_.php");
 ?>
-<nav class='navbar navbar-expand-lg navbar-sagyc'>
+<nav class='navbar navbar-expand-lg navbar-sagyc navbar-light  '>
+	<div class='container-fluid'>
 	<a class='navbar-brand' ><i class='fas fa-user-check'></i>Usuarios</a>
-	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
+	<button class='navbar-toggler navbar-toggler-right' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
 		<span class='navbar-toggler-icon'></span>
-	  </button>
+	</button>
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-			<ul class='navbar-nav mr-auto'>
-
 				<form class='form-inline my-2 my-lg-0' is="b-submit" id="form_busca" des="a_usuarios/lista" dix='trabajo' >
-					<div class="input-group  mr-sm-2">
-						<input type="text" class="form-control form-control-sm" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2"  name='buscar' id='buscar'>
-						<div class="input-group-append">
-							<button class="btn btn-warning btn-sm" type="submit" ><i class='fas fa-search'></i></button>
+					<div class="input-group mr-sm-2">
+						<div id="search-wrapper">
+							<input type="search" id="buscar" name='buscar' placeholder="Buscar" />
+							<i class="fa fa-search"></i>
 						</div>
 					</div>
 				</form>
+			<ul class='navbar-nav mr-auto'>
+
+
 
 				<?php
 				if($db->nivel_captura==1){
@@ -31,7 +33,8 @@
 				</li>
 
 			</ul>
-	  </div>
+  	</div>
+  </div>
 </nav>
 
 <div id='trabajo'>

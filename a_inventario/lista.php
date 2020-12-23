@@ -16,24 +16,24 @@
 ?>
 <div class='container'>
 
-	<div class='tabla_css' id='tabla_css'>
-		<div class='row titulo-row'>
-			<div class='col-12'>
+	<div class='tabla_v' id='tabla_css'>
+		<div class='title-row'>
+			<div>
 				INVENTARIO DE PRODUCTOS
 			</div>
 		</div>
-		<div class='row header-row'>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>#</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Código</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Nombre</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Existencia</div>
-			<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>Precio de venta</div>
+		<div class='header-row'>
+			<div class='cell'>#</div>
+			<div class='cell'>Código</div>
+			<div class='cell'>Nombre</div>
+			<div class='cell'>Existencia</div>
+			<div class='cell'>Precio de venta</div>
 		</div>
 
 			<?php
 				foreach($pd as $key){
-					echo "<div class='row body-row' >";
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>";
+					echo "<div class='body-row' >";
+						echo "<div class='cell'>";
 							echo "<div class='btn-group'>";
 
 							echo "<button type='button' class='btn btn-warning btn-sm' id='edit_persona' is='b-link' title='Editar' des='a_inventario/editar' dix='trabajo' v_idproducto='$key->idproducto'><i class='fas fa-pencil-alt'></i></button>";
@@ -72,13 +72,13 @@
 							echo "</div>";
 						echo "</div>";
 
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 ' data-titulo='Código'>";
+						echo "<div class='cell' data-titulo='Código'>";
 							echo $key->codigo;
 						echo "</div>";
 
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 ' data-titulo='Nombre'>".$key->nombre."</div>";
+						echo "<div class='cell' data-titulo='Nombre'>".$key->nombre."</div>";
 
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 ' data-titulo='Existencia'>";
+						echo "<div class='cell' data-titulo='Existencia'>";
 
 							if($_SESSION['nivel']==66){
 								echo "Sum:".$exist;
@@ -107,7 +107,7 @@
 							}
 						echo "</div>";
 
-						echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 text-right' data-titulo='Precio de venta'>".moneda($key->precio)."</div>";
+						echo "<div class='cell text-right' data-titulo='Precio de venta'>".moneda($key->precio)."</div>";
 					echo '</div>';
 				}
 			?>

@@ -7,7 +7,7 @@
 	      <div class="input-group mb-3">
 	        <input type="text" class="form-control" name="texto" id='texto' placeholder='buscar cliente' aria-label="buscar cliente" aria-describedby="basic-addon2" >
 	        <div class="input-group-append">
-	          <button class="btn btn-warning btn-sm" type="submit"><i class='fas fa-search'></i>Buscar</button>
+	          <button class="btn btn-warning" type="submit"><i class='fas fa-search'></i>Buscar</button>
 	        </div>
 	      </div>
 			</form>

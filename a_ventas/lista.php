@@ -17,47 +17,47 @@
 
 ?>
 <div class='container'>
-	<div class='tabla_css' id='tabla_css'>
-		<div class='row titulo-row'>
-			<div class='col-12'>
+	<div class='tabla_v' id='tabla_css'>
+		<div class='title-row'>
+			<div>
 				LISTA DE VENTAS ABIERTAS
 			</div>
 		</div>
-		<div class='row header-row'>
-			<div class='col-12 col-xl col-auto'>#</div>
-			<div class='col-12 col-xl col-auto'>Numero</div>
-			<div class='col-12 col-xl col-auto'>Comanda</div>
-			<div class='col-12 col-xl col-auto'>Fecha</div>
-			<div class='col-12 col-xl col-auto'>Cliente</div>
-			<div class='col-12 col-xl col-auto'>Total</div>
+		<div class='header-row'>
+			<div class='cell'>#</div>
+			<div class='cell'>Numero</div>
+			<div class='cell'>Comanda</div>
+			<div class='cell'>Fecha</div>
+			<div class='cell'>Cliente</div>
+			<div class='cell'>Total</div>
 		</div>
 
-			<?php
-				foreach($pd as $key){
-			?>
-					<div class='row body-row' draggable='true'>
-						<div class='col-12 col-xl col-auto' >
-							<div class="btn-group">
-								<?php
-									if($db->nivel_captura==1){
-										echo "<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  v_idventa='$key->idventa' v_general='1'><i class='fas fa-pencil-alt'></i></button>";
-									}
-								?>
-							</div>
+		<?php
+			foreach($pd as $key){
+		?>
+				<div class='body-row'>
+					<div class='cell' >
+						<div class="btn-group">
+							<?php
+								if($db->nivel_captura==1){
+									echo "<button class='btn btn-warning btn-sm'  id='edit_persona' is='b-link' id='nueva_venta' des='a_venta/venta' dix='trabajo'  v_idventa='$key->idventa' v_general='1'><i class='fas fa-pencil-alt'></i></button>";
+								}
+							?>
 						</div>
-						<div class='col-12 col-xl col-auto text-center' data-titulo='Numero'><?php echo $key->numero; ?></div>
-						<div class='col-12 col-xl col-auto text-center' data-titulo='Comanda'><?php echo $key->comanda; ?></div>
-						<div class='col-12 col-xl col-auto' data-titulo='Fecha'><?php echo fecha($key->fecha,2); ?></div>
-						<div class='col-12 col-xl col-auto' data-titulo='Cliente'><?php echo $key->nombre; ?></div>
-						<div class='col-12 col-xl col-auto' align="center" data-titulo='Total'><?php echo moneda($key->total); ?></div>
-
-
 					</div>
-			<?php
-				}
-			?>
-			</tbody>
-		</table>
+					<div class='cell text-center' data-titulo='Numero'><?php echo $key->numero; ?></div>
+					<div class='cell text-center' data-titulo='Comanda'><?php echo $key->comanda; ?></div>
+					<div class='cell' data-titulo='Fecha'><?php echo fecha($key->fecha,2); ?></div>
+					<div class='cell' data-titulo='Cliente'><?php echo $key->nombre; ?></div>
+					<div class='cell' align="center" data-titulo='Total'><?php echo moneda($key->total); ?></div>
+
+
+				</div>
+		<?php
+			}
+		?>
+
+		
 	</div>
 </div>
 

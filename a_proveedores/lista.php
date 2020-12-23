@@ -16,24 +16,24 @@
 	}
 ?>
 
-<div class='container'>
 
-<div class='tabla_css' id='tabla_css'>
-	<div class='row titulo-row'>
-		<div class='col-12'>
+<div class='container'>
+	<div class='tabla_v' id='tabla_css'>
+		<div class='title-row'>
+			<div>
 			LISTA DE PROVEEDORES
 		</div>
 	</div>
-	<div class='row header-row'>
-		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>#</div>
-		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>NOMBRE</div>
-		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>EMAIL</div>
-		<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>TELEFONO</div>
+	<div class='header-row'>
+		<div class='cell'>#</div>
+		<div class='cell'>Nombre</div>
+		<div class='cell'>Correo</div>
+		<div class='cell'>Teléfono</div>
 	</div>
 		<?php
 			foreach($pd as $key){
-				echo "<div class='row body-row' draggable='true'>";
-					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>";
+				echo "<div class='body-row' draggable='true'>";
+					echo "<div class='cell'>";
 						echo "<div class='btn-group'>";
 
 						if($db->nivel_captura==1){
@@ -42,9 +42,9 @@
 						echo "</div>";
 					echo "</div>";
 
-					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>".$key->nombre."</div>";
-					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->emailp."</div>";
-					echo "<div class='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2'>".$key->telp."</div>";
+					echo "<div class='cell' data-titulo='nombre'>".$key->nombre."</div>";
+					echo "<div class='cell' data-titulo='Correo'>".$key->emailp."</div>";
+					echo "<div class='cell' data-titulo='Teléfono'>".$key->telp."</div>";
 				echo "</div>";
 			}
 		?>

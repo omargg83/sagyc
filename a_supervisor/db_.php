@@ -32,7 +32,8 @@ class Venta extends Sagyc{
 
 
 	public function sucursal_info(){
-		$sql="select * from sucursal where idsucursal='".$_SESSION['idsucursal']."'";
+		$idsucursal=$_REQUEST['idsucursal'];
+		$sql="select * from sucursal where idsucursal='".$idsucursal."'";
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetch(PDO::FETCH_OBJ);

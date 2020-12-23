@@ -77,8 +77,7 @@ class Gastos extends Sagyc{
 		if (isset($_REQUEST['idgastos'])){$id=$_REQUEST['idgastos'];}
 		$arreglo =array();
 		if (isset($_REQUEST['fecha'])){
-			$fx=explode("-",$_REQUEST['fecha']);
-			$arreglo+=array('fecha'=>$fx['2']."-".$fx['1']."-".$fx['0']);
+			$arreglo+=array('fecha'=>$_REQUEST['fecha']);
 		}
 		if (isset($_REQUEST['gasto'])){
 			$arreglo+=array('gasto'=>$_REQUEST['gasto']);
